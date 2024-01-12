@@ -15,3 +15,8 @@ wads/skips_2018.wad
 *.sav
 *.cfg
 *.log
+*.pts
+*.prt
+*.texinfo
+light.log
+vis.log
