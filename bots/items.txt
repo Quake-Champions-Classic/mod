@@ -1,0 +1,217 @@
+// Overview Of Item Properties:
+
+// name: 			the actual classname of the item, as used in the QuakeC game code.
+// spawnflags:		spawnflags the system will check for on the entity ( some entities behave differently based on spawnflags ).
+// flags: 			describe properties of this item to the bots.
+// team:			item is "owned" by the team matching this number
+
+
+// Valid Item Flags:
+
+// health:			this item will replenish health
+// ammo:			this item will replenish ammo
+// armor:			this item will replenish armor
+// weapon:			this item will grant a weapon and some ammo
+// powerup:			this item will grant a temporary powerup
+// dropped:			this item was dropped in the world and will disappear soon
+// shells:			this item has, or uses, shotgun shells
+// nails:			this item has, or uses, nailgun spikes
+// rockets:			this item has, or uses, rockets
+// cells:			this item has, or uses, cells
+// lava_nails:		this item has, or uses, lava nails
+// multi_rockets:	this item has, or uses, multi rockets
+// plasma_cells:	this item has, or uses, plasma cells
+// mega_item:		this item is a "mega item" that bots will only get if allowed
+// backpack:		this item will need to be checked for specific ammo/weapons/etc. at runtime
+// zap_proof:		this item protects against being zapped by electric weapons in water.
+// check_items:		this item has info stored on the "items" entity field.
+// objective:		this item is an objective of some kind.
+// rune:			this item is a rune of some kind. Only one can be carried.
+
+
+// Valid Items:
+
+{ // Health/Mega-Health
+  name			"item_health"
+  spawnflags	2 = mega_item
+  flags			health
+}
+
+{ // Shells
+  name			"item_shells"
+  flags			ammo | shells
+}
+
+{ // Spikes
+  name			"item_spikes"
+  flags			ammo | nails
+}
+
+{ // Rockets
+  name			"item_rockets"
+  flags			ammo | rockets
+}
+
+{ // Cells
+  name			"item_cells"
+  flags			ammo | cells
+}
+
+{ // Green Armor
+  name			"item_armor1"
+  flags			armor
+}
+
+{ // Yellow Armor
+  name			"item_armor2"
+  flags			armor | mega_item
+}
+
+{ // Red Armor
+  name			"item_armorInv"
+  flags			armor | mega_item
+}
+
+{ // Super Shotgun
+  name			"weapon_supershotgun"
+  flags			weapon | ammo | shells
+}
+
+{ // Nailgun
+  name			"weapon_nailgun"
+  flags			weapon | ammo | nails
+}
+
+{ // Super Nailgun
+  name			"weapon_supernailgun"
+  flags			weapon | ammo | nails
+}
+
+{ // Grenade Launcher
+  name			"weapon_grenadelauncher"
+  flags			weapon | ammo | rockets
+}
+
+{ // Rocket Launcher
+  name			"weapon_rocketlauncher"
+  flags			weapon | ammo | rockets
+}
+
+{ // ThunderBolt
+  name			"weapon_lightning"
+  flags			weapon | ammo | cells
+}
+
+{ // Biosuit
+  name			"item_artifact_envirosuit"
+  flags			powerup
+}
+
+{ // Pentagram Of Protection
+  name			"item_artifact_invulnerability"
+  flags			powerup | zap_proof
+}
+
+{ // Ring Of Invisibility
+  name			"item_artifact_invisibility"
+  flags			powerup
+}
+
+{ // Quad Damage!!!
+  name			"item_artifact_super_damage"
+  flags			powerup
+}
+
+{ // "vaguely" supported ammo entity used in some old id DM maps ( DM6 for example )
+  name			"item_weapon"
+  spawnflags	1 = shells
+  spawnflags	2 = rockets
+  spawnflags	4 = nails
+  flags			ammo
+}
+
+{ // Backpack
+  name			"item_backpack"
+  flags			dropped | backpack
+}
+
+// Hipnotic specific items below...
+
+{ // Wet Suit
+  name			"item_artifact_wetsuit"
+  flags			powerup | zap_proof
+}
+
+{ // Horn Of Conjuring
+  name			"item_hornofconjuring"
+  flags			powerup
+}
+
+{ // Empathy Shield
+  name			"item_artifact_empathy_shields"
+  flags			powerup
+}
+
+{ // Mjolnir
+  name			"weapon_mjolnir"
+  flags			weapon | ammo | cells | check_items
+}
+
+{ // Laser Gun
+  name			"weapon_laser_gun"
+  flags			weapon | ammo | cells | check_items
+}
+
+{ // Proximity Gun
+  name			"weapon_proximity_gun"
+  flags			weapon | ammo | rockets | check_items
+}
+
+// Rogue specific items below...
+
+{ // Powerup Shield
+  name			"item_powerup_shield"
+  flags			powerup
+}
+
+{ // Powerup Belt
+  name			"item_powerup_belt"
+  flags			powerup
+}
+
+{ // Vengeance Sphere
+  name			"item_sphere"
+  flags			powerup
+}
+
+{ // Random Box Of Powerup Goodness!
+  name			"item_random_powerup"
+  flags			powerup
+}
+
+// QCC items
+
+{ // Hourglasses
+  name			"item_hourglass"
+  flags			ammo
+}
+
+{ // Light Armor
+  name			qcc_item_lightarmor
+  flags			armor
+}
+
+{ // Heavy Armor
+  name			qcc_item_heavyarmor
+  flags			armor | mega_item
+}
+
+{ // Heavy Machine Gun
+  name			qcc_weapon_heavymachinegun
+  flags			weapon | ammo | nails
+}
+
+{ // Railgun
+  name			"qcc_weapon_railgun"
+  flags			weapon | ammo | cells
+}

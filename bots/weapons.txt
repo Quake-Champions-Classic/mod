@@ -1,0 +1,268 @@
+// Overview Of Weapon Properties:
+
+// name: 			any name you want to use to ID the weapon for debugging
+// number: 			the actual number that QuakeC assigns the weapon
+// damage:			the amount of raw damage this weapon does each "shot"
+// min_range: 		the absolute min range the bot must be from it's enemy to use this weapon ( else it is invalid )
+// max_range: 		the absolute max range the bot can be from it's enemy to use this weapon ( else it is invalid )
+// min_height		the absolute min height difference ( below the bot ) between the bot and the enemy allowed. 0 if don't care
+// max_height		the absolute max height difference ( above the bot ) between the bot and the enemy allowed. 0 if don't care
+// priority: 		relative priority that you assign this weapon ( vs. other valid weapons ) - tweak this as you like. 0 = never choose this weapon
+// ammo: 			the type of ammo this weapon uses
+// ammo_name:		QuakeC name of the field that tracks ammo for this weapon.
+// min_ammo: 		the minimum amount of ammo this weapon needs to have to be considered for use
+// max_ammo:		the maximum amount of ammo the player can carry for this weapon
+// flags: 			describe properties of this weapon to the bots
+// aim_point: 		where on the enemies body we should aim the weapon. Use 'best' if you don't have a preference
+
+
+// Valid Ammo Types:
+
+// none: 			purely melee weapons don't need ammo
+// shells:			shotguns use this ammo type
+// nails:			nailguns use this ammo type
+// rockets:			launchers use this ammo type
+// cells:			laser/electric weapons use this ammo type
+// lava_nails:		rogue mission pack nail ammo for lava nailgun
+// plasma:			rogue mission pack energy ammo type for ThunderBolt
+// multi_rockets:	rogue mission pack ammo for alt fire mode on RL/GL
+
+
+// Valid Aim Points:
+
+// feet:			aim at the targets feet
+// head:			aim at targets head
+// center:			aim at targets center
+// best: 			let the bot choose the aim point based on skill level, dist to target, type of weapon, etc.
+
+
+// Valid Weapon Flags:
+
+// melee:			this is a melee weapon
+// hitscan:			this is an instant hit weapon
+// projectile:		this weapon fires projectiles
+// parabolic:		this weapon is affected by gravity
+// explosive:		this weapon is explosive
+// sticky:			this weapon shot sticks to walls
+// electric:		this weapon is electric ( hazardous in water! )
+// starting:		bot spawns with this weapon in inventory
+// initial:			bot spawns with this weapon in hand
+
+
+// For A Weapon To Be Considered, The Following Must Be True:
+ 
+// 1. The bot has the weapon in inventory, with enough ammo.
+// 2. The bots target is within the min/max distance from the bot.
+// 3. If min and/or max height is defined, the bot and enemy must be within this distance from each other on the Z axis ( up/down in idTech ).
+// 4. If the weapon is electric, the bot must not be in water ( unless bot has Pentagram Of Protection AND target is in water - then ZAP! ).
+// 5. If all of the above are true, then the weapon with the highest priority value wins.
+
+// Valid Weapons:
+
+{
+  name			"axe"
+  number		4096
+  damage		70
+  min_range		0
+  max_range		72
+  min_height	0
+  max_height	0
+  priority		1
+  ammo			none
+  ammo_name		""
+  min_ammo		0
+  max_ammo		0
+  flags			melee | starting
+  aim_point		center
+}
+
+{
+  name			"shotgun"
+  number		1
+  damage		80
+  min_range		0
+  max_range		4096
+  min_height	0
+  max_height	0
+  priority		2
+  ammo			shells
+  ammo_name		"ammo_shells"
+  min_ammo		1
+  max_ammo		25
+  flags			starting | hitscan | initial
+  aim_point		center
+}
+
+{
+  name			"super_shotgun"
+  number		2
+  damage		120
+  min_range		0
+  max_range		768
+  min_height	0
+  max_height	0
+  priority		5
+  ammo			shells
+  ammo_name		"ammo_shells"
+  min_ammo		2
+  max_ammo		25
+  flags			hitscan
+  aim_point		center
+}
+
+{
+  name			"nailgun"
+  number		4
+  damage		12
+  min_range		32
+  max_range		1500
+  min_height	0
+  max_height	0
+  priority		4
+  ammo			nails
+  ammo_name		"ammo_nails"
+  min_ammo		1
+  max_ammo		150
+  flags			projectile
+  aim_point		center
+}
+
+{
+  name			"super_nailgun"
+  number		8
+  damage		18
+  min_range		32
+  max_range		1500
+  min_height	0
+  max_height	0
+  priority		6
+  ammo			nails
+  ammo_name		"ammo_nails"
+  min_ammo		1
+  max_ammo		150
+  flags			projectile
+  aim_point		center
+}
+
+{
+  name			"grenade_launcher"
+  number		16
+  damage		100
+  min_range		96
+  max_range		1048
+  min_height	0
+  max_height	512
+  priority		3
+  ammo			rockets
+  ammo_name		"ammo_rockets"
+  min_ammo		1
+  max_ammo		25
+  flags			projectile | explosive | parabolic
+  aim_point		head
+}
+
+{
+  name			"rocket_launcher"
+  number		32
+  damage		100
+  min_range		128
+  max_range		2048
+  min_height	0
+  max_height	0
+  priority		8
+  ammo			rockets
+  ammo_name		"ammo_rockets"
+  min_ammo		1
+  max_ammo		25
+  flags			projectile | explosive
+  aim_point		feet
+}
+
+{
+  name			"lightning_gun"
+  number		64
+  damage		30
+  min_range		0
+  max_range		600
+  min_height	0
+  max_height	0
+  priority		7
+  ammo			cells
+  ammo_name		"ammo_cells"
+  min_ammo		1
+  max_ammo		150
+  flags			electric
+  aim_point		center
+}
+
+// Hipnotic specific weapons below...
+
+{
+  name			"mjolnir"
+  number		128
+  damage		50
+  min_range		0
+  max_range		350
+  min_height	0
+  max_height	0
+  priority		9
+  ammo			cells
+  ammo_name		"ammo_cells"
+  min_ammo		15
+  max_ammo		100
+  flags			electric // this had melee as well, but it confused bots when compared to max_range...
+  aim_point		center
+}
+
+{
+  name			"laser_gun"
+  number		8388608
+  damage		25
+  min_range		0
+  max_range		2048
+  min_height	0
+  max_height	0
+  priority		7
+  ammo			cells
+  ammo_name		"ammo_cells"
+  min_ammo		1
+  max_ammo		100
+  flags			projectile
+  aim_point		center
+}
+
+{
+  name			"proximity_gun"
+  number		16
+  damage		95
+  min_range		96
+  max_range		1048
+  min_height	0
+  max_height	512
+  priority		6
+  ammo			rockets
+  ammo_name		"ammo_rockets"
+  min_ammo		1
+  max_ammo		100
+  flags			projectile | explosive | parabolic | sticky
+  aim_point		head
+}
+
+// QCC weapons
+
+{
+  name			"rail_gun"
+  number		65536
+  damage		90
+  min_range		0
+  max_range		4096
+  min_height	0
+  max_height	0
+  priority		7
+  ammo			cells
+  ammo_name		"ammo_cells"
+  min_ammo		6
+  max_ammo		150
+  flags			hitscan
+  aim_point		head
+}

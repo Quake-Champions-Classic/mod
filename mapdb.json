@@ -1,0 +1,1176 @@
+{
+  "episodes": [
+	  {
+      "dir": "qcc",
+      "name": "Quake Champions Classic"
+    },
+    {
+      "dir": "id1",
+      "name": "$m_quake"
+    },
+    {
+      "dir": "hipnotic",
+      "name": "$m_scourge"
+    },
+    {
+      "dir": "rogue",
+      "name": "$m_dissolution"
+    },
+    {
+      "dir": "dopa",
+      "name": "$m_dopa"
+    },
+    {
+      "dir": "mg1",
+      "name": "$m_mg1"
+    }
+  ],
+  "maps": [
+    {
+      "title": "Crucible",
+      "bsp": "qcdm_crucible",
+      "episode": "qcc",
+      "game": "qcc",
+      "dm": true,
+      "horde": true,
+      "coop": false,
+      "bots": true,
+      "sp": false
+    },
+    {
+      "title": "Insomnia",
+      "bsp": "qcdm_insomnia",
+      "episode": "qcc",
+      "game": "qcc",
+      "dm": true,
+      "horde": false,
+      "coop": false,
+      "bots": true,
+      "sp": false
+    },
+    {
+      "title": "Place of Two Deaths",
+      "bsp": "dm1",
+      "episode": "id1",
+      "game": "qcc",
+      "dm": true,
+      "coop": false,
+      "bots": true,
+      "sp": false
+    },
+    {
+      "title": "Claustrophobopolis",
+      "bsp": "dm2",
+      "episode": "id1",
+      "game": "qcc",
+      "dm": true,
+      "coop": false,
+      "bots": true,
+      "sp": false
+    },
+    {
+      "title": "The Abandoned Base",
+      "bsp": "dm3",
+      "episode": "id1",
+      "game": "qcc",
+      "dm": true,
+      "coop": false,
+      "bots": true,
+      "sp": false
+    },
+    {
+      "title": "The Bad Place",
+      "bsp": "dm4",
+      "episode": "id1",
+      "game": "qcc",
+      "dm": true,
+      "coop": false,
+      "bots": true,
+      "sp": false
+    },
+    {
+      "title": "The Cistern",
+      "bsp": "dm5",
+      "episode": "id1",
+      "game": "qcc",
+      "dm": true,
+      "coop": false,
+      "bots": true,
+      "sp": false
+    },
+    {
+      "title": "The Dark Zone",
+      "bsp": "dm6",
+      "episode": "id1",
+      "game": "qcc",
+      "dm": true,
+      "coop": false,
+      "bots": true,
+      "sp": false
+    },
+    {
+      "title": "The Edge",
+      "bsp": "dm7",
+      "episode": "id1",
+      "game": "qcc",
+      "dm": true,
+      "coop": false,
+      "bots": true,
+      "sp": false
+    },
+    {
+      "title": "Acrophobia",
+      "bsp": "dm8",
+      "episode": "id1",
+      "game": "qcc",
+      "dm": true,
+      "coop": false,
+      "bots": true,
+      "sp": false
+    },
+    {
+      "title": "Base 32",
+      "bsp": "base32b",
+      "episode": "id1",
+      "game": "qcc",
+      "dm": true,
+      "coop": false,
+      "bots": false,
+      "sp": false
+    },
+    {
+      "title": "Death 32",
+      "bsp": "death32c",
+      "episode": "id1",
+      "game": "qcc",
+      "dm": true,
+      "coop": false,
+      "sp": false
+    },
+    {
+      "title": "Tower of the Apprentice",
+      "bsp": "horde1",
+      "episode": "mg1",
+      "game": "qcc",
+      "horde": true,
+      "dm": false,
+      "coop": false,
+      "bots": true,
+      "sp": false
+    },
+    {
+      "title": "Frozen Court",
+      "bsp": "horde2",
+      "episode": "mg1",
+      "game": "qcc",
+      "horde": true,
+      "dm": false,
+      "coop": false,
+      "bots": true,
+      "sp": false
+    },
+    {
+      "title": "The Foundry",
+      "bsp": "horde3",
+      "episode": "mg1",
+      "game": "qcc",
+      "horde": true,
+      "dm": false,
+      "coop": false,
+      "bots": true,
+      "sp": false
+    },
+    {
+      "title": "The Hunt",
+      "bsp": "horde4",
+      "episode": "mg1",
+      "game": "qcc",
+      "horde": true,
+      "dm": false,
+      "coop": false,
+      "bots": true,
+      "sp": false
+    },
+    {
+      "title": "Relic",
+      "bsp": "horde5",
+      "episode": "mg1",
+      "game": "qcc",
+      "horde": true,
+      "dm": false,
+      "coop": false,
+      "bots": true,
+      "sp": false
+    },
+    {
+      "title": "The Trial",
+      "bsp": "horde6",
+      "episode": "mg1",
+      "game": "qcc",
+      "horde": true,
+      "dm": false,
+      "coop": false,
+      "bots": true,
+      "sp": false
+    },
+    {
+      "title": "The Tower",
+      "bsp": "horde7",
+      "episode": "mg1",
+      "game": "qcc",
+      "horde": true,
+      "dm": false,
+      "coop": false,
+      "bots": true,
+      "sp": false
+    },
+    {
+      "title": "Entrance",
+      "bsp": "start",
+      "episode": "id1",
+      "game": "qcc",
+      "dm": true,
+      "coop": true,
+      "bots": true,
+      "sp": true
+    },
+    {
+      "title": "Slipgate Complex",
+      "bsp": "e1m1",
+      "episode": "id1",
+      "game": "qcc",
+      "dm": true,
+      "coop": true,
+      "bots": true,
+      "sp": true
+    },
+    {
+      "title": "Castle of the Damned",
+      "bsp": "e1m2",
+      "episode": "id1",
+      "game": "qcc",
+      "dm": true,
+      "bots": true,
+      "coop": true,
+      "sp": true
+    },
+    {
+      "title": "The Necropolis",
+      "bsp": "e1m3",
+      "episode": "id1",
+      "game": "qcc",
+      "dm": true,
+      "bots": true,
+      "coop": true,
+      "sp": true
+    },
+    {
+      "title": "The Grisly Grotto",
+      "bsp": "e1m4",
+      "episode": "id1",
+      "game": "qcc",
+      "dm": true,
+      "bots": true,
+      "coop": true,
+      "sp": true
+    },
+    {
+      "title": "Gloom Keep",
+      "bsp": "e1m5",
+      "episode": "id1",
+      "game": "qcc",
+      "dm": true,
+      "bots": true,
+      "coop": true,
+      "sp": true
+    },
+    {
+      "title": "The Door To Chthon",
+      "bsp": "e1m6",
+      "episode": "id1",
+      "game": "qcc",
+      "dm": true,
+      "bots": true,
+      "coop": true,
+      "sp": true
+    },
+    {
+      "title": "The House of Chthon",
+      "bsp": "e1m7",
+      "episode": "id1",
+      "game": "qcc",
+      "dm": true,
+      "bots": true,
+      "coop": true,
+      "sp": true
+    },
+    {
+      "title": "Ziggurat Vertigo",
+      "bsp": "e1m8",
+      "episode": "id1",
+      "game": "qcc",
+      "dm": true,
+      "bots": true,
+      "coop": true,
+      "sp": true
+    },
+    {
+      "title": "The Installation",
+      "bsp": "e2m1",
+      "episode": "id1",
+      "game": "qcc",
+      "dm": true,
+      "bots": true,
+      "coop": true,
+      "sp": true
+    },
+    {
+      "title": "Ogre Citadel",
+      "bsp": "e2m2",
+      "episode": "id1",
+      "game": "qcc",
+      "dm": true,
+      "bots": true,
+      "coop": true,
+      "sp": true
+    },
+    {
+      "title": "Crypt of Decay",
+      "bsp": "e2m3",
+      "episode": "id1",
+      "game": "qcc",
+      "dm": true,
+      "bots": true,
+      "coop": true,
+      "sp": true
+    },
+    {
+      "title": "The Ebon Fortress",
+      "bsp": "e2m4",
+      "episode": "id1",
+      "game": "qcc",
+      "dm": true,
+      "bots": true,
+      "coop": true,
+      "sp": true
+    },
+    {
+      "title": "The Wizard's Manse",
+      "bsp": "e2m5",
+      "episode": "id1",
+      "game": "qcc",
+      "dm": true,
+      "bots": true,
+      "coop": true,
+      "sp": true
+    },
+    {
+      "title": "The Dismal Oubliette",
+      "bsp": "e2m6",
+      "episode": "id1",
+      "game": "qcc",
+      "dm": true,
+      "bots": true,
+      "coop": true,
+      "sp": true
+    },
+    {
+      "title": "Underearth",
+      "bsp": "e2m7",
+      "episode": "id1",
+      "game": "qcc",
+      "dm": true,
+      "bots": true,
+      "coop": true,
+      "sp": true
+    },
+    {
+      "title": "Termination Central",
+      "bsp": "e3m1",
+      "episode": "id1",
+      "game": "qcc",
+      "dm": true,
+      "bots": true,
+      "coop": true,
+      "sp": true
+    },
+    {
+      "title": "The Vaults of Zin",
+      "bsp": "e3m2",
+      "episode": "id1",
+      "game": "qcc",
+      "dm": true,
+      "bots": true,
+      "coop": true,
+      "sp": true
+    },
+    {
+      "title": "The Tomb of Terror",
+      "bsp": "e3m3",
+      "episode": "id1",
+      "game": "qcc",
+      "dm": true,
+      "bots": true,
+      "coop": true,
+      "sp": true
+    },
+    {
+      "title": "Satan's Dark Delight",
+      "bsp": "e3m4",
+      "episode": "id1",
+      "game": "qcc",
+      "dm": true,
+      "bots": true,
+      "coop": true,
+      "sp": true
+    },
+    {
+      "title": "Wind Tunnels",
+      "bsp": "e3m5",
+      "episode": "id1",
+      "game": "qcc",
+      "dm": true,
+      "bots": true,
+      "coop": true,
+      "sp": true
+    },
+    {
+      "title": "Chambers of Torment",
+      "bsp": "e3m6",
+      "episode": "id1",
+      "game": "qcc",
+      "dm": true,
+      "bots": true,
+      "coop": true,
+      "sp": true
+    },
+    {
+      "title": "The Haunted Halls",
+      "bsp": "e3m7",
+      "episode": "id1",
+      "game": "qcc",
+      "dm": true,
+      "bots": true,
+      "coop": true,
+      "sp": true
+    },
+    {
+      "title": "The Sewage System",
+      "bsp": "e4m1",
+      "episode": "id1",
+      "game": "qcc",
+      "dm": true,
+      "bots": true,
+      "coop": true,
+      "sp": true
+    },
+    {
+      "title": "The Tower of Despair",
+      "bsp": "e4m2",
+      "episode": "id1",
+      "game": "qcc",
+      "dm": true,
+      "bots": true,
+      "coop": true,
+      "sp": true
+    },
+    {
+      "title": "The Elder God Shrine",
+      "bsp": "e4m3",
+      "episode": "id1",
+      "game": "qcc",
+      "dm": true,
+      "bots": true,
+      "coop": true,
+      "sp": true
+    },
+    {
+      "title": "The Palace of Hate",
+      "bsp": "e4m4",
+      "episode": "id1",
+      "game": "qcc",
+      "dm": true,
+      "bots": true,
+      "coop": true,
+      "sp": true
+    },
+    {
+      "title": "Hell's Atrium",
+      "bsp": "e4m5",
+      "episode": "id1",
+      "game": "qcc",
+      "dm": true,
+      "bots": true,
+      "coop": true,
+      "sp": true
+    },
+    {
+      "title": "The Pain Maze",
+      "bsp": "e4m6",
+      "episode": "id1",
+      "game": "qcc",
+      "dm": true,
+      "bots": true,
+      "coop": true,
+      "sp": true
+    },
+    {
+      "title": "Azure Agony",
+      "bsp": "e4m7",
+      "episode": "id1",
+      "game": "qcc",
+      "dm": true,
+      "bots": true,
+      "coop": true,
+      "sp": true
+    },
+    {
+      "title": "The Nameless City",
+      "bsp": "e4m8",
+      "episode": "id1",
+      "game": "qcc",
+      "dm": true,
+      "bots": true,
+      "coop": true,
+      "sp": true
+    },
+    {
+      "title": "Shub-Niggurath's Pit",
+      "bsp": "end",
+      "episode": "id1",
+      "game": "qcc",
+      "dm": true,
+      "bots": true,
+      "coop": true,
+      "sp": true
+    },
+    {
+      "title": "Deviant's Domain",
+      "bsp": "r1m1",
+      "episode": "rogue",
+      "game": "qcc",
+      "dm": true,
+      "coop": true,
+      "sp": true
+    },
+    {
+      "title": "Dread Portal",
+      "bsp": "r1m2",
+      "episode": "rogue",
+      "game": "qcc",
+      "dm": true,
+      "coop": true,
+      "sp": true
+    },
+    {
+      "title": "Judgement Call",
+      "bsp": "r1m3",
+      "episode": "rogue",
+      "game": "qcc",
+      "dm": true,
+      "coop": true,
+      "sp": true
+    },
+    {
+      "title": "Cave of Death",
+      "bsp": "r1m4",
+      "episode": "rogue",
+      "game": "qcc",
+      "dm": true,
+      "coop": true,
+      "sp": true
+    },
+    {
+      "title": "Towers of Wrath",
+      "bsp": "r1m5",
+      "episode": "rogue",
+      "game": "qcc",
+      "dm": true,
+      "coop": true,
+      "sp": true
+    },
+    {
+      "title": "Temple of Pain",
+      "bsp": "r1m6",
+      "episode": "rogue",
+      "game": "qcc",
+      "dm": true,
+      "coop": true,
+      "sp": true
+    },
+    {
+      "title": "Tomb of the Overlord",
+      "bsp": "r1m7",
+      "episode": "rogue",
+      "game": "qcc",
+      "dm": true,
+      "coop": true,
+      "sp": true
+    },
+    {
+      "title": "Tempus Fugit",
+      "bsp": "r2m1",
+      "episode": "rogue",
+      "game": "qcc",
+      "dm": true,
+      "coop": true,
+      "sp": true
+    },
+    {
+      "title": "Elemental Fury I",
+      "bsp": "r2m2",
+      "episode": "rogue",
+      "game": "qcc",
+      "dm": true,
+      "coop": true,
+      "sp": true
+    },
+    {
+      "title": "Elemental Fury II",
+      "bsp": "r2m3",
+      "episode": "rogue",
+      "game": "qcc",
+      "dm": true,
+      "coop": true,
+      "sp": true
+    },
+    {
+      "title": "Curse of Osiris",
+      "bsp": "r2m4",
+      "episode": "rogue",
+      "game": "qcc",
+      "dm": true,
+      "coop": true,
+      "sp": true
+    },
+    {
+      "title": "Wizard's Keep",
+      "bsp": "r2m5",
+      "episode": "rogue",
+      "game": "qcc",
+      "dm": true,
+      "coop": true,
+      "sp": true
+    },
+    {
+      "title": "Blood Sacrifice",
+      "bsp": "r2m6",
+      "episode": "rogue",
+      "game": "qcc",
+      "dm": true,
+      "coop": true,
+      "sp": true
+    },
+    {
+      "title": "Last Bastion",
+      "bsp": "r2m7",
+      "episode": "rogue",
+      "game": "qcc",
+      "dm": true,
+      "coop": true,
+      "sp": true
+    },
+    {
+      "title": "Source of Evil",
+      "bsp": "r2m8",
+      "episode": "rogue",
+      "game": "qcc",
+      "dm": true,
+      "coop": true,
+      "sp": true
+    },
+    {
+      "title": "Division of Change",
+      "bsp": "ctf1",
+      "episode": "rogue",
+      "game": "qcc",
+      "dm": true,
+      "coop": false,
+      "bots": true,
+      "sp": false
+    },
+    {
+      "title": "The Pumping Station",
+      "bsp": "hip1m1",
+      "episode": "hipnotic",
+      "game": "qcc",
+      "dm": true,
+      "coop": true,
+      "bots": true,
+      "sp": true
+    },
+    {
+      "title": "Storage Facility",
+      "bsp": "hip1m2",
+      "episode": "hipnotic",
+      "game": "qcc",
+      "dm": true,
+      "coop": true,
+      "sp": true
+    },
+    {
+      "title": "The Lost Mine",
+      "bsp": "hip1m3",
+      "episode": "hipnotic",
+      "game": "qcc",
+      "dm": true,
+      "coop": true,
+      "sp": true
+    },
+    {
+      "title": "Research Facility",
+      "bsp": "hip1m4",
+      "episode": "hipnotic",
+      "game": "qcc",
+      "dm": true,
+      "coop": true,
+      "sp": true
+    },
+    {
+      "title": "Military Complex",
+      "bsp": "hip1m5",
+      "episode": "hipnotic",
+      "game": "qcc",
+      "dm": true,
+      "coop": true,
+      "sp": true
+    },
+    {
+      "title": "Ancient Realms",
+      "bsp": "hip2m1",
+      "episode": "hipnotic",
+      "game": "qcc",
+      "dm": true,
+      "coop": true,
+      "sp": true
+    },
+    {
+      "title": "The Black Cathedral",
+      "bsp": "hip2m2",
+      "episode": "hipnotic",
+      "game": "qcc",
+      "dm": true,
+      "coop": true,
+      "sp": true
+    },
+    {
+      "title": "The Catacombs",
+      "bsp": "hip2m3",
+      "episode": "hipnotic",
+      "game": "qcc",
+      "dm": true,
+      "coop": true,
+      "sp": true
+    },
+    {
+      "title": "The Crypt",
+      "bsp": "hip2m4",
+      "episode": "hipnotic",
+      "game": "qcc",
+      "dm": true,
+      "coop": true,
+      "sp": true
+    },
+    {
+      "title": "Mortum's Keep",
+      "bsp": "hip2m5",
+      "episode": "hipnotic",
+      "game": "qcc",
+      "dm": true,
+      "coop": true,
+      "sp": true
+    },
+    {
+      "title": "The Gremlin's Domain",
+      "bsp": "hip2m6",
+      "episode": "hipnotic",
+      "game": "qcc",
+      "dm": true,
+      "coop": true,
+      "sp": true
+    },
+    {
+      "title": "Tur Torment",
+      "bsp": "hip3m1",
+      "episode": "hipnotic",
+      "game": "qcc",
+      "dm": true,
+      "coop": true,
+      "sp": true
+    },
+    {
+      "title": "Pandemonium",
+      "bsp": "hip3m2",
+      "episode": "hipnotic",
+      "game": "qcc",
+      "dm": true,
+      "coop": true,
+      "sp": true
+    },
+    {
+      "title": "Limbo",
+      "bsp": "hip3m3",
+      "episode": "hipnotic",
+      "game": "qcc",
+      "dm": true,
+      "coop": true,
+      "sp": true
+    },
+    {
+      "title": "The Gauntlet",
+      "bsp": "hip3m4",
+      "episode": "hipnotic",
+      "game": "qcc",
+      "dm": true,
+      "coop": true,
+      "sp": true
+    },
+    {
+      "title": "The Edge of Oblivion",
+      "bsp": "hipdm1",
+      "episode": "hipnotic",
+      "game": "qcc",
+      "dm": true,
+      "coop": true,
+      "bots": true,
+      "sp": true
+    },
+    {
+      "title": "Armagon's Lair",
+      "bsp": "hipend",
+      "episode": "hipnotic",
+      "game": "qcc",
+      "dm": true,
+      "coop": true,
+      "sp": true
+    },
+    {
+      "title": "The Theater of Doom",
+      "bsp": "e5dm",
+      "episode": "dopa",
+      "game": "qcc",
+      "dm": true,
+      "coop": false,
+      "bots": true,
+      "sp": false
+    },
+    {
+      "title": "The Military Base",
+      "bsp": "e5m1",
+      "episode": "dopa",
+      "game": "qcc",
+      "dm": false,
+      "coop": true,
+      "sp": true
+    },
+    {
+      "title": "The Power Supply",
+      "bsp": "e5m2",
+      "episode": "dopa",
+      "game": "qcc",
+      "dm": false,
+      "coop": true,
+      "sp": true
+    },
+    {
+      "title": "The Dark Days",
+      "bsp": "e5m3",
+      "episode": "dopa",
+      "game": "qcc",
+      "dm": false,
+      "coop": true,
+      "sp": true
+    },
+    {
+      "title": "The Catacombs",
+      "bsp": "e5m4",
+      "episode": "dopa",
+      "game": "qcc",
+      "dm": false,
+      "coop": true,
+      "sp": true
+    },
+    {
+      "title": "The Stronghold",
+      "bsp": "e5m5",
+      "episode": "dopa",
+      "game": "qcc",
+      "dm": false,
+      "coop": true,
+      "sp": true
+    },
+    {
+      "title": "The Underworld",
+      "bsp": "e5m6",
+      "episode": "dopa",
+      "game": "qcc",
+      "dm": false,
+      "coop": true,
+      "sp": true
+    },
+    {
+      "title": "The Otherworld",
+      "bsp": "e5m7",
+      "episode": "dopa",
+      "game": "qcc",
+      "dm": false,
+      "coop": true,
+      "sp": true
+    },
+    {
+      "title": "The Year Zero",
+      "bsp": "e5end",
+      "episode": "dopa",
+      "game": "qcc",
+      "dm": false,
+      "coop": true,
+      "sp": true
+    },
+    {
+      "title": "The Forgotten Castle",
+      "bsp": "e5sm1",
+      "episode": "dopa",
+      "game": "qcc",
+      "dm": false,
+      "coop": true,
+      "sp": true
+    },
+    {
+      "title": "The House of Doom",
+      "bsp": "e5sm2",
+      "episode": "dopa",
+      "game": "qcc",
+      "dm": false,
+      "coop": true,
+      "sp": true
+    },
+    {
+      "title": "Art of the Condemned",
+      "bsp": "mgdm1",
+      "episode": "mg1",
+      "game": "qcc",
+      "dm": true,
+      "coop": false,
+      "bots": true,
+      "sp": false
+    },
+    {
+      "title": "The Bad Space",
+      "bsp": "mgdm2",
+      "episode": "mg1",
+      "game": "qcc",
+      "dm": true,
+      "coop": false,
+      "bots": true,
+      "sp": false
+    },
+    {
+      "title": "The Mustard Factory",
+      "bsp": "mgdm3",
+      "episode": "mg1",
+      "game": "qcc",
+      "dm": true,
+      "coop": false,
+      "bots": true,
+      "sp": false
+    },
+    {
+      "title": "The Boiler",
+      "bsp": "mgdm4",
+      "episode": "mg1",
+      "game": "qcc",
+      "dm": true,
+      "coop": false,
+      "bots": true,
+      "sp": false
+    },
+    {
+      "title": "The Machine",
+      "bsp": "hub",
+      "episode": "mg1",
+      "game": "qcc",
+      "dm": false,
+      "coop": true,
+      "sp": true
+    },
+    {
+      "title": "The Pain Drain",
+      "bsp": "mge1m1",
+      "episode": "mg1",
+      "game": "qcc",
+      "dm": false,
+      "coop": true,
+      "sp": true
+    },
+    {
+      "title": "The Wishing Well",
+      "bsp": "mge1m2",
+      "episode": "mg1",
+      "game": "qcc",
+      "dm": false,
+      "coop": true,
+      "sp": true
+    },
+    {
+      "title": "Sandy's Room",
+      "bsp": "mge1m3",
+      "episode": "mg1",
+      "game": "qcc",
+      "dm": false,
+      "coop": true,
+      "sp": true
+    },
+    {
+      "title": "Acid Sanctuary",
+      "bsp": "mge2m1",
+      "episode": "mg1",
+      "game": "qcc",
+      "dm": false,
+      "coop": true,
+      "sp": true
+    },
+    {
+      "title": "Fading Embers",
+      "bsp": "mge2m2",
+      "episode": "mg1",
+      "game": "qcc",
+      "dm": false,
+      "coop": true,
+      "sp": true
+    },
+    {
+      "title": "Down the Waste",
+      "bsp": "mge3m1",
+      "episode": "mg1",
+      "game": "qcc",
+      "dm": false,
+      "coop": true,
+      "sp": true
+    },
+    {
+      "title": "Hell or Dark Water",
+      "bsp": "mge3m2",
+      "episode": "mg1",
+      "game": "qcc",
+      "dm": false,
+      "coop": true,
+      "sp": true
+    },
+    {
+      "title": "Grave Machine",
+      "bsp": "mge4m1",
+      "episode": "mg1",
+      "game": "qcc",
+      "dm": false,
+      "coop": true,
+      "sp": true
+    },
+    {
+      "title": "A Grave Mistake",
+      "bsp": "mge4m2",
+      "episode": "mg1",
+      "game": "qcc",
+      "dm": false,
+      "coop": true,
+      "sp": true
+    },
+    {
+      "title": "Nazard Terminal",
+      "bsp": "mge5m1",
+      "episode": "mg1",
+      "game": "qcc",
+      "dm": false,
+      "coop": true,
+      "sp": true
+    },
+    {
+      "title": "Too Deep, Too Greedy",
+      "bsp": "mge5m2",
+      "episode": "mg1",
+      "game": "qcc",
+      "dm": false,
+      "coop": true,
+      "sp": true
+    },
+    {
+      "title": "Chthon's Vengeance",
+      "bsp": "mgend",
+      "episode": "mg1",
+      "game": "qcc",
+      "dm": false,
+      "coop": true,
+      "sp": true
+    },
+    {
+      "title": "McKinley Base",
+      "bsp": "ctf1",
+      "episode": "id1",
+      "game": "qcc",
+	    "bots": true,
+      "ctf": true
+    },
+    {
+      "title": "McKinley Station",
+      "bsp": "ctf2",
+      "episode": "id1",
+      "game": "qcc",
+	  "bots": true,
+      "ctf": true
+    },
+    {
+      "title": "Spill the Blood",
+      "bsp": "ctf3",
+      "episode": "id1",
+      "game": "qcc",
+	  "bots": true,
+      "ctf": true
+    },
+    {
+      "title": "Gloom Castles",
+      "bsp": "ctf4",
+      "episode": "id1",
+      "game": "qcc",
+	  "bots": true,
+      "ctf": true
+    },
+    {
+      "title": "Capturephobopolis",
+      "bsp": "ctf5",
+      "episode": "id1",
+      "game": "qcc",
+      "ctf": true
+    },
+    {
+      "title": "Vertigo",
+      "bsp": "ctf6",
+      "episode": "id1",
+      "game": "qcc",
+	  "bots": true,
+      "ctf": true
+    },
+    {
+      "title": "The Strongbox",
+      "bsp": "ctf7",
+      "episode": "id1",
+      "game": "qcc",
+	  "bots": true,
+      "ctf": true
+    },
+    {
+      "title": "Chthon's Capture House",
+      "bsp": "ctf8",
+      "episode": "id1",
+      "game": "qcc",
+	  "bots": true,
+      "ctf": true
+    },
+    {
+      "title": "Da Ancient War Grounds",
+      "bsp": "ctf9",
+      "episode": "id1",
+      "game": "qcc",
+	  "bots": true,
+      "ctf": true
+    }
+  ]
+}

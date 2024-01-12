@@ -1,0 +1,40 @@
+// Game: Quake
+// Format: Standard
+// entity 0
+{
+"classname" "worldspawn"
+"wad" "../wads/items.wad"
+// brush 0
+{
+( 0 32 12 ) ( 0 0 12 ) ( 0 0 -4 ) +0_MED25S 0 0 0 1 1
+( 0 0 12 ) ( 32 0 12 ) ( 32 0 -4 ) +0_MED25S 0 0 0 1 1
+( 32 32 0 ) ( 0 32 0 ) ( 0 0 0 ) +0_med100 0 0 0 1 1
+( 0 0 16 ) ( 0 32 16 ) ( 32 32 16 ) +0_med100 0 0 0 1 1
+( 32 32 12 ) ( 0 32 12 ) ( 0 32 -4 ) +0_MED25S 0 0 0 1 1
+( 32 16 12 ) ( 32 48 12 ) ( 32 48 -4 ) +0_MED25S 0 0 0 1 1
+}
+}
+// entity 1
+{
+"classname" "light"
+"origin" "-24 -24 56"
+"light" "200"
+}
+// entity 2
+{
+"classname" "light"
+"origin" "56 56 -40"
+"light" "200"
+}
+// entity 3
+{
+"classname" "light"
+"origin" "-24 56 8"
+"light" "200"
+}
+// entity 4
+{
+"classname" "light"
+"origin" "56 -24 8"
+"light" "200"
+}

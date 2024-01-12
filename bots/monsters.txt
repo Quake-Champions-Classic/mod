@@ -1,0 +1,163 @@
+// Overview Of Monster Properties:
+
+// classname: 	the actual classname of the monster, as used in the QuakeC game code
+// flags: 		describe properties of this monster to the bots
+
+
+// Valid Monster Flags:
+
+// melee:		this monster has a melee attack
+// ranged:		this monster has a ranged attack
+// aquatic:		this monster lives in the water
+// flyer:		this monster flys around
+// tank			this monster resists explosives ( ex: the Shambler only takes 50% damage from rockets )
+// sponge		this monster is killed easiest by explosives ( ex: zombies )
+
+
+// Valid Monsters:
+
+{ // Grunt
+  classname		"monster_army"
+  flags			ranged
+}
+
+{ // Enforcer
+  classname		"monster_enforcer"
+  flags			ranged
+}
+
+{ // Fiend
+  classname		"monster_demon1"
+  flags			melee
+}
+
+{ // Death Knight
+  classname		"monster_hell_knight"
+  flags			melee | ranged
+}
+
+{ // Knight
+  classname		"monster_knight"
+  flags			melee
+}
+
+{ // Ogre
+  classname		"monster_ogre"
+  flags			melee | ranged
+}
+
+{ // Ogre Marksman
+  classname		"monster_ogre_marksman"
+  flags			melee | ranged
+}
+
+{ // Rotfish
+  classname		"monster_fish"
+  flags			melee | aquatic
+}
+
+{ // Rottweiler
+  classname		"monster_dog"
+  flags			melee
+}
+
+{ // Scrag
+  classname		"monster_wizard"
+  flags			ranged | flyer
+}
+
+{ // Shambler
+  classname		"monster_shambler"
+  flags			melee | ranged | tank
+}
+
+{ // Spawn
+  classname		"monster_tarbaby"
+  flags			melee
+}
+
+{ // Vore
+  classname		"monster_shalrath"
+  flags			melee | ranged
+}
+
+{ // Zombie
+  classname		"monster_zombie"
+  flags			ranged | sponge
+}
+
+// Hipnotic specific monsters below...
+
+{ // Centroid ( aka Scourge )
+  classname		"monster_scourge"
+  flags			melee | ranged
+}
+
+{ // Gremlin ( aka "The little bastard that stole my gun!" )
+  classname		"monster_gremlin"
+  flags			melee
+}
+
+{ // Spike Mine
+  classname		"monster_spikemine"
+  flags			melee | flyer | tank
+}
+
+{ // Spike Mine MP version
+  classname		"trap_spike_mine"
+  flags			melee | flyer | tank
+}
+
+{ // Armagon
+  classname		"monster_armagon"
+  flags			ranged
+}
+
+// Rogue specific monsters below...
+
+{ // Electric Eel
+  classname		"monster_eel"
+  flags			melee | aquatic
+}
+
+{ // Phantom Swordsman
+  classname		"monster_sword"
+  flags			melee
+}
+
+{ // Wrath
+  classname		"monster_wrath"
+  flags			ranged | flyer
+}
+
+{ // Guardian
+  classname		"monster_morph"
+  flags			ranged | melee
+}
+
+{ // Mummy
+  classname		"monster_mummy"
+  flags			ranged
+}
+
+{ // Lava Man ( mini E1M7 boss monster )
+  classname		"monster_lava_man"
+  flags			ranged
+}
+
+{ // Overlord
+  classname		"monster_super_wrath"
+  flags			ranged | flyer | melee
+}
+
+// QCC monsters
+
+{ // Goroth
+  classname		"monster_goroth"
+  flags			melee | ranged
+}
+
+{ // Volkerh
+  classname		"monster_volkerh"
+  flags			melee | ranged | flyer
+}

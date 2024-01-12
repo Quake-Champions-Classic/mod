@@ -1,0 +1,17 @@
+# Quake Champions Classic Ignores
+autosave/*.sav
+maps/autosave/*.map
+screenshots/
+pak0.pak
+pak1.pak
+pak2.pak
+pak3.pak
+wads/id1.wad
+wads/items.wad
+wads/hipnotic.wad
+wads/rogue.wad
+wads/mg1.wad
+wads/skips_2018.wad
+*.sav
+*.cfg
+*.log

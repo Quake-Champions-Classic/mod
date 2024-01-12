@@ -1,0 +1,88 @@
+// Overview Of Interactable Properties:
+
+// name: 			the actual classname/netname of the interactable entity in the QuakeC game code
+// interaction:		how to use this interactable
+// spawnflags:		conditional parameter that specifies the value the edicts "spawnflags" must have to be interactable
+// health:			conditional parameter that specifies whether or not edict must have health to be interactable
+// targetname:		conditional parameter that specifies whether or not edict must have a targetname to be interactable
+// logic_op:		if multiple conditional parameters exist, use this to set whether they must all be valid or only one
+
+
+// Valid Interaction Types:
+
+// push:			this interactable must be pushed to activate
+// shoot:			this interactable must be shot to activate
+// use:				this interactable must be used to activate
+// ride:			this interactable must be ridden
+
+
+// Valid Logic Op Types:
+
+// and:				All conditions must be true
+// or:				At least one condition must be true
+
+
+// Valid Interactables:
+
+{
+  name			func_door_secret
+  interaction	shoot
+  spawnflags	16
+  targetname	false
+  logic_op		or
+}
+
+{ // some buttons can be shot, if they have health
+  name			func_button
+  interaction	shoot
+  health		true
+}
+
+{
+  name			func_button
+  interaction	push
+}
+
+{
+  name			trigger_multiple
+  interaction	shoot
+  health		true
+}
+
+{
+  name			trigger_once
+  interaction	shoot
+  health		true
+}
+
+{
+  name			func_plat
+  interaction	ride
+}
+
+{
+  name			plat
+  interaction	ride
+}
+
+{
+  name			train
+  interaction	ride
+}
+
+{
+  name			func_train
+  interaction	ride
+}
+
+{ // there are many maps that have doors act like elevators
+  name			func_door
+  interaction	ride
+  health		false
+}
+
+{ // there are some doors that can be shootable, so we need to see them.
+  name			func_door
+  interaction	shoot
+  health		true
+}

@@ -1,0 +1,59 @@
+// Overview Of Game Rule Properties:
+
+// cvar: 			name of the cvar to check
+// value:			value of the cvar to check
+// weapon_stay:		whether or not weapons stay if 'cvar' and 'value' match
+// game_type:		let's you override what gametype a cvar indicates.
+
+// NOTE: the first cvar/value pair that matches will be the game_type that's used.
+
+// Valid Game Types:
+
+//	deathmatch ( NOTE: this will become TDM if the "teamplay" cvar is 1 ).
+//	coop
+// 	horde
+// 	ctf
+
+{
+  cvar				horde
+  value				1
+  weapon_stay 		true
+  game_type			horde
+}
+
+{
+  cvar				coop
+  value				1
+  weapon_stay 		true
+  game_type			coop
+}
+
+{
+  cvar				deathmatch
+  value				1
+  weapon_stay 		false
+  game_type			deathmatch
+}
+
+{
+  cvar				deathmatch
+  value				2
+  weapon_stay 		true
+  game_type			deathmatch
+}
+
+{
+  cvar				deathmatch
+  value				3
+  weapon_stay 		true
+  game_type			deathmatch
+}
+
+// Hipnotic specific settings below...
+
+{
+  cvar				deathmatch
+  value				5
+  weapon_stay 		true
+  game_type			deathmatch
+}
