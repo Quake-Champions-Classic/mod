@@ -12,7 +12,7 @@ If you're interested in contributing to the mod (not just ideas or requests, ple
 ---
 ## Documentation Navigation
 
-[**Setup**](docs/setup.md)<br>
+[**Setup**]([docs/setup.md](https://github.com/Quake-Champions-Classic/docs/blob/main/setup.md))<br>
 [**How To Play**](docs/howtoplay.md)<br>
 [**Impulse Commands**](docs/impulse.md)<br>
 [**Champions**](docs/champions.md)<br>
