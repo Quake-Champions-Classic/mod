@@ -111,6 +111,7 @@ void() QCC_ObserverPostThink;
 */
 nosave float qccMapStarted;
 float qccDeltaTime;
+float MAX_PLAYERS = 16; // used for .ignore_players and other loops and arrays
 float QCC_ABILITY = 22137;
 float QCC_GLOBAL_COOLDOWN = 60;
 float QCC_LIGHT = 0;
@@ -142,11 +143,11 @@ enum : float {
 	QCC_SORLAG,
 	QCC_SLASH,
 	QCC_ANARKI,
+	QCC_GALENA,
 	QCC_DUKENUKEM,
 	QCC_DUSKDUDE,
 	QCC_BIGJOHN,
 	QCC_CHAMPS_MAX,
-	QCC_GALENA,
 	QCC_CALEB
 };
 
@@ -170,6 +171,8 @@ float QCC_FL_RESIST_TELEFRAG =	8192;	// Takes 3 telefrags to telefrag; used for 
 float QCC_FL_MONSTER_NOMOVE =	16384;
 float QCC_FL_CUSTOM_SIZE =		32768;
 float QCC_FL_CUSTOM_VIEW =		65536;
+float QCC_FL_CHANNELING =		131072;	// 5% cooldown on health pickup; 10% cooldown on Mega pickup
+float QCC_FL_ABILITY =			262144; // needed for radius damaging abilities
 
 
 // Music
@@ -192,12 +195,14 @@ enum : float {
 ENTITY FIELDS
 -------------------------------------
 */
+.float qccPlayerBit; // bit value set in PutClientInServer
 .float qccFlags;
 .float qccNextChampion;
 .float qccChampion;
 .void() qccSpawnFunc;
 .float qccClass;
 .void() qccAttackFunc; // weapon attack replacer; defaults to W_Attack
+.float qccIgnorePlayers; // keeps track of player interactions with this entity via bitmask; see Galena's totems
 
 // Appearance
 .float modelindex_champ; // used in conjunction with the client.qc hackery, maintains champion model indexing after invisibility and other nonsense
@@ -212,6 +217,7 @@ ENTITY FIELDS
 .void() qccAbilityFunc; // ability function call
 .string qccAbilityString;
 .entity qccAbilityEnt;
+.float qccAbilityEntCt;
 .entity qccAbilityOwner;
 .float qccAbilityCost;
 .float qccAbilityTimer;

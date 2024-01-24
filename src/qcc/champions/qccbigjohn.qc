@@ -30,6 +30,7 @@ void() QCC_BigJohn = {
 	self.qccChampGib = "progs/h_qcbigjohn.mdl";
 	self.qccMeleeMdl = "progs/v_gaunt.mdl";
 	QCC_SetSkin(5);
+	self.qccGibSkins = self.qccMaxSkins;
 	// Sounds
 	self.qccSndMelee = "weapons/gauntshot.wav";
     self.qccSndMeleeHit = "";

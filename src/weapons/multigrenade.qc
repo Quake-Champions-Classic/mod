@@ -29,8 +29,10 @@ void(float offsetAngle) MiniGrenadeLaunch = {
 	missile.owner = self.owner;
 	missile.movetype = MOVETYPE_BOUNCE;
 	missile.solid = SOLID_BBOX;
-	if (self.classname == "keelgrenade")
+	if (self.classname == "keelgrenade") {
 		missile.classname = "keelminigrenade";
+		missile.qccFlags = QCC_FL_ABILITY;
+	}
 	else
 		missile.classname = "MiniGrenade";
 		

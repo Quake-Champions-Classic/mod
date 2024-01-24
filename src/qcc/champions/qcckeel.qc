@@ -23,6 +23,7 @@ void() QCC_Keel = {
 	self.qccChampGib = "progs/h_qckeel.mdl";
 	self.qccMeleeMdl = "progs/v_gaunt.mdl";
 	QCC_SetSkin(6);
+	self.qccGibSkins = self.qccMaxSkins;
 	// Sounds
 	self.qccSndMelee = "weapons/gauntshot.wav";
     self.qccSndMeleeHit = "";
@@ -64,6 +65,7 @@ void() QCC_GrenadeSwarm = {
 	missile.movetype = MOVETYPE_BOUNCE;
 	missile.solid = SOLID_BBOX;
 	missile.classname = "keelgrenade";
+	missile.qccFlags = QCC_FL_ABILITY;
 		
     // set missile speed
 	makevectors(self.v_angle);	

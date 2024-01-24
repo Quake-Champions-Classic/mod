@@ -56,7 +56,10 @@ QCC: FLAME STRIKE
 void() QCC_FlametrailTouch = {
 	if (other.qccChampion == QCC_DEATHKNIGHT || other.classname == "monster_hell_knight" || other.health <= 0 || other.qccOnFire > time)
 		return;	
-	T_Damage(other, self, self.owner, 10);
+	float damg = 10;
+	if (other.flags & FL_MONSTER)
+		damg *= 4;
+	T_Damage(other, self, self.owner, damg);
 	particle(other.origin, '0 0 32', 232, 25);
 	QCC_CatchFire(self.owner, other);
 };
@@ -92,14 +95,17 @@ void() QCC_FlamestrikeTouch = {
 		return;
 	}
 	
-	damg = 25;
 	
 	if (other.takedamage) {
+		damg = 25;
+		if (other.flags & FL_MONSTER)
+			damg *= 4;
 		spawn_touchblood(damg);
 		T_Damage(other, self, self.owner, damg);
 		QCC_CatchFire(self.owner, other);
 	}
-	T_RadiusDamage(self, self.owner, damg, other);
+	self.qccFlags = QCC_FL_ABILITY;
+	T_RadiusDamage(self, self.owner, 25, other);
 
 	self.origin = self.origin - 8*normalize(self.velocity);
 	
@@ -169,7 +175,10 @@ void() QCC_OnFireThink = {
         return;
     }
 	particle(self.owner.origin, '0 0 32', 232, 25);
-    T_Damage(self.owner, self, self.qccAbilityOwner, 15); // do damage
+	float damg = 15;
+	if (other.flags & FL_MONSTER)
+		damg *= 4;
+    T_Damage(self.owner, self, self.qccAbilityOwner, damg); // do damage
 	self.nextthink = time + 1;
 };
 

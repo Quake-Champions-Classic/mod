@@ -493,8 +493,8 @@ void(entity inflictor, entity attacker, float damage, entity ignore) T_RadiusDam
 					points *= 0.5;
 			}
 
-			if (inflictor.classname == "keelminigrenade" && head.classname == "monster_zombie")
-				points += 60;
+			if ((inflictor.qccFlags & QCC_FL_ABILITY) && (head.flags & FL_MONSTER))
+				points *= 4;
 
 			if (points > 0) {
 				if (CanDamage(head, inflictor)) {

@@ -94,6 +94,16 @@ void() QCC_Precaches =
 	precache_sound("anarki/anardie1.wav"); precache_sound("anarki/anardie2.wav"); precache_sound("anarki/anardie3.wav");
 	precache_sound("anarki/anargasp1.wav"); precache_sound("anarki/anargasp2.wav");
 
+	// GALENA
+	precache_model("progs/qcgalena.mdl"); precache_model("progs/h_qcgalena.mdl"); precache_model("progs/w_totem.mdl");
+	precache_sound("galena/galjump.wav"); precache_sound("galena/galland.wav"); precache_sound("galena/galland2.wav");
+	precache_sound("galena/galpain1.wav"); precache_sound("galena/galpain2.wav"); precache_sound("galena/galpain3.wav"); precache_sound("galena/galpain4.wav");
+	precache_sound("galena/galdeath1.wav"); precache_sound("galena/galdeath2.wav"); precache_sound("galena/galdeath3.wav");
+	precache_sound("galena/galgasp1.wav"); precache_sound("galena/galgasp2.wav");
+	precache_sound("galena/galabl1.wav"); precache_sound("galena/galabl2.wav"); precache_sound("galena/galabl3.wav"); precache_sound("galena/galabl4.wav");
+	precache_sound("galena/totemthro.wav"); precache_sound("galena/totemrdy.wav"); precache_sound("galena/totemkill.wav"); precache_sound("galena/totemexp.wav");
+	precache_sound("galena/totemheal.wav");
+
 	// DUKE NUKEM
 	precache_model("progs/qcduke.mdl");		// player Duke model
 	precache_model("progs/qcduke2.mdl");	// Duke Nukem 1 skin model

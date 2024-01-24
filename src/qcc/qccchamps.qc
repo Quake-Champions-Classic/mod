@@ -59,6 +59,8 @@ void() QCC_SpawnChampion = {
 			QCC_Slash(); break;
 		case QCC_ANARKI:
 			QCC_Anarki(); break;
+		case QCC_GALENA:
+			QCC_Galena(); break;
 		case QCC_DUKENUKEM:
 			QCC_DukeNukem(); break;
 		case QCC_DUSKDUDE:
@@ -137,6 +139,7 @@ void(float pick_dir) QCC_PickChampion = {
 		promptchoice(self, "Sorlag", QCC_IM_CHAMPSTART + QCC_SORLAG);
 		promptchoice(self, "Slash", QCC_IM_CHAMPSTART + QCC_SLASH);
 		promptchoice(self, "Anarki", QCC_IM_CHAMPSTART + QCC_ANARKI);
+		promptchoice(self, "Galena", QCC_IM_CHAMPSTART + QCC_GALENA);
 		promptchoice(self, "Duke Nukem", QCC_IM_CHAMPSTART + QCC_DUKENUKEM);
 		promptchoice(self, "The Intruder", QCC_IM_CHAMPSTART + QCC_DUSKDUDE);
 		promptchoice(self, "Big John", QCC_IM_CHAMPSTART + QCC_BIGJOHN);
@@ -179,6 +182,8 @@ void() QCC_PickChampion2 = {
 				champ_string = "Slash"; break;
 			case QCC_ANARKI:
 				champ_string = "Anarki"; break;
+			case QCC_GALENA:
+				champ_string = "Galena"; break;
 			case QCC_DUKENUKEM:
 				champ_string = "Duke Nukem"; break;
 			case QCC_DUSKDUDE:
@@ -220,6 +225,8 @@ void() QCC_PickChampion2 = {
 					centerprint(self, "You are now Slash"); break;
 				case QCC_ANARKI:
 					centerprint(self, "You are now Anarki"); break;
+				case QCC_GALENA:
+					centerprint(self, "You are now Galena"); break;
 				case QCC_DUKENUKEM:
 					centerprint(self, "You are now Duke Nukem"); break;
 				case QCC_DUSKDUDE:
@@ -254,6 +261,8 @@ void() QCC_PickChampion2 = {
 					centerprint(self, "You will respawn as Slash"); break;
 				case QCC_ANARKI:
 					centerprint(self, "You will respawn as Anarki"); break;
+				case QCC_GALENA:
+					centerprint(self, "You will respawn as Galena"); break;
 				case QCC_DUKENUKEM:
 					centerprint(self, "You will respawn as Duke Nukem"); break;
 				case QCC_DUSKDUDE:

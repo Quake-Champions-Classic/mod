@@ -226,6 +226,7 @@ void(float offset) DevastatorFire = {
     newmis = spawn();
 	newmis.classname = "devmissile";
 	newmis.owner = self;
+    newmis.qccFlags = QCC_FL_ABILITY;
 	newmis.movetype = MOVETYPE_FLYMISSILE;
 	newmis.solid = SOLID_BBOX;    
 	newmis.angles = vectoangles(dir);	

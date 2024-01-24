@@ -67,12 +67,20 @@ void() health_touch = {
 	if (self.healtype == 2) {
 		if (!T_Heal(other, self.healamount, 1))
 			return;
+		if (other.qccFlags & QCC_FL_CHANNELING && other.qccAbilityTimer > time) {
+			QCC_AbilityCooldown(other);
+			QCC_AbilityTimeLeft(other);
+		}
 		if (other.qccChampion == QCC_DUKENUKEM)
 			QCC_DukeItem(other, self);
 	}
 	else {
 		if (!T_Heal(other, self.healamount, 0))
 			return;
+		if (other.qccFlags & QCC_FL_CHANNELING && other.qccAbilityTimer > time) {
+			other.qccAbilityTimer = other.qccAbilityTimer - (QCC_GLOBAL_COOLDOWN * 0.05);
+			QCC_AbilityTimeLeft(other);
+		}
 	}
 	
 	if (ExtSupported("EX_SPRINT"))

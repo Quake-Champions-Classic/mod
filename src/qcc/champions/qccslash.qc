@@ -408,6 +408,7 @@ void() QCC_PlasmaTrailExplode = {
 	particle(self.origin, '0 0 0', 209, 100);
 	setmodel(self, "progs/s_explod.spr");
 	
+	self.qccFlags = QCC_FL_ABILITY;
 	T_RadiusDamage(self, self.owner, 50, self.owner);
 	ptrail_explode1();
 	

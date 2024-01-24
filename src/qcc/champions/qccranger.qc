@@ -224,6 +224,7 @@ void() QCC_DireOrbThrow = {
 	self.qccAbilityEnt = spawn();
 	self.qccAbilityEnt.classname = "direorb";
 	self.qccAbilityEnt.owner = self;
+	self.qccAbilityEnt.qccFlags = QCC_FL_ABILITY;
 	self.qccAbilityEnt.movetype = MOVETYPE_FLY;
 	self.qccAbilityEnt.solid = SOLID_TRIGGER;
 	self.qccAbilityEnt.effects |= EF_QUADLIGHT;

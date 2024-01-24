@@ -302,6 +302,17 @@ void() PutClientInServer = {
 	entity spot;
 
 	self.classname = "player";
+
+	entity pl = find(world, classname, "player");
+	while (pl != world) {
+		if (pl != self)
+			self.qccPlayerBit++;
+		else {
+			self.qccPlayerBit = SUB_LeftShift(1, self.qccPlayerBit);
+			pl = world;
+		}
+	}
+
 	if (skill == 3 && !deathmatch)
 		self.health = 50;
 	else

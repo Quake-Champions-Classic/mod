@@ -52,7 +52,17 @@ void() QCC_Caleb = {
 QCC: DYNAMITE
 ======================================================
 */
+void() QCC_DynaLight = {
 
+}
+
+void() QCC_DynaThrow = {
+
+}
+
+void() QCC_Dynamite = {
+
+}
 
 /*
 =====================================
@@ -60,7 +70,6 @@ BOT STUFF
 =====================================
 */
 void() QCC_CalebBotPre = {
-	entity head;
 	if (self.enemy.flags & FL_MONSTER || self.enemy.classname == "player") {
         if (self.qccAbilityTimer < time && self.qccAbilityTimer >= 0 && visible(self.enemy)) {
             QCC_FireAbility(); // light it
