@@ -89,10 +89,14 @@ void() QCC_Galena;
 // Duke Nukem
 void() QCC_DukeNukem;
 void() QCC_Jetpack;			// client
-void(entity targ, entity attacker) QCC_DukeFrag; // everywhere
-void(entity collector, entity item) QCC_DukeItem; // ^^^^
+void() QCC_DukeSpawn;
+void(entity targ, entity attacker) QCC_DukeFrag;
+void(entity collector, entity item) QCC_DukeItem;
 // Caleb
 void() QCC_Caleb;
+void() QCC_CalebSpawn;
+void(entity targ, entity attacker) QCC_CalebFrag;
+void(entity collector, entity item) QCC_CalebItem;
 // Dusk Dude
 void() QCC_DuskDude;
 void(entity ent) QCC_ThrowheadQueue;	// client
@@ -212,6 +216,7 @@ ENTITY FIELDS
 .string qccChampGib; // head model on gib
 .float qccGibSkins;
 .string qccMeleeMdl; // melee weapon model
+.float qccVictoryFrame; // frame to set champion to on Shub death
 
 // Ability
 .void() qccAbilityFunc; // ability function call
@@ -247,6 +252,13 @@ ENTITY FIELDS
 .float qccMoveSpeed; // multiplier used to alter speed values in PreThink
 
 // Sound
+.void() qccSpeakSpawn;
+.void(entity targ, entity attacker) qccSpeakFrag;
+.void(entity collector, entity item) qccSpeakItem;
+.string qccSpeakCthonGreet;
+.string qccSpeakCthonKill;
+.string qccSpeakShubGreet;
+.string qccSpeakShubKill;
 .float qccTauntTimer;
 .string qccSndMelee; // axe, sword, gauntlet sound
 .string qccSndMeleeHit; // melee weapon enemy hit sound; leave "" for silent (default behavior)

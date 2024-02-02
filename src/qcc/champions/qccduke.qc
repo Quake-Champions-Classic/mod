@@ -51,7 +51,14 @@ void() QCC_DukeNukem = {
 	self.qccSndDrown1 = "duke/drown1.wav";
 	self.qccSndDrown2 = "duke/drown2.wav";
 	self.qccSndH2oDeath = "duke/chokn.wav";
-    QCC_DukeSpawn();
+    
+    self.qccSpeakSpawn = QCC_DukeSpawn;
+    self.qccSpeakFrag = QCC_DukeFrag;
+    self.qccSpeakItem = QCC_DukeItem;
+    self.qccSpeakCthonGreet = "duke/rip.wav";
+    self.qccSpeakCthonKill = "duke/dukesentya.wav";
+    self.qccSpeakShubGreet = "duke/quake.wav";
+    self.qccSpeakShubKill = "duke/teleport.wav";
 };
 
 void() QCC_DukeSkin = {
@@ -447,69 +454,40 @@ void(entity targ, entity attacker) QCC_DukeFrag = {
 
     // Random taunt
     if (s == "") {
-        r = random() * 31;
-        if (r < 1)
-            s = "duke/aisle.wav";
-        else if (r < 2)
-            s = "duke/amess.wav";
-        else if (r < 3)
-            s = "duke/bitchn.wav";
-        else if (r < 4)
-            s = "duke/blowit.wav";
-        else if (r < 5)
-            s = "duke/bookem.wav";
-        else if (r < 6)
-            s = "duke/cool.wav";
-        else if (r < 7)
-            s = "duke/damn.wav";
-        else if (r < 8)
-            s = "duke/getsom.wav";
-        else if (r < 9)
-            s = "duke/gmeovr.wav";
-        else if (r < 10)
-            s = "duke/gothrt.wav";
-        else if (r < 11)
-            s = "duke/groovy.wav";
-        else if (r < 12)
-            s = "duke/hail.wav";
-        else if (r < 13)
-            s = "duke/holysh.wav";
-        else if (r < 14)
-            s = "duke/imgood.wav";
-        else if (r < 15)
-            s = "duke/inhell.wav";
-        else if (r < 16)
-            s = "duke/letsrk.wav";
-        else if (r < 17)
-            s = "duke/lookin.wav";
-        else if (r < 18)
-            s = "duke/meat.wav";
-        else if (r < 19)
-            s = "duke/name.wav";
-        else if (r < 20)
-            s = "duke/nobody.wav";
-        else if (r < 21)
-            s = "duke/piece.wav";
-        else if (r < 22)
-            s = "duke/slacker.wav";
-        else if (r < 23)
-            s = "duke/sukitdn.wav";
-        else if (r < 24)
-            s = "duke/rokrol.wav";
-        else if (r < 25)
-            s = "duke/betduke2.wav";
-        else if (r < 26)
-            s = "duke/huckleberry.wav";
-        else if (r < 27)
-            s = "duke/itsgood.wav";
-        else if (r < 28)
-            s = "duke/ripieces.wav";
-        else if (r < 29)
-            s = "duke/oneking.wav";
-        else if (r < 30)
-            s = "duke/fragged.wav";
-        else
-            s = "duke/trd.wav";
+        r = floor(random() * 31);
+        switch (r) {
+        case 0: s = "duke/trd.wav"; break;
+        case 1: s = "duke/aisle.wav"; break;
+        case 2: s = "duke/amess.wav"; break;
+        case 3: s = "duke/bitchn.wav"; break;
+        case 4: s = "duke/blowit.wav"; break;
+        case 5: s = "duke/bookem.wav"; break;
+        case 6: s = "duke/cool.wav"; break;
+        case 7: s = "duke/damn.wav"; break;
+        case 8: s = "duke/getsom.wav"; break;
+        case 9: s = "duke/gmeovr.wav"; break;
+        case 10: s = "duke/gothrt.wav"; break;
+        case 11: s = "duke/groovy.wav"; break;
+        case 12: s = "duke/hail.wav"; break;
+        case 13: s = "duke/holysh.wav"; break;
+        case 14: s = "duke/imgood.wav"; break;
+        case 15: s = "duke/inhell.wav"; break;
+        case 16: s = "duke/letsrk.wav"; break;
+        case 17: s = "duke/lookin.wav"; break;
+        case 18: s = "duke/meat.wav"; break;
+        case 19: s = "duke/name.wav"; break;
+        case 20: s = "duke/nobody.wav"; break;
+        case 21: s = "duke/piece.wav"; break;
+        case 22: s = "duke/slacker.wav"; break;
+        case 23: s = "duke/sukitdn.wav"; break;
+        case 24: s = "duke/rokrol.wav"; break;
+        case 25: s = "duke/betduke2.wav"; break;
+        case 26: s = "duke/huckleberry.wav"; break;
+        case 27: s = "duke/itsgood.wav"; break;
+        case 28: s = "duke/ripieces.wav"; break;
+        case 29: s = "duke/oneking.wav"; break;
+        default: s = "duke/fragged.wav"; break;
+        }
     }
 
     if (s == "")
@@ -554,7 +532,7 @@ void(entity collector, entity item) QCC_DukeItem = {
             s = "duke/timetokill.wav";
     }
     // Armor
-    else if (item.classname == "item_armor1" || item.classname == "item_armor2" || item.classname == "item_armor3") {
+    else if (item.classname == "qcc_item_lightarmor" || item.classname == "qcc_item_heavyarmor") {
         r = random();
         if (r < 0.333)
             s = "duke/pwrarmr.wav";

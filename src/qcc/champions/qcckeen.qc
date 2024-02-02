@@ -58,6 +58,8 @@ void() QCC_Keen = {
 	self.qccSndDrown2 = "keen/pain1.wav";
 	self.qccSndH2oDeath = "keen/death1.wav";
 
+	self.qccVictoryFrame = 143;
+
 	if (time - self.ltime < 15) {
 		if (self.qccSkin > 6) // Mortimer McMire!
 			sound(self, CHAN_VOICE, "keen/mortstart.wav", 1, ATTN_NORM);

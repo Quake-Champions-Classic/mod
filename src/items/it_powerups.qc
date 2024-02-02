@@ -152,8 +152,7 @@ void() powerup_touch = {
 	SUB_UseTargets();
 
 	// QCC
-	if (other.qccChampion == QCC_DUKENUKEM)
-		QCC_DukeItem(other, self);
+	other.qccSpeakItem(other, self);
 	
 	if (self.movetype == MOVETYPE_BOUNCE || self.movetype == MOVETYPE_GIB) // dropped powerup
 		remove(self);

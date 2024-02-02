@@ -58,6 +58,9 @@ void() QCC_BigJohn = {
 	self.qccSndDrown2 = "player/drown2.wav";
 	self.qccSndH2oDeath = "player/h2odeath.wav";
 
+	self.qccSpeakShubKill = "bigjohn/bigjabl1.wav";
+	self.qccVictoryFrame = 145;
+
 	if (time - self.ltime < 15)
 		localsound(self, "bigjohn/bigjabl1.wav");
 };

@@ -185,9 +185,8 @@ void(entity targ, entity attacker, entity inflictor) Killed = {
 		// Reset ability timer if we died while using an ability
 		if (targ.qccAbilityTimer < 0)
 			targ.qccAbilityTimer = time + QCC_GLOBAL_COOLDOWN;
-		// Duke Nukem taunts
-		if (attacker.qccChampion == QCC_DUKENUKEM)
-			QCC_DukeFrag(targ, attacker);
+		// Some champions have taunts
+		attacker.qccSpeakFrag(targ, attacker);
 	}
 	
 	ClientObituary(self, attacker, inflictor);

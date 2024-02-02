@@ -129,8 +129,8 @@ void() qcc_armor_touch = {
 	sound(other, CHAN_ITEM, self.noise, 1, ATTN_NORM);
 	stuffcmd(other, "bf\n");
 	
-	if (other.qccChampion == QCC_DUKENUKEM && self.classname != "qcc_item_armorshard")
-		QCC_DukeItem(other, self);
+	if (self.classname != "qcc_item_armorshard")
+        other.qccSpeakItem(other, self);
 
 	activator = other;
 	SUB_UseTargets();

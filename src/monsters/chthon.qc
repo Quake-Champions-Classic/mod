@@ -299,10 +299,10 @@ void() boss_death10 = [$death9, boss_death10] {
 	// QCC
 	self.enemy = find(world, classname, "player");
 	while (self.enemy != world) {
-		// Duke Nukem has something to say
-		if (self.enemy.qccChampion == QCC_DUKENUKEM && self.enemy.deadflag == DEAD_NO) {
-			sound(self.enemy, CHAN_VOICE, "duke/dukesentya.wav", 1, ATTN_NORM);
-			self.enemy.qccTauntTimer = time + 6;
+		// Some champs have something to say
+		if (self.enemy.qccSpeakCthonKill != string_null && self.enemy.deadflag == DEAD_NO) {
+			sound(self.enemy, CHAN_VOICE, self.enemy.qccSpeakCthonKill, 1, ATTN_NORM);
+			self.enemy.qccTauntTimer = time + 10;
 			self.enemy = world;
 		}
 		else
@@ -405,10 +405,10 @@ void() boss_awake = {
 	self.yaw_speed = 20;
 	boss_rise1 ();
 
-	// QCC: Duke Nukem has something to say
-	if (self.enemy.classname == "player" && self.enemy.qccChampion == QCC_DUKENUKEM) {
-		sound(self.enemy, CHAN_VOICE, "duke/rip.wav", 1, ATTN_NORM);
-		self.enemy.qccTauntTimer = time + 6;
+	// QCC: Some champs have something to say
+	if (self.enemy.classname == "player" && self.enemy.qccSpeakCthonGreet != string_null) {
+		sound(self.enemy, CHAN_VOICE, self.enemy.qccSpeakCthonGreet, 1, ATTN_NORM);
+		self.enemy.qccTauntTimer = time + 10;
 	}
 };
 

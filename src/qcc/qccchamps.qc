@@ -25,6 +25,14 @@ void() QCC_SpawnChampion = {
 	self.qccMoveSpeed = 1.0;
 	self.qccSkinFunc = QCC_SwapSkin;
 	self.qccGibSkins = 1;
+	self.qccSpeakSpawn = SUB_Null;
+	self.qccSpeakFrag = SUB_Null;
+	self.qccSpeakItem = SUB_Null;
+	self.qccSpeakCthonGreet = string_null;
+	self.qccSpeakCthonKill = string_null;
+	self.qccSpeakShubGreet = string_null;
+	self.qccSpeakShubKill = string_null;
+	self.qccVictoryFrame = 22;
 	if (self.impulse == QCC_IM_ABILITY) // try to prevent ability use on respawn
 		self.impulse = 0;
 	stuffcmd(self, "v_cshift 1 1 1 1\n"); // reset view color in case it doesn't get reset after death
@@ -120,6 +128,8 @@ void() QCC_SpawnChampion = {
 		self.th_stand();
 	else
 		player_stand();
+	
+	self.qccSpeakSpawn();
 };
 
 void(float pick_dir) QCC_PickChampion = {

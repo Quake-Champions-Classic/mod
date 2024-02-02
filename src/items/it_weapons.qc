@@ -261,8 +261,7 @@ void() weapon_touch = {
 	}
 	
 	// QCC
-	if (other.qccChampion == QCC_DUKENUKEM)
-		QCC_DukeItem(other, self);
+	other.qccSpeakItem(other, self);
 };
 
 void() weapon_supershotgun = {

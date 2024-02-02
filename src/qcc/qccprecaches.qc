@@ -155,6 +155,35 @@ void() QCC_Precaches =
 	precache_sound("duke/pwrarmr.wav"); // MASTER CHIEF
 	precache_sound("duke/dukesentya.wav"); // CTHON, DEATH KNIGHT
 
+	// CALEB
+	precache_model("progs/qccaleb.mdl"); precache_model("progs/h_qccaleb.mdl"); precache_model("progs/lifeessence.mdl");
+	precache_model("progs/v_pfork.mdl"); precache_model("progs/v_dynamite.mdl"); precache_model("progs/w_dynamite.mdl");
+	precache_sound("caleb/meleeflesh.wav"); precache_sound("caleb/meleewall.wav"); precache_sound("caleb/jump.wav"); precache_sound("caleb/land.wav"); precache_sound("caleb/land2.wav"); 
+	precache_sound("caleb/pain1.wav"); precache_sound("caleb/pain2.wav"); precache_sound("caleb/pain3.wav"); precache_sound("caleb/pain4.wav"); precache_sound("caleb/pain5.wav"); precache_sound("caleb/pain6.wav"); 
+	precache_sound("caleb/death1.wav"); precache_sound("caleb/death2.wav"); precache_sound("caleb/death3.wav"); precache_sound("caleb/death4.wav"); precache_sound("caleb/death5.wav"); precache_sound("caleb/h2odeath.wav"); 
+	precache_sound("caleb/agony.wav"); precache_sound("caleb/burn1.wav"); precache_sound("caleb/burn2.wav"); precache_sound("caleb/gasp.wav"); precache_sound("caleb/drown1.wav"); precache_sound("caleb/drown2.wav"); 
+	// Abilities
+	precache_sound("caleb/lifeessence.wav"); precache_sound("caleb/dynalight.wav"); precache_sound("caleb/dynafuse.wav"); precache_sound("caleb/dynatoss.wav"); 
+	// Bosses
+	precache_sound("caleb/extrabad.wav"); precache_sound("caleb/thatsallfolks.wav"); precache_sound("caleb/shebitch.wav"); precache_sound("caleb/dingdong.wav");
+	// Spawn
+	precache_sound("caleb/liveagain.wav"); precache_sound("caleb/putdown.wav"); precache_sound("caleb/alldead.wav"); precache_sound("caleb/comeout.wav"); precache_sound("caleb/donateblood.wav"); 
+	precache_sound("caleb/business.wav"); precache_sound("caleb/promisesfun.wav"); precache_sound("caleb/sweethome.wav"); precache_sound("caleb/sweetsuffering.wav");
+	// Frags
+	precache_sound("caleb/arf.wav"); precache_sound("caleb/playdead.wav"); precache_sound("caleb/lambs.wav"); precache_sound("caleb/heresjohnny.wav"); precache_sound("caleb/faceoff.wav"); precache_sound("caleb/bleedonme.wav"); 
+	precache_sound("caleb/fleshcooked.wav"); precache_sound("caleb/boomstick.wav"); precache_sound("caleb/shotgun.wav"); precache_sound("caleb/hatemimes.wav"); 
+	precache_sound("caleb/alreadydead.wav"); precache_sound("caleb/amateurs.wav"); precache_sound("caleb/anothercorpse.wav"); precache_sound("caleb/cackle1.wav"); precache_sound("caleb/cackle2.wav"); 
+	precache_sound("caleb/cackle3.wav"); precache_sound("caleb/coagulate.wav"); precache_sound("caleb/dontwaste.wav"); precache_sound("caleb/downhatch.wav"); precache_sound("caleb/endline.wav"); 
+	precache_sound("caleb/faith.wav"); precache_sound("caleb/freshvictims.wav"); precache_sound("caleb/goodway.wav"); precache_sound("caleb/guywithgun.wav"); precache_sound("caleb/hurtingstop.wav"); 
+	precache_sound("caleb/insects.wav"); precache_sound("caleb/laugh1.wav"); precache_sound("caleb/laugh2.wav"); precache_sound("caleb/laugh3.wav"); precache_sound("caleb/letsdoit.wav"); 
+	precache_sound("caleb/lookedbetter.wav"); precache_sound("caleb/nevermore.wav"); precache_sound("caleb/nightnight.wav"); precache_sound("caleb/notnice.wav"); precache_sound("caleb/reflexes.wav"); 
+	precache_sound("caleb/rip.wav"); precache_sound("caleb/standandbleed.wav"); precache_sound("caleb/strangers.wav"); precache_sound("caleb/sunshine.wav"); precache_sound("caleb/whosnext.wav"); 
+	precache_sound("caleb/teachya.wav"); precache_sound("caleb/timetoplay.wav"); precache_sound("caleb/tipperary.wav"); precache_sound("caleb/train.wav"); precache_sound("caleb/undermyskin.wav"); 
+	precache_sound("caleb/victims.wav"); precache_sound("caleb/whoslaughing.wav");
+	// Items
+	precache_sound("caleb/weapon.wav"); precache_sound("caleb/rocket.wav"); precache_sound("caleb/railgun.wav"); 
+	precache_sound("caleb/quad.wav"); precache_sound("caleb/everybodydies.wav"); precache_sound("caleb/tada.wav"); precache_sound("caleb/sigil.wav"); 
+
 	// DUSK DUDE
 	precache_model("progs/qcdusk.mdl"); precache_model("progs/h_qcdusk.mdl"); precache_model("progs/v_sickles.mdl");
 	precache_sound("dusk/jump.wav"); precache_sound("dusk/land.wav"); //precache_sound("dusk/land02.wav");

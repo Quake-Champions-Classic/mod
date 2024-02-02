@@ -97,7 +97,7 @@ void() old_idle44       =[      $old44, old_idle45      ] {};
 void() old_idle45       =[      $old45, old_idle46      ] {};
 void() old_idle46       =[      $old46, old_idle1       ] {};
 
-// QCC: Hook into the idle animation to try and find Duke
+// QCC: Hook into the idle animation to try and find a champion with something to say about Shub
 void() old_search = [$old1, old_search] 
 {
 	entity pl;
@@ -107,9 +107,9 @@ void() old_search = [$old1, old_search]
 		traceline(self.origin, pl.origin, 1, self);
 		if (trace_fraction == 1)
 		{
-			if (pl.qccChampion == QCC_DUKENUKEM) {
-				sound(pl, CHAN_VOICE, "duke/quake.wav", 1, ATTN_NORM);
-				pl.qccTauntTimer = time + 6;
+			if (pl.qccSpeakShubGreet != string_null) {
+				sound(pl, CHAN_VOICE, pl.qccSpeakShubGreet, 1, ATTN_NORM);
+				pl.qccTauntTimer = time + 10;
 				self.think = old_idle1;
 				self.nextthink = 0.1;
 				return;
@@ -308,20 +308,10 @@ void() finale_4 =
 	oldo = oldo - '32 264 0';
 	setorigin(n, oldo);
 	n.angles = '0 290 0';
-	n.frame = 22; // axstand
+	n.frame = pl.qccVictoryFrame; //22; // axstand
 
-	// QCC ------------------------------------------------------
-	if (pl.qccChampion == QCC_KEEN)
-		n.frame = 143; // raygun pose
-	else if (pl.qccChampion == QCC_DUKENUKEM)
-		sound(n, CHAN_VOICE, "duke/teleport.wav", 1, ATTN_NORM);
-	else if (pl.qccChampion == QCC_BIGJOHN) {
-		n.frame = 145; // big gun
-		sound(n, CHAN_VOICE, "bigjohn/bigjabl1.wav", 1, ATTN_NORM);
-	}
-	// ----------------------------------------------------------
-
-	remove(self);
+	if (pl.qccSpeakShubKill != string_null)
+		sound(n, CHAN_VOICE, pl.qccSpeakShubKill, 1, ATTN_NORM);
 
 	// switch cd track
 	WriteByte(MSG_ALL, SVC_CDTRACK);
@@ -332,7 +322,9 @@ void() finale_4 =
 	// instead of sitting here forever, run the quake ex credits and send the user back to start
 	entity timer = spawn();
 	timer.nextthink = time + 1;
-	timer.think = finale_5;	
+	timer.think = finale_5;
+
+	remove(self);
 };
 
 void() finale_5 =

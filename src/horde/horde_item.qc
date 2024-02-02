@@ -68,8 +68,8 @@ void() horde_armor_touch = {
 	if (other.armorvalue > other.qccMaxArmor)
 		other.qccArmorRot_nextcheck = time + 3;
 	
-	if (other.qccChampion == QCC_DUKENUKEM && self.classname != "qcc_item_armorshard")
-		QCC_DukeItem(other, self);
+	if (self.classname != "qcc_item_armorshard")
+		other.qccSpeakItem(other, self);
 
 	self.solid = SOLID_NOT;
 	self.model = string_null;
