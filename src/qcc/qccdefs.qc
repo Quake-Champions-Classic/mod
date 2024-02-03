@@ -42,6 +42,9 @@ void() QCC_SwapSkin;
 void() QCC_CheckArmorRot;
 void() QCC_MovePreThink;
 void() QCC_MovePostThink;
+void() QCC_DeathCommon;
+void(entity targ, entity attacker) QCC_SpeakFragNull = {};
+void(entity collector, entity item) QCC_SpeakItemNull = {};
 
 // WEAPONS
 void() qcc_weapon_heavymachinegun;
@@ -97,6 +100,7 @@ void() QCC_Caleb;
 void() QCC_CalebSpawn;
 void(entity targ, entity attacker) QCC_CalebFrag;
 void(entity collector, entity item) QCC_CalebItem;
+void(entity targ, entity attacker) QCC_DropLifeEssence;
 // Dusk Dude
 void() QCC_DuskDude;
 void(entity ent) QCC_ThrowheadQueue;	// client
@@ -149,10 +153,10 @@ enum : float {
 	QCC_ANARKI,
 	QCC_GALENA,
 	QCC_DUKENUKEM,
+	QCC_CALEB,
 	QCC_DUSKDUDE,
 	QCC_BIGJOHN,
-	QCC_CHAMPS_MAX,
-	QCC_CALEB
+	QCC_CHAMPS_MAX
 };
 
 float QCC_OBSERVER = -1;

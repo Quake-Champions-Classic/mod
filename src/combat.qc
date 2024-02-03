@@ -194,7 +194,12 @@ void(entity targ, entity attacker, entity inflictor) Killed = {
 	self.touch = SUB_Null;
 
 	monster_death_use();
-	self.th_die ();
+	self.th_die();
+
+	if (attacker.qccChampion == QCC_CALEB) {
+		if ((targ.classname == "player") || targ.movetype == MOVETYPE_BOUNCE || targ.movetype == MOVETYPE_GIB)
+			QCC_DropLifeEssence(targ, attacker);
+	}
 	
 	self = oself;
 };

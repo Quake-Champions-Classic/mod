@@ -75,59 +75,7 @@ BIG BARRAGE
 void() bigjohn_die =[148, bigjohn_die2] {
 	self.qccAbilityTimer = time + QCC_GLOBAL_COOLDOWN - self.currentammo / 2;
 	self.walkframe = 148;
-	
-	// QCC --------------------------------------------
-	// Drop powerups
-	if (self.items & IT_INVULNERABILITY)
-		QCC_ThrowPowerup(IT_INVULNERABILITY);
-	if (self.items & IT_QUAD)
-		QCC_ThrowPowerup(IT_QUAD);
-	if (self.items & IT_INVISIBILITY)
-		QCC_ThrowPowerup(IT_INVISIBILITY);
-	// ------------------------------------------------
-
-	self.items = self.items - (self.items & (IT_INVISIBILITY | IT_INVULNERABILITY | IT_SUIT | IT_QUAD));
-	self.invisible_finished = 0;	// don't die as eyes
-	self.invincible_finished = 0;
-	self.super_damage_finished = 0;
-	self.radsuit_finished = 0;
-	self.effects = 0;
-	self.modelindex = self.modelindex_champ;	// don't use eyes
-
-	// HIP: JIM ----------------------------
-	self.wetsuit_finished = 0;
-   	self.empathy_finished = 0;
-   	self.items2 = self.items2 - (self.items2 & HIP_IT_EMPATHY_SHIELDS);
-	// -------------------------------------
-
-	// ROGUE -------------------------------
-	self.gravity = 1.0;
-	self.shield_finished = 0;
-	self.antigrav_finished = 0;
-	// -------------------------------------
-
-	if (deathmatch || coop) {
-		DropBackpack();
-		// QCC: Throw armorshards -------------------
-		QCC_ThrowArmorshard();
-		QCC_ThrowArmorshard();
-		// ------------------------------------------
-	}
-	
-	self.weaponmodel = string_null;
-	self.view_ofs = '0 0 -8';
-	self.deadflag = DEAD_DYING;
-	self.solid = SOLID_NOT;
-	self.flags = self.flags - (self.flags & FL_ONGROUND);
-	self.movetype = MOVETYPE_TOSS;
-
-	if (self.velocity_z < 10)
-		self.velocity_z = self.velocity_z + random() * 300;
-
-	DeathSound();
-	
-	self.angles_x = 0;
-	self.angles_z = 0;
+	QCC_DeathCommon();
 };
 
 void() bigjohn_die2 =[149, bigjohn_die2] {

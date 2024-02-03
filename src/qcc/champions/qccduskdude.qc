@@ -152,6 +152,10 @@ void() QCC_ThrowableTouch =
 			particle(self.origin, '0 0 200', 240, 255);
 		else if (self.classname == "item_sigil")
 			particle(self.origin, '0 0 666', 148, 255);
+		else if (self.classname == "life_essence") {
+			particle(self.origin, '0 0 1' * self.dmg, 73, self.dmg * 2);
+			self.noise = "player/tornoff2.wav";
+		}
 		else
 			particle(self.origin, '0 0 1' * self.dmg, 6, self.dmg * 2);
 	}
@@ -354,7 +358,7 @@ void() QCC_PickupThrowable =
 					self.qccAbilityEnt.noise = "weapons/pkup.wav";
 			}
 		}
-		else if (ent.classname == "item_health") {
+		else if (ent.classname == "item_health" || ent.classname == "life_essence") {
 			setsize(self.qccAbilityEnt, '4 4 4', '28 28 28');
 			self.qccAbilityEnt.qccFlags |= QCC_FL_THR_IT_BSP;
 			self.qccAbilityEnt.dmg = ent.healamount;

@@ -26,8 +26,8 @@ void() QCC_SpawnChampion = {
 	self.qccSkinFunc = QCC_SwapSkin;
 	self.qccGibSkins = 1;
 	self.qccSpeakSpawn = SUB_Null;
-	self.qccSpeakFrag = SUB_Null;
-	self.qccSpeakItem = SUB_Null;
+	self.qccSpeakFrag = QCC_SpeakFragNull;
+	self.qccSpeakItem = QCC_SpeakItemNull;
 	self.qccSpeakCthonGreet = string_null;
 	self.qccSpeakCthonKill = string_null;
 	self.qccSpeakShubGreet = string_null;
@@ -71,6 +71,8 @@ void() QCC_SpawnChampion = {
 			QCC_Galena(); break;
 		case QCC_DUKENUKEM:
 			QCC_DukeNukem(); break;
+		case QCC_CALEB:
+			QCC_Caleb(); break;
 		case QCC_DUSKDUDE:
 			QCC_DuskDude(); break;
 		case QCC_BIGJOHN:
@@ -151,6 +153,7 @@ void(float pick_dir) QCC_PickChampion = {
 		promptchoice(self, "Anarki", QCC_IM_CHAMPSTART + QCC_ANARKI);
 		promptchoice(self, "Galena", QCC_IM_CHAMPSTART + QCC_GALENA);
 		promptchoice(self, "Duke Nukem", QCC_IM_CHAMPSTART + QCC_DUKENUKEM);
+		promptchoice(self, "Caleb", QCC_IM_CHAMPSTART + QCC_CALEB);
 		promptchoice(self, "The Intruder", QCC_IM_CHAMPSTART + QCC_DUSKDUDE);
 		promptchoice(self, "Big John", QCC_IM_CHAMPSTART + QCC_BIGJOHN);
 	}
@@ -196,6 +199,8 @@ void() QCC_PickChampion2 = {
 				champ_string = "Galena"; break;
 			case QCC_DUKENUKEM:
 				champ_string = "Duke Nukem"; break;
+			case QCC_CALEB:
+				champ_string = "Caleb"; break;
 			case QCC_DUSKDUDE:
 				champ_string = "the Intruder"; break;
 			case QCC_BIGJOHN:
@@ -239,6 +244,8 @@ void() QCC_PickChampion2 = {
 					centerprint(self, "You are now Galena"); break;
 				case QCC_DUKENUKEM:
 					centerprint(self, "You are now Duke Nukem"); break;
+				case QCC_CALEB:
+					centerprint(self, "You are now Caleb"); break;
 				case QCC_DUSKDUDE:
 					centerprint(self, "You are now the Intruder"); break;
 				case QCC_BIGJOHN:
@@ -275,6 +282,8 @@ void() QCC_PickChampion2 = {
 					centerprint(self, "You will respawn as Galena"); break;
 				case QCC_DUKENUKEM:
 					centerprint(self, "You will respawn as Duke Nukem"); break;
+				case QCC_CALEB:
+					centerprint(self, "You will respawn as Caleb"); break;
 				case QCC_DUSKDUDE:
 					centerprint(self, "You will respawn as the Intruder"); break;
 				case QCC_BIGJOHN:
@@ -428,6 +437,58 @@ void() QCC_MovePostThink = {
 	}
 };
 
+/*
+========================================================================
+QCC: DEATH COMMON
+Some champions have special death animations. This calls the appropriate death handling
+for inventory, stats, etc...
+========================================================================
+*/
+void() QCC_DeathCommon = {
+	// Drop powerups
+	if (self.items & IT_INVULNERABILITY)
+		QCC_ThrowPowerup(IT_INVULNERABILITY);
+	if (self.items & IT_QUAD)
+		QCC_ThrowPowerup(IT_QUAD);
+	if (self.items & IT_INVISIBILITY)
+		QCC_ThrowPowerup(IT_INVISIBILITY);
+
+	self.items = self.items - (self.items & (IT_INVISIBILITY | IT_INVULNERABILITY | IT_SUIT | IT_QUAD));
+	self.invisible_finished = 0;	// don't die as eyes
+	self.invincible_finished = 0;
+	self.super_damage_finished = 0;
+	self.radsuit_finished = 0;
+	self.effects = 0;
+	self.modelindex = self.modelindex_champ;	// don't use eyes
+
+	self.wetsuit_finished = 0;
+   	self.empathy_finished = 0;
+   	self.items2 = self.items2 - (self.items2 & HIP_IT_EMPATHY_SHIELDS);
+	self.gravity = 1.0;
+	self.shield_finished = 0;
+	self.antigrav_finished = 0;
+
+	if (deathmatch || coop) {
+		DropBackpack();
+		QCC_ThrowArmorshard();
+		QCC_ThrowArmorshard();
+	}
+	
+	self.weaponmodel = string_null;
+	self.view_ofs = '0 0 -8';
+	self.deadflag = DEAD_DYING;
+	self.solid = SOLID_NOT;
+	self.flags = self.flags - (self.flags & FL_ONGROUND);
+	self.movetype = MOVETYPE_TOSS;
+
+	if (self.velocity_z < 10)
+		self.velocity_z = self.velocity_z + random() * 300;
+
+	DeathSound();
+	
+	self.angles_x = 0;
+	self.angles_z = 0;
+}
 
 /*
 ========================================================================

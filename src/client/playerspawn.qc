@@ -305,8 +305,10 @@ void() PutClientInServer = {
 
 	entity pl = find(world, classname, "player");
 	while (pl != world) {
-		if (pl != self)
+		if (pl != self) {
 			self.qccPlayerBit++;
+			pl = find(pl, classname, "player");
+		}
 		else {
 			self.qccPlayerBit = SUB_LeftShift(1, self.qccPlayerBit);
 			pl = world;

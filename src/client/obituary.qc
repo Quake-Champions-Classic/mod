@@ -165,6 +165,13 @@ void(entity targ, entity attacker, entity inflictor) ClientObituary = {
 					bprint("'s acid spit\n");
 					return;
 				}
+				if (inflictor.classname == "dynamite") {
+					bprint(targ.netname);
+					bprint(" was turned into barbecue by ");
+					bprint(attacker.netname);
+					bprint("\n");
+					return;
+				}
 				if (inflictor.classname == "bigjohnshot") {
 					bprint(targ.netname);
 					bprint(" couldn't do it to ");
@@ -193,6 +200,8 @@ void(entity targ, entity attacker, entity inflictor) ClientObituary = {
 						deathstring = " had the flesh peeled from their bones by ";
 					else if (attacker.qccChampion == QCC_DUKENUKEM)
 						deathstring = " received an ass-kicking by ";
+					else if (attacker.qccChampion == QCC_CALEB)
+						deathstring = " was impaled by ";
 					else if (attacker.qccChampion == QCC_DUSKDUDE)
 						deathstring = " was reaped by ";
 					else 
@@ -553,6 +562,10 @@ void(entity targ, entity attacker, entity inflictor) ClientObituaryOld =
 					deathstring = " was melted down by ";
 					deathstring2 = "'s acid spit\n";
 				}
+				else if (inflictor.classname == "dynamite") {
+					deathstring = " was turned into barbecue by ";
+					deathstring2 = "\n";
+				}
 				else if (inflictor.classname == "bigjohnshot") {
 					deathstring = " couldn't do it to ";
 					deathstring2 = "\n";
@@ -577,6 +590,8 @@ void(entity targ, entity attacker, entity inflictor) ClientObituaryOld =
 						deathstring = " had the flesh peeled from their bones by ";
 					else if (attacker.qccChampion == QCC_DUKENUKEM)
 						deathstring = " received an ass-kicking by ";
+					else if (attacker.qccChampion == QCC_CALEB)
+						deathstring = " was impaled by ";
 					else if (attacker.qccChampion == QCC_DUSKDUDE)
 						deathstring = " was reaped by ";
 					else 

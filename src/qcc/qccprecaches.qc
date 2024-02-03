@@ -178,8 +178,8 @@ void() QCC_Precaches =
 	precache_sound("caleb/insects.wav"); precache_sound("caleb/laugh1.wav"); precache_sound("caleb/laugh2.wav"); precache_sound("caleb/laugh3.wav"); precache_sound("caleb/letsdoit.wav"); 
 	precache_sound("caleb/lookedbetter.wav"); precache_sound("caleb/nevermore.wav"); precache_sound("caleb/nightnight.wav"); precache_sound("caleb/notnice.wav"); precache_sound("caleb/reflexes.wav"); 
 	precache_sound("caleb/rip.wav"); precache_sound("caleb/standandbleed.wav"); precache_sound("caleb/strangers.wav"); precache_sound("caleb/sunshine.wav"); precache_sound("caleb/whosnext.wav"); 
-	precache_sound("caleb/teachya.wav"); precache_sound("caleb/timetoplay.wav"); precache_sound("caleb/tipperary.wav"); precache_sound("caleb/train.wav"); precache_sound("caleb/undermyskin.wav"); 
-	precache_sound("caleb/victims.wav"); precache_sound("caleb/whoslaughing.wav");
+	precache_sound("caleb/teachya.wav"); precache_sound("caleb/timetoplay.wav"); precache_sound("caleb/tipperary.wav"); precache_sound("caleb/train.wav"); precache_sound("caleb/shakeit.wav");
+	precache_sound("caleb/undermyskin.wav"); precache_sound("caleb/victims.wav"); precache_sound("caleb/whoslaughing.wav");
 	// Items
 	precache_sound("caleb/weapon.wav"); precache_sound("caleb/rocket.wav"); precache_sound("caleb/railgun.wav"); 
 	precache_sound("caleb/quad.wav"); precache_sound("caleb/everybodydies.wav"); precache_sound("caleb/tada.wav"); precache_sound("caleb/sigil.wav"); 

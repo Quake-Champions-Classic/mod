@@ -1,10 +1,8 @@
 /*
 ======================================================
-QCC: CALEB
+CALEB
 ======================================================
 */
-void() QCC_DynaLight;
-void() QCC_DynaThrow;
 void() QCC_Dynamite;
 void() QCC_CalebBotPre;
 
@@ -13,6 +11,7 @@ void() QCC_Caleb = {
 	self.qccClass = QCC_MEDIUM;
 	self.qccAbilityFunc = QCC_Dynamite;
 	self.qccAbilityString = "Dynamite";
+    self.qccAbilityCost = QCC_GLOBAL_COOLDOWN / 3;
 	self.qccBotPreThink = QCC_CalebBotPre;
 	// Model
 	setmodel(self, "progs/qccaleb.mdl");
@@ -58,20 +57,306 @@ void() QCC_Caleb = {
 
 /*
 ======================================================
-QCC: DYNAMITE
+DYNAMITE
 ======================================================
 */
+// Dynamite functions
+void() QCC_DynaOops = {
+    sound(self.owner, CHAN_WEAPON, "silence.wav", 1, ATTN_NORM);
 
-void() QCC_DynaThrow = {
+    // The dynamite was already thrown
+    if (self.owner.qccAbilityEnt != self) {
+        remove(self);
+        return;
+    }
+    
+    entity oself = self;
+    self = self.owner;
+    QCC_AbilityUsed();
+    QCC_RestoreWeapon();
+    self = oself;
 
+    // Blow up the dynamite on Caleb
+    self.owner.qccAbilityEnt = world;
+    self.owner.th_die = PlayerDie;
+    setorigin(self, self.owner.origin);
+    T_Damage(self.owner, self, self.owner, 200);
+	T_RadiusDamage(self, self.owner, 120, self.owner);
+	WriteByte(MSG_BROADCAST, SVC_TEMPENTITY);
+	WriteByte(MSG_BROADCAST, TE_EXPLOSION);
+	WriteCoord(MSG_BROADCAST, self.origin_x);
+	WriteCoord(MSG_BROADCAST, self.origin_y);
+	WriteCoord(MSG_BROADCAST, self.origin_z);
+    BecomeExplosion();
 }
 
-void() QCC_DynaLight = {
+void() QCC_DynaFuse = [0, QCC_DynaFuse] {
+    self.frame = floor(time * 10) % 2;
+    if (vlen(self.velocity) > 0 && floor(time) % 2 > 0)
+        sound(self, CHAN_WEAPON, "caleb/dynafuse.wav", 1, ATTN_NORM);
+    // Fuse ran out!
+    if (time >= self.qccAbilityTimer) {
+        sound(self, CHAN_WEAPON, "silence.wav", 1, ATTN_NORM);
+        T_RadiusDamage(self, self.owner, 120, world);
+        WriteByte(MSG_BROADCAST, SVC_TEMPENTITY);
+        WriteByte(MSG_BROADCAST, TE_EXPLOSION);
+        WriteCoord(MSG_BROADCAST, self.origin_x);
+        WriteCoord(MSG_BROADCAST, self.origin_y);
+        WriteCoord(MSG_BROADCAST, self.origin_z);
+        BecomeExplosion();
+    }
+}
 
+// Caleb functions
+void() caleb_dynatoss1 = [176, caleb_dynatoss2] { self.weaponframe = 6;}
+void() caleb_dynatoss2 = [177, caleb_dynatoss3] { self.weaponframe = 7;}
+void() caleb_dynatoss3 = [178, caleb_dynatoss4] {
+    QCC_AbilityUsed();
+
+    self.weaponframe = 8;
+    self.th_pain = player_pain;
+    self.th_die = PlayerDie;
+
+    sound(self, CHAN_WEAPON, "caleb/dynatoss.wav", 1, ATTN_NORM);
+
+    entity bomb;
+    bomb = spawn();
+
+    float wait_to_explode;
+    if (self.qccAbilityEnt != world) {
+        wait_to_explode = self.qccAbilityEnt.state;
+        bomb.qccAbilityTimer = self.qccAbilityEnt.qccAbilityTimer;
+        remove(self.qccAbilityEnt);
+        self.qccAbilityEnt = world;
+    }
+    
+	bomb.owner = self;
+	bomb.classname = "dynamite";
+
+	bomb.movetype = MOVETYPE_BOUNCE;
+	bomb.solid = SOLID_BBOX;
+	setmodel(bomb, "progs/w_dynamite.mdl");
+	setsize(bomb, '0 0 0', '0 0 0');		
+	setorigin(bomb, self.origin);
+
+    makevectors(self.v_angle);
+	bomb.velocity = v_forward * 600 + v_up * 200;
+	bomb.avelocity = '0 300 0';
+	bomb.angles = vectoangles(bomb.velocity);
+
+    if (!wait_to_explode)
+        bomb.touch = T_MissileTouch;
+    else {
+        bomb.nextthink = time + 0.1;
+        bomb.think = QCC_DynaFuse;
+    }
+
+    bomb.qccFlags |= QCC_FL_ABILITY;
+	bomb.qccFlags |= QCC_FL_THROWABLE;
+	bomb.qccFlags |= QCC_FL_CANDEFLECT;
+}
+void() caleb_dynatoss4 = [179, caleb_dynatoss5] { self.weaponframe = 9;}
+void() caleb_dynatoss5 = [180, caleb_dynatoss6] { self.weaponframe = 10;}
+void() caleb_dynatoss6 = [181, caleb_dynatoss7] { self.weaponframe = 11;}
+void() caleb_dynatoss7 = {
+	QCC_RestoreWeapon();
+	self.th_stand();
+}
+
+void(float wait_to_explode) QCC_DynaToss = {
+    if (self.frame > 166)
+        return; // already throwing it
+    self.qccAbilityEnt.state = wait_to_explode;
+    self.pain_finished = time + 1.0;
+    self.attack_finished = time + 0.75;
+    caleb_dynatoss1();
+}
+
+void() caleb_dynarun;
+
+void(entity attacker, float damage) caleb_dynapain = [161, caleb_dynapain2] {
+    PainSound();
+    if (self.button0) {
+        QCC_DynaToss(FALSE);
+        return;
+    }
+    self.weaponframe = 5;
+    self.walkframe = self.frame;
+};
+void() caleb_dynapain2 = [161, caleb_dynapain2] {
+    if (self.button0) {
+        QCC_DynaToss(FALSE);
+        return;
+    }
+
+    if (self.walkframe < 167) {
+        self.walkframe += 1;
+        self.frame = self.walkframe;
+        self.weaponframe = self.frame % 2 + 4;
+        return;
+    }
+
+    self.walkframe = 155;
+	caleb_dynarun();
+}
+
+void() caleb_dynadeath = [167, caleb_dynadeath2] {
+    self.walkframe = self.frame;
+    QCC_DeathCommon();
+}
+void() caleb_dynadeath2 = [168, caleb_dynadeath2] {
+    if (self.walkframe < 176) {
+        self.frame = self.walkframe;
+        self.walkframe += 1;
+        return;
+    }
+    sound(self, CHAN_WEAPON, "silence.wav", 1, ATTN_NORM);
+    self.health = -99;
+	GibPlayer();
+	self.think = PlayerDead;
+    newmis = spawn();
+    newmis.think = BecomeExplosion;
+    newmis.nextthink = time;
+}
+
+void() caleb_dynastand = [143, caleb_dynastand] {
+    if (self.weaponframe > 3)
+        self.weaponframe = self.walkframe % 2 + 4;
+    else
+        self.weaponframe += 1;
+
+    if (self.button0) {
+        QCC_DynaToss(FALSE);
+        return;
+    }
+
+	if (self.velocity_x || self.velocity_y) {
+		self.walkframe = 155;
+		caleb_dynarun();
+		return;
+	}
+
+    if (self.walkframe > 154)
+        self.walkframe = 143;
+    self.frame = self.walkframe;
+    self.walkframe += 1;
+}
+
+void() caleb_dynarun = [155, caleb_dynarun] {
+    if (self.weaponframe > 3)
+        self.weaponframe = self.walkframe % 2 + 4;
+    else
+        self.weaponframe += 1;
+
+    if (self.button0) {
+        QCC_DynaToss(FALSE);
+        return;
+    }
+
+	if (!self.velocity_x && !self.velocity_y) {
+		self.walkframe = 143;
+		caleb_dynastand();
+		return;
+	}
+
+	if (self.walkframe > 160)
+        self.walkframe = 155;
+    self.frame = self.walkframe;
+    self.walkframe += 1;
 }
 
 void() QCC_Dynamite = {
+    if (self.qccAbilityEnt != world) {
+		QCC_DynaToss(TRUE);
+        return;
+	}
+	
+	self.weapon = QCC_ABILITY;
+	self.currentammo = 3 - ceil((self.qccAbilityTimer - time) / self.qccAbilityCost);		
+	self.weaponmodel = "progs/v_dynamite.mdl";
+	self.weaponframe = 0;
+	self.attack_finished = time + 0.3;
+    self.th_pain = caleb_dynapain;
+    self.th_die = caleb_dynadeath;
 
+    self.qccAbilityEnt = spawn();
+    self.qccAbilityEnt.owner = self;
+    self.qccAbilityEnt.qccAbilityTimer = time + 6;
+    self.qccAbilityEnt.think = QCC_DynaOops;
+    self.qccAbilityEnt.nextthink = time + 6;
+    sound(self, CHAN_WEAPON, "caleb/dynafuse.wav", 1, ATTN_NORM);
+    self.walkframe = 155;
+    caleb_dynarun();
+}
+
+/*
+======================================================
+LIFE ESSENCE
+======================================================
+*/
+void() QCC_LifeEssenceTouch = {
+    if (other.classname != "player")
+		return;
+    // Enemies can't pick them up
+    if (other.team != self.team)
+        return;
+	// Nyx can't pick up stuff during Ghost Walk
+	if (other.qccChampion == QCC_NYX && other.weapon == QCC_ABILITY)
+		return;
+    
+	if (!T_Heal(other, self.healamount, 0))
+		return;
+	if (other.qccFlags & QCC_FL_CHANNELING && other.qccAbilityTimer > time) {
+		other.qccAbilityTimer = other.qccAbilityTimer - (QCC_GLOBAL_COOLDOWN * 0.05);
+		QCC_AbilityTimeLeft(other);
+	}
+	
+	if (ExtSupported("EX_SPRINT"))
+		sprint(other, "$qc_item_health", ftos(self.healamount));
+	else {
+		sprint(other, "You receive ");
+		sprint(other, ftos(self.healamount));
+		sprint(other, " health\n");
+	}
+    
+	sound(other, CHAN_ITEM, "caleb/lifeessence.wav", 1, ATTN_NORM);
+	stuffcmd(other, "bf\n");
+	
+	remove(self);
+}
+
+void() QCC_LifeEssenceProc = [0, QCC_LifeEssenceProc] {
+    self.frame = self.walkframe;
+    self.walkframe += 1;
+    if (self.walkframe > 3)
+        self.walkframe = 0;
+    particle(self.origin, crandom() * '1 0 0' + crandom() * '0 1 0' + '0 0 4', 225, 6);
+    if (time > self.qccAbilityTimer)
+        remove(self);
+}
+
+void(entity targ, entity attacker) QCC_DropLifeEssence = {
+    if (targ == attacker)
+        return;
+    if (targ.team == attacker.team)
+        return;
+    
+    entity e;
+    e = spawn();
+    e.classname = "life_essence";
+    e.owner = attacker;
+    e.team = attacker.team;
+    setmodel(e, "progs/lifeessence.mdl");
+    setsize(e, VEC_HULL_MIN, VEC_HULL_MAX);
+    e.flags = FL_ITEM;
+	e.solid = SOLID_TRIGGER;
+    setorigin(e, targ.origin);
+    e.qccFlags |= QCC_FL_THROWABLE;
+	e.healamount = 25;
+    e.qccAbilityTimer = time + 30;
+    e.touch = QCC_LifeEssenceTouch;
+    e.think = QCC_LifeEssenceProc;
+    e.nextthink = time;
 }
 
 /*
@@ -103,7 +388,7 @@ void() QCC_CalebSpawn = {
             }
             // Opened the pit
             else if ((serverflags & 15) == 15) {
-                sound(self, CHAN_VOICE, "caleb/putyoudown.wav", 1, ATTN_NORM);
+                sound(self, CHAN_VOICE, "caleb/putdown.wav", 1, ATTN_NORM);
                 return;
             }
         }
@@ -134,7 +419,7 @@ void() QCC_CalebSpawn = {
     }
 }
 
-void() QCC_CalebFrag = {
+void(entity targ, entity attacker) QCC_CalebFrag = {
 	string s;
     float r;
     
@@ -183,9 +468,16 @@ void() QCC_CalebFrag = {
 		s = "caleb/hatemimes.wav";
     }
 
+    else if (r < 0.4 && (targ.flags & FL_CLIENT) && targ.qccChampion == QCC_DUKENUKEM) {
+        if (r < 0.2)
+            s = "caleb/timetoplay.wav";
+        else
+            s = "caleb/shakeit.wav";
+    }
+
 	// Random taunt
 	else {
-        r = floor(random() * 40);
+        r = floor(random() * 39);
 		switch (r) {
         case 0: s = "caleb/alreadydead.wav"; break;
         case 1: s = "caleb/amateurs.wav"; break;
@@ -220,11 +512,10 @@ void() QCC_CalebFrag = {
         case 31: s = "caleb/sunshine.wav"; break;
 		case 32: s = "caleb/whosnext.wav"; break;
 		case 33: s = "caleb/teachya.wav"; break;
-		case 34: s = "caleb/timetoplay.wav"; break;
+		case 34: s = "caleb/victims.wav"; break;
 		case 35: s = "caleb/tipperary.wav"; break;
 		case 36: s = "caleb/train.wav"; break;
 		case 37: s = "caleb/undermyskin.wav"; break;
-		case 38: s = "caleb/victims.wav"; break;
 		default: s = "caleb/whoslaughing.wav"; break;
 		}
     }
@@ -236,7 +527,7 @@ void() QCC_CalebFrag = {
     attacker.qccTauntTimer = time + 10;
 }
 
-void() QCC_CalebItem = {
+void(entity collector, entity item) QCC_CalebItem = {
 	string s;
     float r;
 
@@ -306,8 +597,7 @@ BOT STUFF
 void() QCC_CalebBotPre = {
 	if (self.enemy.flags & FL_MONSTER || self.enemy.classname == "player") {
         if (self.qccAbilityTimer < time && self.qccAbilityTimer >= 0 && visible(self.enemy)) {
-            QCC_FireAbility(); // light it
-			QCC_FireAbility(); // throw it
+            QCC_FireAbility();
 		}
     }
 };

@@ -71,8 +71,7 @@ void() health_touch = {
 			QCC_AbilityCooldown(other);
 			QCC_AbilityTimeLeft(other);
 		}
-		if (other.qccChampion == QCC_DUKENUKEM)
-			QCC_DukeItem(other, self);
+		other.qccSpeakItem(other, self);
 	}
 	else {
 		if (!T_Heal(other, self.healamount, 0))
