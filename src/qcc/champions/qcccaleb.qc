@@ -80,8 +80,8 @@ void() QCC_DynaOops = {
     self.owner.qccAbilityEnt = world;
     self.owner.th_die = PlayerDie;
     setorigin(self, self.owner.origin);
-    T_Damage(self.owner, self, self.owner, 200);
-	T_RadiusDamage(self, self.owner, 120, self.owner);
+    T_Damage(self.owner, self, self.owner, 150);
+	T_RadiusDamage(self, self.owner, 150, self.owner);
 	WriteByte(MSG_BROADCAST, SVC_TEMPENTITY);
 	WriteByte(MSG_BROADCAST, TE_EXPLOSION);
 	WriteCoord(MSG_BROADCAST, self.origin_x);
@@ -97,7 +97,7 @@ void() QCC_DynaFuse = [0, QCC_DynaFuse] {
     // Fuse ran out!
     if (time >= self.qccAbilityTimer) {
         sound(self, CHAN_WEAPON, "silence.wav", 1, ATTN_NORM);
-        T_RadiusDamage(self, self.owner, 120, world);
+        T_RadiusDamage(self, self.owner, 150, world);
         WriteByte(MSG_BROADCAST, SVC_TEMPENTITY);
         WriteByte(MSG_BROADCAST, TE_EXPLOSION);
         WriteCoord(MSG_BROADCAST, self.origin_x);
@@ -160,12 +160,10 @@ void() caleb_dynatoss5 = [180, caleb_dynatoss6] { self.weaponframe = 10;}
 void() caleb_dynatoss6 = [181, caleb_dynatoss7] { self.weaponframe = 11;}
 void() caleb_dynatoss7 = {
 	QCC_RestoreWeapon();
-	self.th_stand();
+	player_stand();
 }
 
 void(float wait_to_explode) QCC_DynaToss = {
-    if (self.frame > 166)
-        return; // already throwing it
     self.qccAbilityEnt.state = wait_to_explode;
     self.pain_finished = time + 1.0;
     self.attack_finished = time + 0.75;
@@ -266,6 +264,11 @@ void() caleb_dynarun = [155, caleb_dynarun] {
 }
 
 void() QCC_Dynamite = {
+    // Already throwing it
+    if (self.frame > 166)
+        return;
+
+    // Equipped and lit
     if (self.qccAbilityEnt != world) {
 		QCC_DynaToss(TRUE);
         return;
