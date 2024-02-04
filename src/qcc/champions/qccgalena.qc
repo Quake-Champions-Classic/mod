@@ -83,7 +83,7 @@ void() QCC_TotemTouch = {
 	}
 
 	// Explode on enemies
-	if (other.takedamage == DAMAGE_AIM && other.team != self.team) {
+	if (other.takedamage == DAMAGE_AIM && ((!teamplay && other != self.owner) || other.team != self.team)) {
 		setmodel(self, "progs/s_explod.spr");
 		setorigin(self, self.origin + '0 0 16');
 		
@@ -113,13 +113,11 @@ void() QCC_TotemTouch = {
 		head = findradius(self.origin, 160);	
 		while (head) {
 			if (head.takedamage) {
-				if (head.team != self.team) {
-					if (CanDamage(head, self)) {
-						if (head.flags & FL_MONSTER)
-							T_Damage(head, self, self.owner, damg * 4);
-						else
-							T_Damage(head, self, self.owner, damg);
-					}
+				if (head != self.owner) {
+					if (head.flags & FL_MONSTER)
+						T_Damage(head, self, self.owner, damg * 4);
+					else
+						T_Damage(head, self, self.owner, damg);
 				}
 			}
 			head = head.chain;
@@ -250,7 +248,7 @@ BOT STUFF
 */
 void() QCC_GalenaBotPre = {
 	if (self.enemy.flags & FL_MONSTER || self.enemy.classname == "player") {
-        if (self.qccAbilityTimer < time && self.qccAbilityTimer >= 0 && visible(self.enemy)) {
+        if (self.qccAbilityTimer < time && self.qccAbilityTimer >= 0 && self.health < self.max_health) {
             // Just throw a totem I guess
             QCC_FireAbility();
 		}

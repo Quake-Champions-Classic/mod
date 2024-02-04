@@ -61,6 +61,17 @@ DYNAMITE
 ======================================================
 */
 // Dynamite functions
+void() QCC_DynaBlow = {
+    sound(self, CHAN_WEAPON, "silence.wav", 1, ATTN_NORM);
+    T_RadiusDamage(self, self.owner, 150, world);
+    WriteByte(MSG_BROADCAST, SVC_TEMPENTITY);
+    WriteByte(MSG_BROADCAST, TE_EXPLOSION);
+    WriteCoord(MSG_BROADCAST, self.origin_x);
+    WriteCoord(MSG_BROADCAST, self.origin_y);
+    WriteCoord(MSG_BROADCAST, self.origin_z);
+    BecomeExplosion();
+}
+
 void() QCC_DynaOops = {
     sound(self.owner, CHAN_WEAPON, "silence.wav", 1, ATTN_NORM);
 
@@ -81,13 +92,7 @@ void() QCC_DynaOops = {
     self.owner.th_die = PlayerDie;
     setorigin(self, self.owner.origin);
     T_Damage(self.owner, self, self.owner, 150);
-	T_RadiusDamage(self, self.owner, 150, self.owner);
-	WriteByte(MSG_BROADCAST, SVC_TEMPENTITY);
-	WriteByte(MSG_BROADCAST, TE_EXPLOSION);
-	WriteCoord(MSG_BROADCAST, self.origin_x);
-	WriteCoord(MSG_BROADCAST, self.origin_y);
-	WriteCoord(MSG_BROADCAST, self.origin_z);
-    BecomeExplosion();
+	QCC_DynaBlow();
 }
 
 void() QCC_DynaFuse = [0, QCC_DynaFuse] {
@@ -97,19 +102,13 @@ void() QCC_DynaFuse = [0, QCC_DynaFuse] {
     // Fuse ran out!
     if (time >= self.qccAbilityTimer) {
         sound(self, CHAN_WEAPON, "silence.wav", 1, ATTN_NORM);
-        T_RadiusDamage(self, self.owner, 150, world);
-        WriteByte(MSG_BROADCAST, SVC_TEMPENTITY);
-        WriteByte(MSG_BROADCAST, TE_EXPLOSION);
-        WriteCoord(MSG_BROADCAST, self.origin_x);
-        WriteCoord(MSG_BROADCAST, self.origin_y);
-        WriteCoord(MSG_BROADCAST, self.origin_z);
-        BecomeExplosion();
+        QCC_DynaBlow();
     }
 }
 
 // Caleb functions
-void() caleb_dynatoss1 = [176, caleb_dynatoss2] { self.weaponframe = 6;}
-void() caleb_dynatoss2 = [177, caleb_dynatoss3] { self.weaponframe = 7;}
+void() caleb_dynatoss1 = [176, caleb_dynatoss2] { self.weaponframe = 6; self.nextthink = time + 0.05;}
+void() caleb_dynatoss2 = [177, caleb_dynatoss3] { self.weaponframe = 7; self.nextthink = time + 0.05;}
 void() caleb_dynatoss3 = [178, caleb_dynatoss4] {
     QCC_AbilityUsed();
 
@@ -145,7 +144,7 @@ void() caleb_dynatoss3 = [178, caleb_dynatoss4] {
 	bomb.angles = vectoangles(bomb.velocity);
 
     if (!wait_to_explode)
-        bomb.touch = T_MissileTouch;
+        bomb.touch = QCC_DynaBlow;
     else {
         bomb.nextthink = time + 0.1;
         bomb.think = QCC_DynaFuse;
@@ -154,19 +153,19 @@ void() caleb_dynatoss3 = [178, caleb_dynatoss4] {
     bomb.qccFlags |= QCC_FL_ABILITY;
 	bomb.qccFlags |= QCC_FL_THROWABLE;
 	bomb.qccFlags |= QCC_FL_CANDEFLECT;
+
+    self.nextthink = time + 0.05;
 }
-void() caleb_dynatoss4 = [179, caleb_dynatoss5] { self.weaponframe = 9;}
-void() caleb_dynatoss5 = [180, caleb_dynatoss6] { self.weaponframe = 10;}
-void() caleb_dynatoss6 = [181, caleb_dynatoss7] { self.weaponframe = 11;}
-void() caleb_dynatoss7 = {
-	QCC_RestoreWeapon();
-	player_stand();
-}
+void() caleb_dynatoss4 = [179, caleb_dynatoss5] { self.weaponframe = 9; self.nextthink = time + 0.05;}
+void() caleb_dynatoss5 = [180, caleb_dynatoss6] { self.weaponframe = 10; self.nextthink = time + 0.05;}
+void() caleb_dynatoss6 = [181, caleb_dynatoss7] { self.weaponframe = 11; self.nextthink = time + 0.05;}
+void() caleb_dynatoss7 = { QCC_RestoreWeapon();	player_stand();}
 
 void(float wait_to_explode) QCC_DynaToss = {
-    self.qccAbilityEnt.state = wait_to_explode;
+    if (self.qccAbilityEnt != world)
+        self.qccAbilityEnt.state = wait_to_explode;
     self.pain_finished = time + 1.0;
-    self.attack_finished = time + 0.75;
+    self.attack_finished = time + 0.4;
     caleb_dynatoss1();
 }
 
@@ -301,7 +300,7 @@ void() QCC_LifeEssenceTouch = {
     if (other.classname != "player")
 		return;
     // Enemies can't pick them up
-    if (other.team != self.team)
+    if (teamplay && other.team != self.team)
         return;
 	// Nyx can't pick up stuff during Ghost Walk
 	if (other.qccChampion == QCC_NYX && other.weapon == QCC_ABILITY)
@@ -341,7 +340,7 @@ void() QCC_LifeEssenceProc = [0, QCC_LifeEssenceProc] {
 void(entity targ, entity attacker) QCC_DropLifeEssence = {
     if (targ == attacker)
         return;
-    if (targ.team == attacker.team)
+    if (teamplay && targ.team == attacker.team)
         return;
     
     entity e;
@@ -423,6 +422,9 @@ void() QCC_CalebSpawn = {
 }
 
 void(entity targ, entity attacker) QCC_CalebFrag = {
+    if (self.health < 1)
+        return;
+    
 	string s;
     float r;
     

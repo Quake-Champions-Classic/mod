@@ -173,8 +173,8 @@ void() bigjohn_ability8 = {
 	self.qccAbilityTimer = time + QCC_GLOBAL_COOLDOWN - self.currentammo / 2;
 	QCC_RestoreWeapon();
 	self.th_die = PlayerDie;
+	self.th_pain = player_pain;
 	self.attack_finished = time + 0.25;
-	self.pain_finished = time + 0.5;
 	self.qccMoveSpeed = 0.9375;
 	self.qccArmorType2 = 0;
 	self.th_stand();
@@ -201,7 +201,7 @@ void() QCC_BigBarrage = {
 		self.weaponmodel = "progs/v_bigjgun.mdl";
 		self.weaponframe = 0;
 		self.attack_finished = time + 0.3;
-		self.pain_finished = time + 10;
+		self.th_pain = SUB_NullPain;
 		self.th_die = bigjohn_die;
 		bigjohn_ability0();
 	}
@@ -214,7 +214,7 @@ BOT STUFF
 */
 void() QCC_BigJohnBotPre = {
     if (self.enemy.flags & FL_MONSTER || self.enemy.classname == "player") {
-        if ((self.qccAbilityTimer < time + 45 - self.qccAbilityCost) && self.qccAbilityTimer > -1 && visible(self.enemy)) {
+        if (self.frame < 143 && (self.qccAbilityTimer < time + 45 - self.qccAbilityCost) && self.qccAbilityTimer > -1 && visible(self.enemy)) {
             QCC_FireAbility();
         }
     }

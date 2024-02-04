@@ -400,6 +400,9 @@ void() QCC_DukeSpawn = {
 }
 
 void(entity targ, entity attacker) QCC_DukeFrag = {
+    if (self.health < 1)
+        return;
+    
     string s;
     float r;
     

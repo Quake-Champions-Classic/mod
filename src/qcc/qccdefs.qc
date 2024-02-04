@@ -98,6 +98,7 @@ void(entity collector, entity item) QCC_DukeItem;
 // Caleb
 void() QCC_Caleb;
 void() QCC_CalebSpawn;
+void() QCC_DynaFuse;
 void(entity targ, entity attacker) QCC_CalebFrag;
 void(entity collector, entity item) QCC_CalebItem;
 void(entity targ, entity attacker) QCC_DropLifeEssence;

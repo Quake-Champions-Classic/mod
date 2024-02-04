@@ -216,8 +216,7 @@ void() QCC_ThrowableTouch =
 };
 
 // can be called by Dusk Dude or throwable
-void(entity throw_ent) QCC_ThrowThrowable =
-{
+void(entity throw_ent) QCC_ThrowThrowable = {
 	throw_ent.think = SUB_Null;
 	throw_ent.nextthink = -1;
 	throw_ent.solid = SOLID_BBOX;
@@ -225,21 +224,18 @@ void(entity throw_ent) QCC_ThrowThrowable =
 	throw_ent.ltime = time;
 
 	makevectors(throw_ent.qccAbilityOwner.v_angle);
-	if (throw_ent.qccAbilityOwner.deadflag == DEAD_NO)
-	{
+	if (throw_ent.qccAbilityOwner.deadflag == DEAD_NO) {
 		throw_ent.velocity = v_forward * 600 + v_up * 200 + crandom()*v_right*10 + crandom() * v_up * 10;
 		throw_ent.avelocity = '0 0 0';
 	}
-	else
-	{
+	else {
 		throw_ent.velocity = '0 0 300';
 		throw_ent.avelocity = '300 300 300';
 	}
 	throw_ent.angles = vectoangles(throw_ent.velocity);
 	
 
-	if (throw_ent.flags & FL_ITEM)
-	{
+	if (throw_ent.flags & FL_ITEM) {
 		throw_ent.owner = throw_ent.qccAbilityOwner;
 		if (throw_ent.classname == "item_rockets" || throw_ent.classname == "weapon_rocketlauncher" || throw_ent.classname == "weapon_grenadelauncher")
 			throw_ent.touch = T_MissileTouch;
@@ -249,10 +245,8 @@ void(entity throw_ent) QCC_ThrowThrowable =
 	else if (throw_ent.classname == "missile")
 		throw_ent.owner = throw_ent.qccAbilityOwner;
 	// Detonate them grenades
-	else if (throw_ent.classname == "grenade")
-	{
-		if (!(throw_ent.qccAbilityOwner.deadflag))
-		{
+	else if (throw_ent.classname == "grenade") {
+		if (!(throw_ent.qccAbilityOwner.deadflag)) {
 			throw_ent.avelocity = '300 300 300';
 			throw_ent.angles = vectoangles(throw_ent.velocity);
 		}
@@ -261,8 +255,12 @@ void(entity throw_ent) QCC_ThrowThrowable =
 		throw_ent.nextthink = time + 2.5;
 		throw_ent.think = GrenadeExplode;
 	}
-	else if (throw_ent.classname == "misc_explobox2")
-	{
+	else if (throw_ent.classname == "dynamite") {
+		throw_ent.owner = throw_ent.qccAbilityOwner;
+		throw_ent.think = QCC_DynaFuse;
+		throw_ent.nextthink = time;
+	}
+	else if (throw_ent.classname == "misc_explobox2") {
 		throw_ent.enemy = throw_ent.qccAbilityOwner; // explo_box expects to be shot to be blown up, giving kill responsiblity to its attacker
 		throw_ent.touch = barrel_detonate;
 	}
@@ -274,8 +272,7 @@ void(entity throw_ent) QCC_ThrowThrowable =
 };
 
 // called by throwable; keeps it in front of the player
-void() QCC_ThrowableProc =
-{
+void() QCC_ThrowableProc = {
 	if (self.qccAbilityOwner.deadflag > DEAD_NO) {
 		QCC_ThrowThrowable(self);
 		return;
@@ -295,12 +292,30 @@ void() QCC_ThrowableProc =
 	self.angles = self.qccAbilityOwner.angles;
 	if (!(self.qccFlags & QCC_FL_THR_IT_BSP))
 		self.angles_y += 180;
+
+	if (self.classname == "dynamite") {
+		self.frame = floor(time * 10) % 2;
+		if (vlen(self.velocity) > 0 && floor(time) % 2 > 0)
+        	sound(self, CHAN_WEAPON, "caleb/dynafuse.wav", 1, ATTN_NORM);
+		// Fuse ran out!
+		if (self.qccAbilityTimer < time) {
+			self.qccAbilityOwner.qccAbilityEnt = world;
+			sound(self, CHAN_WEAPON, "silence.wav", 1, ATTN_NORM);
+			T_RadiusDamage(self, self.owner, 150, world);
+			WriteByte(MSG_BROADCAST, SVC_TEMPENTITY);
+			WriteByte(MSG_BROADCAST, TE_EXPLOSION);
+			WriteCoord(MSG_BROADCAST, self.origin_x);
+			WriteCoord(MSG_BROADCAST, self.origin_y);
+			WriteCoord(MSG_BROADCAST, self.origin_z);
+			BecomeExplosion();
+		}
+	}
+	
 	self.think = QCC_ThrowableProc;
 	self.nextthink = time + 0.01;
 };
 
-void() QCC_PickupThrowable =
-{
+void() QCC_PickupThrowable = {
 	vector pos;
 	entity ent;
 

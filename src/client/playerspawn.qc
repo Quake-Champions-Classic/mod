@@ -299,19 +299,21 @@ void RunPostPutClientInServer() {
 
 // Called each time a player is spawned
 void() PutClientInServer = {
-	entity spot;
+	entity spot, pl;
 
 	self.classname = "player";
 
-	entity pl = find(world, classname, "player");
-	while (pl != world) {
-		if (pl != self) {
-			self.qccPlayerBit++;
-			pl = find(pl, classname, "player");
-		}
-		else {
-			self.qccPlayerBit = SUB_LeftShift(1, self.qccPlayerBit);
-			pl = world;
+	if (!self.qccPlayerBit) {
+		pl = find(world, classname, "player");
+		while (pl != world) {
+			if (pl != self) {
+				self.qccPlayerBit++;
+				pl = find(pl, classname, "player");
+			}
+			else {
+				self.qccPlayerBit = SUB_LeftShift(1, self.qccPlayerBit);
+				pl = world;
+			}
 		}
 	}
 
