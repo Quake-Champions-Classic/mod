@@ -1,3 +1,8 @@
+/*
+================
+GRENADE LAUNCHER
+================
+*/
 void() GrenadeExplode = {
 	T_RadiusDamage(self, self.owner, 120, self.lastvictim);
 	WriteByte(MSG_BROADCAST, SVC_TEMPENTITY);
@@ -72,4 +77,22 @@ void() W_FireGrenade = {
 
 	missile.qccFlags |= QCC_FL_THROWABLE;
 	missile.qccFlags |= QCC_FL_CANDEFLECT;
+};
+
+/*
+================
+PICKUP
+================
+*/
+void() weapon_grenadelauncher = {
+	precache_model("progs/g_rock.mdl");
+	setmodel(self, "progs/g_rock.mdl");
+	self.weapon = IT_GRENADE_LAUNCHER;
+	if (ExtSupported("EX_SPRINT"))
+		self.netname = "$qc_grenade_launcher";
+	else
+		self.netname = "Grenade Launcher";
+	self.touch = weapon_touch;
+	setsize(self, '-16 -16 0', '16 16 56');
+	StartItem();
 };

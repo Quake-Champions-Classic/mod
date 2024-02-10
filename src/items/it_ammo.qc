@@ -5,7 +5,7 @@ AMMO
 */
 void() ammo_touch = {
 	entity stemp;
-	float best, noammo;
+	float best, picked_up;
 
 	if (other.classname != "player")
 		return;
@@ -27,34 +27,79 @@ void() ammo_touch = {
 	best = W_BestWeapon();
 	self = stemp;
 
-	noammo = FALSE;
+	picked_up = FALSE;
 
-	if (self.weapon == 1) {
-		if (other.ammo_shells < 25)
-			other.ammo_shells = other.ammo_shells + self.aflag;
-		else
-			noammo = TRUE;
-	}
-	if (self.weapon == 2) {
-		if (other.ammo_nails < 150)
-			other.ammo_nails = other.ammo_nails + self.aflag;
-		else
-			noammo = TRUE;
-	}
-	if (self.weapon == 3) {
-		if (other.ammo_rockets < 25)
-			other.ammo_rockets = other.ammo_rockets + self.aflag;
-		else
-			noammo = TRUE;
-	}
-	if (self.weapon == 4) {
-		if (other.ammo_cells < 150)
-			other.ammo_cells = other.ammo_cells + self.aflag;
-		else
-			noammo = TRUE;
+	if (self.weapon & IT_SHELLS) {
+		if (other.ammo_shells < AM_MAX_SHELLS) {
+			other.ammo_shells += self.aflag;
+			picked_up = TRUE;
+		}
+
+		if (find(world, classname, "qcc_item_bullets") == world) {
+			if (other.ammo_bullets < AM_MAX_BULLETS) {
+				other.ammo_bullets += self.aflag;
+				picked_up = TRUE;
+			}
+		}
 	}
 
-	if (noammo == TRUE)
+	if (self.weapon & IT_NAILS) {
+		if (other.ammo_nails < AM_MAX_NAILS) {
+			other.ammo_nails += self.aflag;
+			picked_up = TRUE;
+		}
+	}
+
+	if (self.weapon & IT_ROCKETS) {
+		if (other.ammo_rockets < AM_MAX_ROCKETS) {
+			other.ammo_rockets += self.aflag;
+			picked_up = TRUE;
+		}
+		
+		if (find(world, classname, "qcc_item_bolts") == world) {
+			if (other.ammo_bolts < AM_MAX_BOLTS) {
+				other.ammo_bolts += 5;
+				picked_up = TRUE;
+			}
+		}
+	}
+
+	if (self.weapon & IT_CELLS) {
+		if (other.ammo_cells < AM_MAX_CELLS) {
+			other.ammo_cells += self.aflag;
+			picked_up = TRUE;
+		}
+		
+		if (find(world, classname, "qcc_item_slugs") == world) {
+			if (other.ammo_slugs < AM_MAX_SLUGS) {
+				other.ammo_slugs += 5;
+				picked_up = TRUE;
+			}
+		}
+	}
+
+	if (self.qccItems3 & QCC_IT2_BULLETS) {
+		if (other.ammo_bullets < AM_MAX_BULLETS) {
+			other.ammo_bullets += self.aflag;
+			picked_up = TRUE;
+		}
+	}
+
+	if (self.qccItems3 & QCC_IT2_BOLTS) {
+		if (other.ammo_bolts < AM_MAX_BOLTS) {
+			other.ammo_bolts += self.aflag;
+			picked_up = TRUE;
+		}
+	}
+
+	if (self.qccItems3 & QCC_IT2_SLUGS) {
+		if (other.ammo_slugs < AM_MAX_SLUGS) {
+			other.ammo_slugs += self.aflag;
+			picked_up = TRUE;
+		}
+	}
+
+	if (!picked_up)
 		if (!(other.qccFlags & QCC_FL_STOCKPILE) || other.qccAbilityTimer <= time)
 			return;
 	else {
@@ -135,106 +180,6 @@ void() ammo_touch = {
 
 float WEAPON_BIG2 = 1;
 
-void() item_shells = {
-	self.touch = ammo_touch;
-
-	if (self.spawnflags & WEAPON_BIG2) {
-		precache_model("maps/b_shell1.bsp");
-		setmodel(self, "maps/b_shell1.bsp");
-		self.aflag = 10;
-	}
-	else {
-		precache_model("maps/b_shell0.bsp");
-		setmodel(self, "maps/b_shell0.bsp");
-		self.aflag = 5;
-	}
-	self.weapon = 1;
-
-	if (ExtSupported("EX_SPRINT"))
-		self.netname = "$qc_shells";
-	else
-		self.netname = "shells";
-    
-	setsize(self, '0 0 0', '32 32 56');
-	StartItem();
-};
-
-void() item_spikes = {
-	self.touch = ammo_touch;
-
-	if (self.spawnflags & WEAPON_BIG2) {
-		precache_model("maps/b_nail1.bsp");
-		setmodel(self, "maps/b_nail1.bsp");
-		self.aflag = 50;
-	}
-	else {
-		precache_model("maps/b_nail0.bsp");
-		setmodel(self, "maps/b_nail0.bsp");
-		self.aflag = 25;
-	}
-	self.weapon = 2;
-
-	if (ExtSupported("EX_SPRINT"))
-		self.netname = "$qc_nails";
-	else
-		self.netname = "nails";
-    
-	setsize(self, '0 0 0', '32 32 56');
-	StartItem();
-};
-
-void() item_cells = {
-	self.touch = ammo_touch;
-
-	if (self.spawnflags & WEAPON_BIG2) {
-		precache_model("maps/b_batt1.bsp");
-		setmodel(self, "maps/b_batt1.bsp");
-		self.aflag = 50;
-	}
-	else {
-		precache_model("maps/b_batt0.bsp");
-		setmodel(self, "maps/b_batt0.bsp");
-		self.aflag = 25;
-	}
-	self.weapon = 4;
-
-	if (ExtSupported("EX_SPRINT"))
-		self.netname = "$qc_cells";
-	else
-		self.netname = "cells";
-    
-	setsize(self, '0 0 0', '32 32 56');
-	StartItem();
-};
-
-void() item_rockets = {
-	// QCC: railgun ammo for Ziggurat Vertigo
-	if (world.model == "maps/e1m8.bsp") {
-		item_cells();
-		return;
-	}
-	self.touch = ammo_touch;
-
-	if (self.spawnflags & WEAPON_BIG2) {
-		precache_model("maps/b_rock1.bsp");
-		setmodel(self, "maps/b_rock1.bsp");
-		self.aflag = 10;
-	}
-	else {
-		precache_model("maps/b_rock0.bsp");
-		setmodel(self, "maps/b_rock0.bsp");
-		self.aflag = 5;
-	}
-
-	self.weapon = 3;
-	if (ExtSupported("EX_SPRINT"))
-		self.netname = "$qc_rockets";
-	else
-		self.netname = "rockets";
-	setsize(self, '0 0 0', '32 32 56');
-	StartItem();
-};
-
 // DO NOT USE THIS!!!! IT WILL BE REMOVED!
 float WEAPON_SHOTGUN = 1;
 float WEAPON_ROCKET = 2;
@@ -299,17 +244,4 @@ void() item_weapon = {
 	
 	setsize(self, '0 0 0', '32 32 56');
 	StartItem();
-};
-
-// QCC: ammo replacements for DoE ammo, since we don't actually have their weapons
-void() item_multi_rockets = {
-	item_rockets();
-};
-
-void() item_lava_spikes = {
-	item_spikes();
-};
-
-void() item_plasma = {
-	item_cells();
 };

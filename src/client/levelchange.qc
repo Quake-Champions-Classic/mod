@@ -85,15 +85,17 @@ void() SetChangeParms = {
 	parm5 = self.ammo_nails;
 	parm6 = self.ammo_rockets;
 	parm7 = self.ammo_cells;
+	parm8 = self.ammo_bullets;
+	parm9 = self.ammo_bolts;
+	parm10 = self.ammo_slugs;
 
 	// QCC: can't get old weapon back if we start a stage with an ability
 	if (self.weapon != QCC_ABILITY)
-		parm8 = self.weapon;
+		parm11 = self.weapon;
 	else
-		parm8 = self.qccPrevWep;
+		parm11 = self.qccPrevWep;
 	
-	parm9 = self.armortype * 100;
-	parm10 = self.items2; // ROGUE
+	parm12 = self.items2; // ROGUE
 
 	// QCC Parms
 	parm16 = self.qccChampion;
@@ -114,8 +116,11 @@ void() SetNewParms = {
 	parm5 = 0;
 	parm6 = 0;
 	parm7 = 0;
-	parm8 = 1;
+	parm8 = 0;
 	parm9 = 0;
+	parm10 = 0;
+	parm11 = 1;
+	parm12 = 0;
 	parm14 = 0;
 	parm15 = self.qccSkin;
 };
@@ -149,9 +154,11 @@ void() DecodeLevelParms = {
 	self.ammo_nails = parm5;
 	self.ammo_rockets = parm6;
 	self.ammo_cells = parm7;
-	self.weapon = parm8;
-	self.armortype = parm9 * 0.01;
-	self.items2 = parm10; // ROGUE
+	self.ammo_bullets = parm8;
+	self.ammo_bolts = parm9;
+	self.ammo_slugs = parm10;
+	self.weapon = parm11;
+	self.items2 = parm12; // ROGUE
 
 	// QCC Parms
 	if (time < 3) {

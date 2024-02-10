@@ -3,18 +3,35 @@
 WEAPONS
 ===============================================================================
 */
+float AM_MAX_SHELLS = 25;
+float AM_MAX_NAILS = 150;
+float AM_MAX_ROCKETS = 25;
+float AM_MAX_CELLS = 150;
+float AM_MAX_BOLTS = 15;
+float AM_MAX_BULLETS = 150;
+float AM_MAX_SLUGS = 10;
+
 void() bound_other_ammo = {
-	if (other.ammo_shells > 25)
-		other.ammo_shells = 25;
+	if (other.ammo_shells > AM_MAX_SHELLS)
+		other.ammo_shells = AM_MAX_SHELLS;
 
-	if (other.ammo_nails > 150)
-		other.ammo_nails = 150;
+	if (other.ammo_nails > AM_MAX_NAILS)
+		other.ammo_nails = AM_MAX_NAILS;
 
-	if (other.ammo_rockets > 25)
-		other.ammo_rockets = 25;		
+	if (other.ammo_rockets > AM_MAX_ROCKETS)
+		other.ammo_rockets = AM_MAX_ROCKETS;
 
-	if (other.ammo_cells > 150)
-		other.ammo_cells = 150;		
+	if (other.ammo_cells > AM_MAX_CELLS)
+		other.ammo_cells = AM_MAX_CELLS;
+	
+	if (other.ammo_bullets > AM_MAX_BULLETS)
+		other.ammo_bullets = AM_MAX_BULLETS;
+	
+	if (other.ammo_bolts > AM_MAX_BOLTS)
+		other.ammo_bolts = AM_MAX_BOLTS;
+	
+	if (other.ammo_slugs > AM_MAX_SLUGS)
+		other.ammo_slugs = AM_MAX_SLUGS;
 };
 
 
@@ -85,7 +102,7 @@ float() W_BestWeapon;
 float(entity playerEnt, float old, float new) W_WantsToChangeWeapon;
 
 void() weapon_touch = {
-	float hadammo, best, new, old, leave;
+	float best, new, old;
 	entity stemp;
 
     if (!(other.flags & FL_CLIENT))
@@ -102,112 +119,85 @@ void() weapon_touch = {
 	best = W_BestWeapon();
 	self = stemp;
 
-	if (coop || deathmatch == 2 || deathmatch == 3 || deathmatch == 5)
-		leave = TRUE;
-	else
-		leave = FALSE;
-	
-	if (self.classname == "weapon_nailgun")	{
-		if (leave && (other.items & IT_NAILGUN))
+	// Moved up so the targets are fired even in coop, but only once.
+	activator = other;
+	SUB_UseTargets();
+
+	if (coop || deathmatch == 2 || deathmatch == 3 || deathmatch == 5) {
+		if (other.items & self.weapon || other.qccItems3 & self.weapon) {
+			self.target = string_null;
 			return;
-		hadammo = other.ammo_nails;			
-		new = IT_NAILGUN;
-		if (other.ammo_nails < 100)
-			other.ammo_nails = 100;
-		else
-			other.ammo_nails += 10;
+		}
 	}
-	else if (self.classname == "weapon_supernailgun") {
-		if (leave && (other.items & IT_SUPER_NAILGUN))
-			return;
-		hadammo = other.ammo_rockets;			
-		new = IT_SUPER_NAILGUN;
-		if (other.ammo_nails < 100)
-			other.ammo_nails = 100;
-		else
-			other.ammo_nails += 10;
+
+	new = self.weapon;
+
+	switch (self.weapon) {
+		case IT_SHOTGUN:
+		case IT_SUPER_SHOTGUN: {
+			if (other.ammo_shells < 10)
+				other.ammo_shells = 10;
+			else
+				other.ammo_shells += 5;
+			break;
+		}
+
+		case IT_NAILGUN:
+		case IT_SUPER_NAILGUN: {
+			if (other.ammo_nails < 100)
+				other.ammo_nails = 100;
+			else
+				other.ammo_nails += 10;
+			break;
+		}
+
+		case IT_GRENADE_LAUNCHER:
+		case IT_ROCKET_LAUNCHER: 
+		case IT_PROXIMITY_GUN: {
+			if (other.ammo_rockets < 10)
+				other.ammo_rockets = 10;
+			else
+				other.ammo_rockets += 5;
+			break;
+		}
+
+		case IT_LIGHTNING:
+		case IT_LASER_CANNON:
+		case IT_MJOLNIR: {
+			if (other.ammo_cells < 100)
+				other.ammo_cells = 100;
+			else
+				other.ammo_cells += 10;
+			break;
+		}
+
+		case QCC_IT_HEAVYMACHINEGUN: {
+			if (other.ammo_bullets < 100)
+				other.ammo_bullets = 100;
+			else
+				other.ammo_bullets += 10;
+			break;
+		}
+
+		case QCC_IT_TRIBOLT: {
+			if (other.ammo_bolts < 10)
+				other.ammo_bolts = 10;
+			else
+				other.ammo_bolts += 5;
+			break;
+		}
+
+		case QCC_IT_RAILGUN: {
+			if (other.ammo_slugs < 10)
+				other.ammo_slugs = 10;
+			else
+				other.ammo_slugs += 5;
+			break;
+		}
+
+		default:
+			objerror ("weapon_touch: unknown classname");
 	}
-	else if (self.classname == "weapon_supershotgun") {
-		if (leave && (other.items & IT_SUPER_SHOTGUN))
-			return;
-		hadammo = other.ammo_rockets;			
-		new = IT_SUPER_SHOTGUN;
-		if (other.ammo_shells < 10)
-			other.ammo_shells = 10;
-		else
-			other.ammo_shells += 5;
-	}
-	else if (self.classname == "weapon_rocketlauncher") {
-		if (leave && (other.items & IT_ROCKET_LAUNCHER))
-			return;
-		hadammo = other.ammo_rockets;			
-		new = IT_ROCKET_LAUNCHER;
-		if (other.ammo_rockets < 10)
-			other.ammo_rockets = 10;
-		else
-			other.ammo_rockets += 5;
-	}
-	else if (self.classname == "weapon_grenadelauncher") {
-		if (leave && (other.items & IT_GRENADE_LAUNCHER))
-			return;
-		hadammo = other.ammo_rockets;			
-		new = IT_GRENADE_LAUNCHER;
-		if (other.ammo_rockets < 10)
-			other.ammo_rockets = 10;
-		else
-			other.ammo_rockets += 5;
-	}
-	else if (self.classname == "weapon_lightning") {
-		if (leave && (other.items & IT_LIGHTNING))
-			return;
-		hadammo = other.ammo_rockets;			
-		new = IT_LIGHTNING;
-		if (other.ammo_cells < 100)
-			other.ammo_cells = 100;
-		else
-			other.ammo_cells += 10;
-	}
-	// HIP
-	else if (self.classname == "weapon_laser_gun") {
-		if (leave && (other.items & IT_LASER_CANNON))
-			return;
-		hadammo = other.ammo_rockets;
-		new = IT_LASER_CANNON;
-		if (other.ammo_cells < 100)
-			other.ammo_cells = 100;
-		else
-			other.ammo_cells += 10;
-	}
-	else if (self.classname == "weapon_mjolnir") {
-		if (leave && (other.items & IT_MJOLNIR))
-			return;
-		hadammo = other.ammo_rockets;
-		new = IT_MJOLNIR;
-		other.ammo_cells = other.ammo_cells + 30;
-	}
-	else if (self.classname == "weapon_proximity_gun") {
-		if (leave && (other.qccItems3 & IT_PROXIMITY_GUN)) // we check for qccItems3 validity
-			return;
-		hadammo = other.ammo_rockets;
-		new = IT_PROXIMITY_GUN;
-		if (other.ammo_rockets < 10)
-			other.ammo_rockets = 10;
-		else
-			other.ammo_rockets += 5;
-	}
-	// QCC
-	else if (self.classname == "qcc_weapon_railgun") {
-		if (leave && (other.items & QCC_IT_RAILGUN))
-			return;
-		hadammo = other.ammo_cells;
-		new = QCC_IT_RAILGUN;
-		if (other.ammo_cells < 75)
-			other.ammo_cells = 75;
-		else
-			other.ammo_cells += 30;
-	}
-	else
-		objerror ("weapon_touch: unknown classname");
 
 	if (ExtSupported("EX_SPRINT"))
 		sprint(other, "$qc_got_item", self.netname);
@@ -239,14 +229,6 @@ void() weapon_touch = {
 
 	self = stemp;
 
-	// Moved up so the targets are fired even in coop, but only once.
-	activator = other;
-	SUB_UseTargets();
-	if (leave) {
-		self.target = string_null;
-		return;
-	}
-
 	// Remove it in single player, or set up for respawning in deathmatch
 	self.model = string_null;
 	self.solid = SOLID_NOT;
@@ -262,144 +244,4 @@ void() weapon_touch = {
 	
 	// QCC
 	other.qccSpeakItem(other, self);
-};
-
-void() weapon_supershotgun = {
-	precache_model("progs/g_shot.mdl");
-	setmodel(self, "progs/g_shot.mdl");
-	self.weapon = IT_SUPER_SHOTGUN;
-	if (ExtSupported("EX_SPRINT"))
-		self.netname = "$qc_double_shotgun";
-	else
-		self.netname = "Double-barrelled Shotgun";
-	self.touch = weapon_touch;
-	setsize(self, '-16 -16 0', '16 16 56');
-	StartItem();
-};
-
-void() weapon_nailgun = {
-	if (!deathmatch) {
-		if (world.model == "maps/e4m1.bsp" || world.model == "maps/end.bsp") {
-			qcc_weapon_railgun();
-			return;
-		}
-  	}
-	precache_model("progs/g_nail.mdl");
-	setmodel(self, "progs/g_nail.mdl");
-	self.weapon = IT_NAILGUN;
-	if (ExtSupported("EX_SPRINT"))
-		self.netname = "$qc_nailgun";
-	else
-		self.netname = "nailgun";
-	self.touch = weapon_touch;
-	setsize(self, '-16 -16 0', '16 16 56');
-	StartItem();
-};
-
-void() weapon_supernailgun = {
-	precache_model("progs/g_nail2.mdl");
-	setmodel(self, "progs/g_nail2.mdl");
-	self.weapon = IT_SUPER_NAILGUN;
-	if (ExtSupported("EX_SPRINT"))
-		self.netname = "$qc_super_nailgun";
-	else
-		self.netname = "Super Nailgun";
-	self.touch = weapon_touch;
-	setsize(self, '-16 -16 0', '16 16 56');
-	StartItem();
-};
-
-void() weapon_grenadelauncher = {
-	precache_model("progs/g_rock.mdl");
-	setmodel(self, "progs/g_rock.mdl");
-	self.weapon = IT_GRENADE_LAUNCHER;
-	if (ExtSupported("EX_SPRINT"))
-		self.netname = "$qc_grenade_launcher";
-	else
-		self.netname = "Grenade Launcher";
-	self.touch = weapon_touch;
-	setsize(self, '-16 -16 0', '16 16 56');
-	StartItem();
-};
-
-void() weapon_rocketlauncher = {
-	if (time < 2 && QCC_Rocket_to_Rail() == TRUE)
-		return;
-	precache_model("progs/g_rock2.mdl");
-	setmodel(self, "progs/g_rock2.mdl");
-	self.weapon = IT_ROCKET_LAUNCHER;
-	if (ExtSupported("EX_SPRINT"))
-		self.netname = "$qc_rocket_launcher";
-	else
-		self.netname = "Rocket Launcher";
-	self.touch = weapon_touch;
-	setsize(self, '-16 -16 0', '16 16 56');
-	StartItem();
-};
-
-void() weapon_lightning = {
-	precache_model("progs/g_light.mdl");
-	setmodel(self, "progs/g_light.mdl");
-	self.weapon = IT_LIGHTNING;
-	if (ExtSupported("EX_SPRINT"))
-		self.netname = "$qc_thunderbolt";
-	else
-		self.netname = "Thunderbolt";
-	self.touch = weapon_touch;
-	setsize(self, '-16 -16 0', '16 16 56');
-	StartItem();
-};
-
-
-/*
-===============================================================================
-
-SCOURGE OF ARMAGON WEAPONS
-
-===============================================================================
-*/
-
-// QUAKED weapon_mjolnir (0 .5 .8) (-16 -16 0) (16 16 32)
-void() weapon_mjolnir = {
-	qcc_weapon_railgun();
-	self.classname = "qcc_weapon_railgun";
-	/*
-	precache_model("progs/g_hammer.mdl");
-	setmodel(self, "progs/g_hammer.mdl");
-	self.weapon = 4;
-	self.netname = "$qc_mjolnir";
-	self.items = IT_MJOLNIR;
-	self.touch = weapon_touch;
-	setsize(self, '-16 -16 0', '16 16 56');
-	StartItem();
-	*/
-};
-
-// QUAKED weapon_laser_gun (0 .5 .8) (-16 -16 0) (16 16 32)
-void() weapon_laser_gun = {
-	precache_model("progs/g_laserg.mdl");
-	setmodel(self, "progs/g_laserg.mdl");
-	self.weapon = IT_LASER_CANNON;
-	if (ExtSupported("EX_SPRINT"))
-		self.netname = "$qc_laser_cannon";
-	else
-		self.netname = "Laser Cannon";
-	self.touch = weapon_touch;
-	setsize(self, '-16 -16 0', '16 16 56');
-	StartItem();
-};
-
-// QUAKED weapon_proximity_gun (0 .5 .8) (-16 -16 0) (16 16 32)
-void() weapon_proximity_gun = {
-	precache_model("progs/g_prox.mdl");
-	setmodel(self, "progs/g_prox.mdl");
-	self.weapon = IT_PROXIMITY_GUN;
-	if (ExtSupported("EX_SPRINT"))
-		self.netname = "$qc_prox_gun";
-	else
-		self.netname = "Proximity Gun";
-	self.qccItems3 = IT_PROXIMITY_GUN;
-	self.touch = weapon_touch;
-	setsize(self, '-16 -16 0', '16 16 56');
-	StartItem();
 };

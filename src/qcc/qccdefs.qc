@@ -136,8 +136,12 @@ float QCC_IM_OBSERVER = 29;
 float QCC_IM_RAILGUN = 39;
 float QCC_IM_CHAMPSTART = 100;
 // Items
+float QCC_IT2_BULLETS = 8;
+float QCC_IT2_BOLTS = 16;
+float QCC_IT2_SLUGS = 32;
+
 float QCC_IT_HEAVYMACHINEGUN = 4; // replaces nailgun
-//float QCC_IT_TRIBOLT = 16; // replaces grenade launcher
+float QCC_IT_TRIBOLT = 16; // replaces grenade launcher
 float QCC_IT_RAILGUN = 65536;
 
 // Champion IDs
@@ -240,6 +244,9 @@ ENTITY FIELDS
 .float qccArmorRot_nextcheck;
 .float qccAltWeapon;
 .float qccItems3;
+.float ammo_bullets;
+.float ammo_bolts;
+.float ammo_slugs;
 
 //Status
 .float qccSelfDamage;

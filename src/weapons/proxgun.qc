@@ -1,3 +1,8 @@
+/*
+===========================
+PROXIMITY GUN
+===========================
+*/
 void() ProximityExplode = {
    	T_RadiusDamage(self, self.owner, 95, world);
 	WriteByte(MSG_BROADCAST, SVC_TEMPENTITY);
@@ -129,4 +134,23 @@ void() W_FireProximityGrenade = {
 	setmodel(missile, "progs/proxbomb.mdl");
 	setorigin(missile, self.origin);
 	setsize(missile, '-1 -1 -1', '1 1 1');
+};
+
+/*
+================
+PICKUP
+================
+*/
+void() weapon_proximity_gun = {
+	precache_model("progs/g_prox.mdl");
+	setmodel(self, "progs/g_prox.mdl");
+	self.weapon = IT_PROXIMITY_GUN;
+	if (ExtSupported("EX_SPRINT"))
+		self.netname = "$qc_prox_gun";
+	else
+		self.netname = "Proximity Gun";
+	self.qccItems3 = IT_PROXIMITY_GUN;
+	self.touch = weapon_touch;
+	setsize(self, '-16 -16 0', '16 16 56');
+	StartItem();
 };

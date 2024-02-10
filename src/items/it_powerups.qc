@@ -846,3 +846,68 @@ void() random_regen = {
 	random_pick_type();
 	SUB_regen();
 };
+
+/*
+================================================
+QCC THROW POWERUP
+
+Allows players to drop powerups when killed.
+================================================
+*/
+
+void(float it_flag) QCC_ThrowPowerup = {
+    entity new;
+
+    new = spawn();
+	
+    if (it_flag == IT_INVULNERABILITY && self.invincible_finished > time) {
+        if (ExtSupported("EX_SPRINT"))
+            new.netname = "$qc_pentagram_of_protection";
+        else
+            new.netname = "Pentagram of Protection";
+        setmodel(new, "progs/invulner.mdl");
+        new.noise = "items/protect.wav";
+        new.items = IT_INVULNERABILITY;
+        new.classname = "item_artifact_invulnerability";
+        new.delay = self.invincible_finished - time;
+    }
+    else if (it_flag == IT_QUAD && self.super_damage_finished > time) {
+        if (ExtSupported("EX_SPRINT"))
+            new.netname = "$qc_quad_damage";
+        else
+            new.netname = "Quad Damage";
+        setmodel(new, "progs/quaddama.mdl");
+        new.noise = "items/damage.wav";
+        new.items = IT_QUAD;
+        new.classname = "item_artifact_super_damage";
+        new.delay = self.super_damage_finished - time;
+    }
+    else if (it_flag == IT_INVISIBILITY && self.invisible_finished > time) {
+        if (ExtSupported("EX_SPRINT"))
+		    new.netname = "$qc_ring_of_shadows";
+        else
+		    new.netname = "Ring of Shadows";
+        setmodel(new, "progs/invisibl.mdl");
+        new.noise = "items/inv1.wav";
+	    new.items = IT_INVISIBILITY;
+        new.classname = "item_artifact_invisibility";
+        new.delay = self.invisible_finished - time;
+    }
+    else {
+        remove(new);
+        return;
+    }
+    
+    new.touch = powerup_touch;
+	setsize(new, '-16 -16 -24', '16 16 32');
+    setorigin(new, self.origin + '0 0 16');
+    new.solid = SOLID_TRIGGER;
+    new.flags = FL_ITEM;
+    new.qccFlags |= QCC_FL_THROWABLE;
+	new.movetype = MOVETYPE_BOUNCE;
+	if (cvar("pr_checkextension"))
+        if (checkextension("EX_MOVETYPE_GIB"))
+            new.movetype = MOVETYPE_GIB;
+    new.think = SUB_Remove;
+    new.nextthink = time + 30;
+};

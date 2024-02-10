@@ -132,3 +132,12 @@ void() superlavaspike_touch = {
 
 	remove(self);
 };
+
+/*
+================
+PICKUP
+================
+*/
+void() item_lava_spikes = {
+	item_spikes();
+};

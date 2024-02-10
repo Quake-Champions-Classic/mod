@@ -186,7 +186,7 @@ PLAYER WEAPON USE
 void() player_run;
 
 void() W_SetCurrentAmmo = {
-	// QCC
+	// Don't switch away from active abilities
 	if (self.weapon == QCC_ABILITY)
 		return;
 	
@@ -195,78 +195,77 @@ void() W_SetCurrentAmmo = {
 		self.th_run();
 	else
 		player_run();
+	
 	self.weaponframe = 0;
 
 	self.items = self.items - (self.items & (IT_SHELLS | IT_NAILS | IT_ROCKETS | IT_CELLS));
-	
-	if (self.weapon == IT_AXE) {
-		self.currentammo = 0;
-		self.weaponmodel = self.qccMeleeMdl;
-		self.weaponframe = 0;
-	}
-	else if (self.weapon == IT_SHOTGUN) {
-		self.currentammo = self.ammo_shells;
-		self.weaponmodel = "progs/v_shot.mdl";
-		self.items = self.items | IT_SHELLS;
-	}
-	else if (self.weapon == IT_SUPER_SHOTGUN) {
-		self.currentammo = self.ammo_shells;
-		self.weaponmodel = "progs/v_shot2.mdl";
-		self.items = self.items | IT_SHELLS;
-	}
-	else if (self.weapon == IT_NAILGUN) {
-		self.currentammo = self.ammo_nails;
-		self.weaponmodel = "progs/v_nail.mdl";
-		self.items = self.items | IT_NAILS;
-	}
-	else if (self.weapon == IT_SUPER_NAILGUN) {
-		self.currentammo = self.ammo_nails;
-		self.weaponmodel = "progs/v_nail2.mdl";
-		self.items = self.items | IT_NAILS;
-	}
-	else if (self.weapon == IT_GRENADE_LAUNCHER && !(self.qccAltWeapon)) { // hack to allow swapping between reg & prox
-		self.currentammo = self.ammo_rockets;
-		self.weaponmodel = "progs/v_rock.mdl";
-		self.items = self.items | IT_ROCKETS;
-	}
-	else if (self.weapon == IT_ROCKET_LAUNCHER)	{
-		self.currentammo = self.ammo_rockets;
-		self.weaponmodel = "progs/v_rock2.mdl";
-		self.items = self.items | IT_ROCKETS;
-	}
-	else if (self.weapon == IT_LIGHTNING) {
-		self.currentammo = self.ammo_cells;
-		self.weaponmodel = "progs/v_light.mdl";
-		self.items = self.items | IT_CELLS;
-	}
-	// HIP
-	else if (self.weapon == IT_LASER_CANNON) {
-		self.currentammo = self.ammo_cells;
-      	self.weaponmodel = "progs/v_laserg.mdl";
-		self.weaponframe = 0;
-		self.items = self.items | IT_CELLS;
-	}
-   	else if (self.weapon == IT_MJOLNIR) {
-		self.currentammo = self.ammo_cells;
-		self.weaponmodel = "progs/v_hammer.mdl";
-		self.weaponframe = 0;
-		self.items = self.items | IT_CELLS;
-  	}
-  	else if (self.weapon == IT_PROXIMITY_GUN && self.qccAltWeapon == 1) {
-		self.currentammo = self.ammo_rockets;
-		self.weaponmodel = "progs/v_prox.mdl";
-		self.weaponframe = 0;
-		self.items = self.items | IT_ROCKETS;
-   	}
-	// QCC
-	else if (self.weapon == QCC_IT_RAILGUN) {
-		self.currentammo = self.ammo_cells;
-		self.weaponmodel = "progs/v_rail.mdl";
-		self.items = self.items | IT_CELLS;
-	}
-	else {
-		self.currentammo = 0;
-		self.weaponmodel = string_null;
+	//self.items2 = self.items2 - (self.items2 & (QCC_IT2_BULLETS | QCC_IT2_BOLTS | QCC_IT2_SLUGS));
+
+	switch (self.weapon) {
+		case IT_AXE:
+			self.weaponmodel = self.qccMeleeMdl;
+			self.currentammo = 0;
+			self.weaponframe = 0;
+			break;
+		
+		case IT_SHOTGUN:
+		case IT_SUPER_SHOTGUN: {
+			if (self.weapon == IT_SUPER_SHOTGUN)
+				self.weaponmodel = "progs/v_shot2.mdl";
+			else
+				self.weaponmodel = "progs/v_shot.mdl";
+			self.currentammo = self.ammo_shells;
+			self.items = self.items | IT_SHELLS;
+			break;
+		}
+
+		case IT_NAILGUN:
+		case IT_SUPER_NAILGUN: {
+			if (self.weapon == IT_SUPER_NAILGUN)
+				self.weaponmodel = "progs/v_nail2.mdl";
+			else
+				self.weaponmodel = "progs/v_nail.mdl";
+			self.currentammo = self.ammo_nails;
+			self.items = self.items | IT_NAILS;
+			break;
+		}
+
+		case IT_GRENADE_LAUNCHER:
+		case IT_ROCKET_LAUNCHER:
+		case IT_PROXIMITY_GUN: {
+			if (self.weapon == IT_ROCKET_LAUNCHER)
+				self.weaponmodel = "progs/v_rock2.mdl";
+			else if (self.qccAltWeapon == 1)
+				self.weaponmodel = "progs/v_prox.mdl";
+			else
+				self.weaponmodel = "progs/v_rock.mdl";
+			self.currentammo = self.ammo_rockets;
+			self.items = self.items | IT_ROCKETS;
+			break;
+		}
+
+		case IT_LIGHTNING:
+			self.weaponmodel = "progs/v_light.mdl";
+			self.currentammo = self.ammo_cells;
+			self.items = self.items | IT_CELLS;
+			break;
+		
+		case IT_LASER_CANNON:
+			self.weaponmodel = "progs/v_laserg.mdl";
+			self.currentammo = self.ammo_cells;
+			self.items = self.items | IT_CELLS;
+			break;
+
+		case QCC_IT_RAILGUN:
+			self.weaponmodel = "progs/v_rail.mdl";
+			self.currentammo = self.ammo_slugs;
+			self.items = self.items | IT_CELLS;
+			break;
+		
+		default:
+			self.currentammo = 0;
+			self.weaponmodel = string_null;
+			break;
 	}
 };
 
@@ -280,21 +279,19 @@ float() W_BestWeapon = {
 	
 	it = self.items;
 
-	// QCC ----------------------------------------------
-	if (self.ammo_cells >= 15 && (it & QCC_IT_RAILGUN))
+	if (self.ammo_slugs > 0 && (it & QCC_IT_RAILGUN))
 		return QCC_IT_RAILGUN;
-	// --------------------------------------------------
-	if (self.waterlevel <= 1 && self.ammo_cells >= 1 && (it & IT_LIGHTNING))
+	if (self.waterlevel <= 1 && self.ammo_cells > 0 && (it & IT_LIGHTNING))
 		return IT_LIGHTNING;
-	else if (self.ammo_cells >= 1 && (it & IT_LASER_CANNON)) // HIP: MED
+	else if (self.ammo_cells > 0 && (it & IT_LASER_CANNON)) // HIP: MED
 		return IT_LASER_CANNON;
-	else if (self.ammo_nails >= 2 && (it & IT_SUPER_NAILGUN))
+	else if (self.ammo_nails > 1 && (it & IT_SUPER_NAILGUN))
 		return IT_SUPER_NAILGUN;
-	else if (self.ammo_shells >= 2 && (it & IT_SUPER_SHOTGUN))
+	else if (self.ammo_shells > 1 && (it & IT_SUPER_SHOTGUN))
 		return IT_SUPER_SHOTGUN;
-	else if (self.ammo_nails >= 1 && (it & IT_NAILGUN))
+	else if (self.ammo_nails > 0 && (it & IT_NAILGUN))
 		return IT_NAILGUN;
-	else if (self.ammo_shells >= 1 && (it & IT_SHOTGUN))
+	else if (self.ammo_shells > 0 && (it & IT_SHOTGUN))
 		return IT_SHOTGUN;
 	else if (it & IT_MJOLNIR) // HIP: MED
 		return IT_MJOLNIR;
@@ -375,72 +372,82 @@ void() W_Attack = {
 	if (self.weapon != IT_AXE)
 		self.fired_weapon = 1;
 
-	if (self.weapon == IT_AXE) {
-		sound(self, CHAN_WEAPON, self.qccSndMelee, 1, ATTN_NORM);
-		float r = random();
-		if (r < 0.25)
-			player_axe1();
-		else if (r<0.5)
-			player_axeb1();
-		else if (r<0.75)
-			player_axec1();
-		else
-			player_axed1();
-		self.attack_finished = time + 0.5;
-		// QCC -----------------------------------------------------------------------
-		if (self.qccChampion == QCC_DUSKDUDE) // Dusk Dude's sickles are fast in DUSK
-			self.attack_finished = time + 0.3;
-		// ---------------------------------------------------------------------------
-	}
-	else if (self.weapon == IT_SHOTGUN) {
-		player_shot1();
-		W_FireShotgun();
-		self.attack_finished = time + 0.5;
-	}
-	else if (self.weapon == IT_SUPER_SHOTGUN) {
-		player_shot1();
-		W_FireSuperShotgun();
-		self.attack_finished = time + 0.7;
-	}
-	else if (self.weapon == IT_NAILGUN || self.weapon == IT_SUPER_NAILGUN)
-		player_nail1();
-	else if (self.weapon == IT_GRENADE_LAUNCHER && !(self.qccAltWeapon)) {
-		player_rocket1();
-		W_FireGrenade();
-		self.attack_finished = time + 0.6;
-	}
-	else if (self.weapon == IT_ROCKET_LAUNCHER) {
-		player_rocket1();
-		W_FireRocket();
-		self.attack_finished = time + 0.8;
-	}
-	else if (self.weapon == IT_LIGHTNING) {
-		player_light1();
-		self.attack_finished = time + 0.1;
-		sound(self, CHAN_AUTO, "weapons/lstart.wav", 1, ATTN_NORM);
-	}
-	// QCC
-	else if (self.weapon == QCC_IT_RAILGUN) {
-		player_rocket1();
-		QCC_W_FireRail();
-		self.attack_finished = time + 1.5;
-	}
-	// HIP
-	else if (self.weapon == IT_LASER_CANNON)
-		player_laser1();
-	else if (self.weapon == IT_MJOLNIR) {
-		/*
-		if (self.ammo_cells < 30)
-			player_hammer1();
-		else
-			player_mjolnir1();
+	switch (self.weapon) {
+		case IT_AXE: {
+			sound(self, CHAN_WEAPON, self.qccSndMelee, 1, ATTN_NORM);
+			float r = random();
+			if (r < 0.25)
+				player_axe1();
+			else if (r<0.5)
+				player_axeb1();
+			else if (r<0.75)
+				player_axec1();
+			else
+				player_axed1();
+			self.attack_finished = time + 0.5;
+			if (self.qccChampion == QCC_DUSKDUDE) // Dusk Dude's sickles are fast in DUSK
+				self.attack_finished = time + 0.3;
+			return;
+		}
+
+		case IT_SHOTGUN:
+			player_shot1();
+			W_FireShotgun();
+			self.attack_finished = time + 0.5;
+			return;
+		
+		case IT_SUPER_SHOTGUN:
+			player_shot1();
+			W_FireSuperShotgun();
+			self.attack_finished = time + 0.7;
+			return;
+		
+		case IT_NAILGUN:
+		case IT_SUPER_NAILGUN:
+			player_nail1();
+			return;
+		
+		case IT_GRENADE_LAUNCHER: {
+			player_rocket1();
+			if (!self.qccAltWeapon)
+				W_FireGrenade();
+			else
+				W_FireProximityGrenade();
+			self.attack_finished = time + 0.6;
+			return;
+		}
+
+		case IT_ROCKET_LAUNCHER:
+			player_rocket1();
+			W_FireRocket();
 			self.attack_finished = time + 0.8;
-		*/
-	}
-	else if (self.weapon == IT_PROXIMITY_GUN) {
-		player_rocket1();
-		W_FireProximityGrenade();
-		self.attack_finished = time + 0.6;
+			return;
+		
+		case IT_LIGHTNING:
+			player_light1();
+			self.attack_finished = time + 0.1;
+			sound(self, CHAN_AUTO, "weapons/lstart.wav", 1, ATTN_NORM);
+			return;
+		
+		case QCC_IT_RAILGUN:
+			player_rocket1();
+			QCC_W_FireRail();
+			self.attack_finished = time + 1.5;
+			return;
+		
+		case IT_LASER_CANNON:
+			player_laser1();
+			return;
+		
+		case IT_MJOLNIR: {
+			/*
+			if (self.ammo_cells < 30)
+				player_hammer1();
+			else
+				player_mjolnir1();
+				self.attack_finished = time + 0.8;
+			*/
+		}
 	}
 };
 
@@ -494,13 +501,13 @@ void() W_ChangeWeapon = {
 		if (self.ammo_cells < 1)
 			am = 1;
 	}
-	// QCC: RAILGUN -----------------------------
+
 	else if (self.impulse == QCC_IM_RAILGUN) {
 		fl = QCC_IT_RAILGUN;
-		if (self.ammo_cells < 15)
+		if (self.ammo_slugs < 1)
 			am = 1;			
 	}
-	// HIP: MED ---------------------------------
+
 	else if (self.impulse == 37) {
 		fl = IT_LASER_CANNON;
 		if (self.ammo_cells < 1)
@@ -512,7 +519,7 @@ void() W_ChangeWeapon = {
 	*/
 	else if (self.impulse == 36) {
 		fl = IT_PROXIMITY_GUN;
-		aw = TRUE;
+		aw = 1;
 		if (self.ammo_rockets < 1)
 			am = 1;
 	}
@@ -616,7 +623,7 @@ void() CycleWeaponCommand = {
 		// QCC ---------------------------------------
 		else if (self.weapon == IT_LIGHTNING) {
 			self.weapon = QCC_IT_RAILGUN;
-			if (self.ammo_cells < 15)
+			if (self.ammo_slugs < 1)
 				am = 1;
 		}
 		else if (self.weapon == QCC_IT_RAILGUN) {
@@ -646,7 +653,7 @@ void() CycleWeaponReverseCommand = {
 		// QCC -----------------------------------
 		if (self.weapon == IT_LASER_CANNON) {
 			self.weapon = QCC_IT_RAILGUN;
-			if (self.ammo_cells < 15)
+			if (self.ammo_slugs < 1)
 				am = 1;
 		}
 		else if (self.weapon == QCC_IT_RAILGUN) {
@@ -736,3 +743,24 @@ void() W_WeaponFrame = {
 		self.qccAttackFunc();
 	}
 };
+
+/*
+================
+QCC_SpawnWeapons
+
+Used to spawn in QCC specific weapons, like the railgun, into maps without editing them
+================
+*/
+void(vector o) QCC_SpawnRailgun;
+
+void() QCC_SpawnWeapons = {
+    string m;
+    m = world.model;
+    if (m == "maps/dm3.bsp")
+        QCC_SpawnRailgun('-600 240 -40');
+    else if (m == "maps/dm5.bsp")
+       QCC_SpawnRailgun('-96 -768 192');
+    else if (m == "maps/dm7.bsp")
+        QCC_SpawnRailgun('640 -672 320');
+    return;
+}

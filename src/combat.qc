@@ -298,7 +298,7 @@ void(entity targ, entity inflictor, entity attacker, float damage) T_Damage = {
 		}
 		damage = ceil(damage * 0.33);
 	}
-	else if (targ.qccArmorType2 > 0) // Scalebearer and Clutch have special damage reduction abilities
+	else if (targ.qccArmorType2 > 0) // Scalebearer and Clutch have special damage reduction abilities, but don't let them stack with Pentagram
 		damage = ceil(damage * (1.0 - targ.qccArmorType2));
 
 	// save damage based on the target's armor level

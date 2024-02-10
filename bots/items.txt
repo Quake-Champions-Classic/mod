@@ -215,3 +215,13 @@
   name			"qcc_weapon_railgun"
   flags			weapon | ammo | cells
 }
+
+{ // Unholy Totem
+  name			"unholy_totem"
+  flags			health
+}
+
+{ // Life Essence
+  name			"life_essence"
+  flags			health
+}

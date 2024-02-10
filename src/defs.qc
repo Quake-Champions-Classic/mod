@@ -817,6 +817,7 @@ float		IT2_ANTIGRAV			= 128;
 float		IT2_EARTHQUAKE			= 512;			
 float		IT2_V_SPHERE			= 1024;
 
+
 // rogue globals!
 float		earthquake_active;
 float		earthquake_intensity;

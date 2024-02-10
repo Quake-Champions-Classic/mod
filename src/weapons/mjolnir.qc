@@ -197,3 +197,23 @@ void() HIP_FireMjolnir = {
 	}
 	self.attack_finished = time + 0.4;
 };
+
+/*
+================
+PICKUP
+================
+*/
+void() weapon_mjolnir = {
+	qcc_weapon_railgun();
+	self.classname = "qcc_weapon_railgun";
+	/*
+	precache_model("progs/g_hammer.mdl");
+	setmodel(self, "progs/g_hammer.mdl");
+	self.weapon = 4;
+	self.netname = "$qc_mjolnir";
+	self.items = IT_MJOLNIR;
+	self.touch = weapon_touch;
+	setsize(self, '-16 -16 0', '16 16 56');
+	StartItem();
+	*/
+};

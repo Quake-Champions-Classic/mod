@@ -71,7 +71,7 @@ void() QCC_ScalePreThink = {
     if (self.qccAbilityTimer < 0) // Bullrush speed
         topspd = 700;
     else
-        topspd = 425;
+        topspd = 450;
     
     if (self.waterlevel < 2) {
         //Scalebearer accelerates quickly when movement matches his view angle
@@ -184,7 +184,7 @@ void() QCC_BullRush =
     self.weaponmodel = 0;
     self.weaponframe = 0;
     self.attack_finished = time + 3;
-    self.qccArmorType2 = 0.5;
+    self.qccArmorType2 = 0.6;
     self.qccDoubleJump = TRUE;
     sound(self, CHAN_WEAPON, "scale/bullrush.wav", 1, ATTN_NORM);
 

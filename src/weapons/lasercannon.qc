@@ -140,3 +140,21 @@ void(float stat) HIP_FireLaser = {
 
 	self.punchangle_x = -1;
 };
+
+/*
+================
+PICKUP
+================
+*/
+void() weapon_laser_gun = {
+	precache_model("progs/g_laserg.mdl");
+	setmodel(self, "progs/g_laserg.mdl");
+	self.weapon = IT_LASER_CANNON;
+	if (ExtSupported("EX_SPRINT"))
+		self.netname = "$qc_laser_cannon";
+	else
+		self.netname = "Laser Cannon";
+	self.touch = weapon_touch;
+	setsize(self, '-16 -16 0', '16 16 56');
+	StartItem();
+};

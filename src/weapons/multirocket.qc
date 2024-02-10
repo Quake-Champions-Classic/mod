@@ -5,7 +5,6 @@
 //=============================================================================
 // Multi Rocket Code
 //=============================================================================
-
 void() MultiRocketExplode = {
 	float damg;
 	damg = 60;
@@ -145,4 +144,13 @@ void() W_FireMultiRocket = {
 	MultiRocketLaunch (-5, 3);
 	MultiRocketLaunch (5, 0);
 	MultiRocketLaunch (10, 1);
+};
+
+/*
+================
+PICKUP
+================
+*/
+void() item_multi_rockets = {
+	item_rockets();
 };

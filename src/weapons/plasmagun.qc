@@ -177,3 +177,11 @@ void() W_FirePlasma =  {
 	launch_plasma(self.origin + v_forward * 24 + '0 0 16', dir);
 };
 
+/*
+================
+PICKUP
+================
+*/
+void() item_plasma = {
+	item_cells();
+};

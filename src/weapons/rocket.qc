@@ -1,3 +1,8 @@
+/*
+================
+ROCKET LAUNCHER
+================
+*/
 void() T_MissileTouch = {
     // Don't explode on owner
 	if (other == self.owner)
@@ -66,4 +71,54 @@ void() W_FireRocket = {
 	missile.qccFlags |= QCC_FL_CANDEFLECT;
 
 	newmis = missile; // HIP: MED 11/09/96
+};
+
+/*
+================
+PICKUP
+================
+*/
+void() weapon_rocketlauncher = {
+	if (time < 2 && QCC_Rocket_to_Rail() == TRUE)
+		return;
+	precache_model("progs/g_rock2.mdl");
+	setmodel(self, "progs/g_rock2.mdl");
+	self.weapon = IT_ROCKET_LAUNCHER;
+	if (ExtSupported("EX_SPRINT"))
+		self.netname = "$qc_rocket_launcher";
+	else
+		self.netname = "Rocket Launcher";
+	self.touch = weapon_touch;
+	setsize(self, '-16 -16 0', '16 16 56');
+	StartItem();
+};
+
+void() qcc_item_slugs;
+void() item_rockets = {
+	// QCC: railgun ammo for Ziggurat Vertigo
+	if (world.model == "maps/e1m8.bsp") {
+		qcc_item_slugs();
+		return;
+	}
+	self.touch = ammo_touch;
+
+	if (self.spawnflags & WEAPON_BIG2) {
+		precache_model("maps/b_rock1.bsp");
+		setmodel(self, "maps/b_rock1.bsp");
+		self.aflag = 10;
+	}
+	else {
+		precache_model("maps/b_rock0.bsp");
+		setmodel(self, "maps/b_rock0.bsp");
+		self.aflag = 5;
+	}
+
+	self.weapon = IT_ROCKETS;
+
+	if (ExtSupported("EX_SPRINT"))
+		self.netname = "$qc_rockets";
+	else
+		self.netname = "rockets";
+	setsize(self, '0 0 0', '32 32 56');
+	StartItem();
 };

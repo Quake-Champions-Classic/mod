@@ -261,7 +261,7 @@
   priority		7
   ammo			cells
   ammo_name		"ammo_cells"
-  min_ammo		6
+  min_ammo		10
   max_ammo		150
   flags			hitscan
   aim_point		head

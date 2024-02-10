@@ -76,9 +76,32 @@ void(entity targ, entity attacker, entity inflictor) ClientObituary = {
 
 					return;
 				}
-				if (targ.weapon == IT_GRENADE_LAUNCHER)
-					bprint("$qc_suicide_pin", targ.netname);
-				else if (rnum > 0.4)
+				if (targ.weapon == IT_GRENADE_LAUNCHER) {
+					bprint("$qc_suicide_pin", targ.netname); 
+					return;
+				}
+				
+				if (targ.weapon == QCC_ABILITY) {
+					switch (targ.qccChampion) {
+					case QCC_DUKENUKEM: 
+						bprint(" devastated theirself.\n"); 
+						return;
+					case QCC_CALEB: 
+						bprint(" didn't pay attention to the fuse.\n"); 
+						return;
+					}
+				}
+				if (inflictor.classname == "flamestrike") {
+					bprint("'s Incendimus backfired.\n");
+					return;
+				}
+				if (inflictor.classname == "keelgrenade" || inflictor.classname == "keelminigrenade") {
+					bprint(" choked on his own pineapples.\n");
+					return;
+				}
+				
+				// Probably a rocket launcher
+				if (rnum > 0.4)
 					bprint("$qc_suicide_bored", targ.netname);
 				else
 					bprint("$qc_suicide_loaded", targ.netname);
@@ -163,6 +186,13 @@ void(entity targ, entity attacker, entity inflictor) ClientObituary = {
 					bprint(" was melted down by ");
 					bprint(attacker.netname);
 					bprint("'s acid spit\n");
+					return;
+				}
+				else if (inflictor.classname == "unholy_totoem") {
+					bprint(targ.netname);
+					bprint(" was cursed by ");
+					bprint(attacker.netname);
+					bprint("'s unholy totem.\n");
 					return;
 				}
 				if (inflictor.classname == "dynamite") {
@@ -289,7 +319,7 @@ void(entity targ, entity attacker, entity inflictor) ClientObituary = {
 					deathstring2 = "'s rail\n";
 					if (targ.health < -40) {
 						deathstring = " was gibbed by ";
-						deathstring2 = "'s rail\n" ;
+						deathstring2 = "'s rail\n";
 					}
 					bprint(targ.netname);
 					bprint(deathstring);
@@ -428,8 +458,7 @@ ClientObituaryOld
 for backwards compatibility
 ===============================================
 */
-void(entity targ, entity attacker, entity inflictor) ClientObituaryOld =
-{
+void(entity targ, entity attacker, entity inflictor) ClientObituaryOld = {
 	local	float rnum;
 	local	string deathstring, deathstring2;
 	rnum = random();
@@ -485,9 +514,32 @@ void(entity targ, entity attacker, entity inflictor) ClientObituaryOld =
 					bprint(" discharges into the water.\n");
 					return;
 				}
-				if (targ.weapon == IT_GRENADE_LAUNCHER)
+				if (targ.weapon == IT_GRENADE_LAUNCHER) {
 					bprint(" tries to put the pin back in\n");
-				else if (rnum > 0.4)
+					return;
+				}
+
+				if (targ.weapon == QCC_ABILITY) {
+					switch (targ.qccChampion) {
+						case QCC_DUKENUKEM: 
+							bprint(" devastated theirself.\n"); 
+							return;
+						case QCC_CALEB: 
+							bprint(" didn't pay attention to the fuse.\n"); 
+							return;
+					}
+				}
+				if (inflictor.classname == "flamestrike") {
+					bprint("'s Incendimus backfired.\n");
+					return;
+				}
+				if (inflictor.classname == "keelgrenade" || inflictor.classname == "keelminigrenade") {
+					bprint(" choked on his own pineapples.\n");
+					return;
+				}
+
+				// Probably a rocket launcher
+				if (rnum > 0.4)
 					bprint(" becomes bored with life\n");
 				else
 					bprint(" checks if their weapon is loaded\n"); // HIP: JIM
@@ -561,6 +613,10 @@ void(entity targ, entity attacker, entity inflictor) ClientObituaryOld =
                 else if (inflictor.classname == "acidspit") {
 					deathstring = " was melted down by ";
 					deathstring2 = "'s acid spit\n";
+				}
+				else if (inflictor.classname == "unholy_totoem") {
+					deathstring = " was cursed by ";
+					deathstring2 = "'s unholy totem.\n";
 				}
 				else if (inflictor.classname == "dynamite") {
 					deathstring = " was turned into barbecue by ";

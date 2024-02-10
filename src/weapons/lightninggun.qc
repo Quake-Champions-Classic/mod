@@ -81,3 +81,45 @@ void() W_FireLightning = {
 
 	LightningDamage(self.origin, trace_endpos + v_forward * 4, self, 13);
 };
+
+/*
+================
+PICKUP
+================
+*/
+void() weapon_lightning = {
+	precache_model("progs/g_light.mdl");
+	setmodel(self, "progs/g_light.mdl");
+	self.weapon = IT_LIGHTNING;
+	if (ExtSupported("EX_SPRINT"))
+		self.netname = "$qc_thunderbolt";
+	else
+		self.netname = "Thunderbolt";
+	self.touch = weapon_touch;
+	setsize(self, '-16 -16 0', '16 16 56');
+	StartItem();
+};
+
+void() item_cells = {
+	self.touch = ammo_touch;
+
+	if (self.spawnflags & WEAPON_BIG2) {
+		precache_model("maps/b_batt1.bsp");
+		setmodel(self, "maps/b_batt1.bsp");
+		self.aflag = 50;
+	}
+	else {
+		precache_model("maps/b_batt0.bsp");
+		setmodel(self, "maps/b_batt0.bsp");
+		self.aflag = 25;
+	}
+	self.weapon = IT_CELLS;
+
+	if (ExtSupported("EX_SPRINT"))
+		self.netname = "$qc_cells";
+	else
+		self.netname = "cells";
+    
+	setsize(self, '0 0 0', '32 32 56');
+	StartItem();
+};

@@ -31,6 +31,7 @@ items/it_keys.qc
 items/it_runes.qc
 items/it_powerups.qc
 items/it_backpacks.qc
+items/it_hourglass.qc
 
 weapons/weapons.qc
 client/impulse.qc
@@ -38,8 +39,8 @@ weapons/axe.qc
 weapons/shotgun.qc
 weapons/nailgun.qc
 weapons/grenade.qc
-weapons/rocket.qc
 weapons/lightninggun.qc
+weapons/rocket.qc
 weapons/proxgun.qc
 weapons/lasercannon.qc
 weapons/mjolnir.qc
@@ -48,8 +49,9 @@ weapons/multigrenade.qc
 weapons/multirocket.qc
 weapons/plasmagun.qc
 
-qcc/qccweapons.qc
-qcc/qccitems.qc
+weapons/hmg.qc
+weapons/tribolt.qc
+weapons/railgun.qc
 
 misc/fog.qc
 world.qc

@@ -1,3 +1,8 @@
+/*
+=======================================
+NAILGUN
+=======================================
+*/
 void() spike_touch = {
     float damg = 12;
 
@@ -131,4 +136,65 @@ void(float ox) W_FireSpikes = {
 	
     sound(self, CHAN_WEAPON, "weapons/rocket1i.wav", 1, ATTN_NORM);
 	self.punchangle_x = -2;
+};
+
+/*
+================
+PICKUP
+================
+*/
+void() weapon_nailgun = {
+	if (!deathmatch) {
+		if (world.model == "maps/e4m1.bsp" || world.model == "maps/end.bsp") {
+			qcc_weapon_railgun();
+			return;
+		}
+  	}
+	precache_model("progs/g_nail.mdl");
+	setmodel(self, "progs/g_nail.mdl");
+	self.weapon = IT_NAILGUN;
+	if (ExtSupported("EX_SPRINT"))
+		self.netname = "$qc_nailgun";
+	else
+		self.netname = "nailgun";
+	self.touch = weapon_touch;
+	setsize(self, '-16 -16 0', '16 16 56');
+	StartItem();
+};
+
+void() weapon_supernailgun = {
+	precache_model("progs/g_nail2.mdl");
+	setmodel(self, "progs/g_nail2.mdl");
+	self.weapon = IT_SUPER_NAILGUN;
+	if (ExtSupported("EX_SPRINT"))
+		self.netname = "$qc_super_nailgun";
+	else
+		self.netname = "Super Nailgun";
+	self.touch = weapon_touch;
+	setsize(self, '-16 -16 0', '16 16 56');
+	StartItem();
+};
+
+void() item_spikes = {
+	self.touch = ammo_touch;
+
+	if (self.spawnflags & WEAPON_BIG2) {
+		precache_model("maps/b_nail1.bsp");
+		setmodel(self, "maps/b_nail1.bsp");
+		self.aflag = 50;
+	}
+	else {
+		precache_model("maps/b_nail0.bsp");
+		setmodel(self, "maps/b_nail0.bsp");
+		self.aflag = 25;
+	}
+	self.weapon = IT_NAILS;
+
+	if (ExtSupported("EX_SPRINT"))
+		self.netname = "$qc_nails";
+	else
+		self.netname = "nails";
+    
+	setsize(self, '0 0 0', '32 32 56');
+	StartItem();
 };

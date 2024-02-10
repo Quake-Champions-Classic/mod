@@ -48,3 +48,45 @@ void() W_FireSuperShotgun = {
 	dir = aim(self, 100000);
 	FireBullets(30, dir, '0.14 0.08 0');
 };
+
+/*
+================
+PICKUP
+================
+*/
+void() weapon_supershotgun = {
+	precache_model("progs/g_shot.mdl");
+	setmodel(self, "progs/g_shot.mdl");
+	self.weapon = IT_SUPER_SHOTGUN;
+	if (ExtSupported("EX_SPRINT"))
+		self.netname = "$qc_double_shotgun";
+	else
+		self.netname = "Double-barrelled Shotgun";
+	self.touch = weapon_touch;
+	setsize(self, '-16 -16 0', '16 16 56');
+	StartItem();
+};
+
+void() item_shells = {
+	self.touch = ammo_touch;
+
+	if (self.spawnflags & WEAPON_BIG2) {
+		precache_model("maps/b_shell1.bsp");
+		setmodel(self, "maps/b_shell1.bsp");
+		self.aflag = 10;
+	}
+	else {
+		precache_model("maps/b_shell0.bsp");
+		setmodel(self, "maps/b_shell0.bsp");
+		self.aflag = 5;
+	}
+	self.weapon = IT_SHELLS;
+
+	if (ExtSupported("EX_SPRINT"))
+		self.netname = "$qc_shells";
+	else
+		self.netname = "shells";
+    
+	setsize(self, '0 0 0', '32 32 56');
+	StartItem();
+};
