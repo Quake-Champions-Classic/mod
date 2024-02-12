@@ -39,14 +39,14 @@ void(entity targ, entity attacker, entity inflictor) ClientObituary = {
 			// ----------------------------------------------------------------------
 			else
 				bprint("$qc_telefragged", targ.netname, attacker.owner.netname);
-
-			attacker.owner.frags = attacker.owner.frags + 1;
+			
+			add_frag(attacker.owner, 1);
 			return;
 		}
 
 		if (attacker.classname == "teledeath2") {
 			bprint("$qc_satans_power", targ.netname);
-			targ.frags = targ.frags - 1;
+			add_frag(targ, -1);
 			return;
 		}
 
@@ -61,10 +61,9 @@ void(entity targ, entity attacker, entity inflictor) ClientObituary = {
 		if (attacker.classname == "player") {
 			if (targ == attacker) {
 				// killed self
-				attacker.frags = attacker.frags - 1;
+				add_frag(attacker, -1);
 				
-				if (targ.weapon == 64 && targ.waterlevel > 1)
-				{
+				if (targ.weapon == 64 && targ.waterlevel > 1) {
 					if (targ.watertype == CONTENT_SLIME)
 						bprint("$qc_discharge_slime", targ.netname);
 
@@ -117,11 +116,11 @@ void(entity targ, entity attacker, entity inflictor) ClientObituary = {
 				else
 					bprint("$qc_ff_friend", attacker.netname);
 
-				attacker.frags = attacker.frags - 1;
+				add_frag(attacker, -1);
 				return;
 			}
 			else {
-				attacker.frags = attacker.frags + 1;
+				add_frag(attacker, 1);
 
 				// HIP ---------------------------------------------------------------------
 				//MED 01/19/97
@@ -374,7 +373,7 @@ void(entity targ, entity attacker, entity inflictor) ClientObituary = {
 			return;
 		}
 		else {
-			targ.frags = targ.frags - 1;		// killed self
+			add_frag(targ, -1);		// killed self
 			rnum = targ.watertype;
 
 			// HIP: JIM ---------------------------------------
@@ -387,15 +386,15 @@ void(entity targ, entity attacker, entity inflictor) ClientObituary = {
 			// ROGUE -------------------------------------------------
 			if (attacker.classname == "Vengeance") {
 				// vengeance sphere doesn't count as a negative frag
-				targ.frags = targ.frags + 1;
+				add_frag(targ, 1);
 				bprint("$qc_death_vengeance", targ.netname);
 				return;
 			}
 			if (attacker.classname == "power_shield") {
 				// shield attacks should count for frags too..
 				// shield death doesn't count as a negative frag
-				targ.frags = targ.frags + 1;
-				attacker.owner.frags = attacker.owner.frags + 1;
+				add_frag(targ, 1);
+				add_frag(attacker.owner, 1);
 				bprint("$qc_death_smashed", targ.netname, attacker.owner.netname);
 				return;
 			}
@@ -482,7 +481,7 @@ void(entity targ, entity attacker, entity inflictor) ClientObituaryOld = {
 				bprint(attacker.owner.netname);
 			}
 			bprint("\n");
-			attacker.owner.frags = attacker.owner.frags + 1;
+			add_frag(attacker.owner, 1);
 			return;
 		}
 
@@ -490,7 +489,7 @@ void(entity targ, entity attacker, entity inflictor) ClientObituaryOld = {
 			bprint("Satan's power deflects ");
 			bprint(targ.netname);
 			bprint("'s telefrag\n");
-			targ.frags = targ.frags - 1;
+			add_frag(targ, -1);
 			return;
 		}
 
@@ -507,7 +506,7 @@ void(entity targ, entity attacker, entity inflictor) ClientObituaryOld = {
 		if (attacker.classname == "player") {
 			if (targ == attacker) {
 				// killed self
-				attacker.frags = attacker.frags - 1;
+				add_frag(attacker, -1);
 				bprint(targ.netname);
 				
 				if (targ.weapon == IT_LIGHTNING && targ.waterlevel > 1) {
@@ -556,11 +555,11 @@ void(entity targ, entity attacker, entity inflictor) ClientObituaryOld = {
 					deathstring = " loses another friend\n";
 				bprint(attacker.netname);
 				bprint(deathstring);
-				attacker.frags = attacker.frags - 1;
+				add_frag(attacker, -1);
 				return;
 			}
 			else {
-				attacker.frags = attacker.frags + 1;
+				add_frag(attacker, 1);
 
 				// HIP START -------------------------------------------------
 				//MED 01/19/97
@@ -753,7 +752,7 @@ void(entity targ, entity attacker, entity inflictor) ClientObituaryOld = {
 			return;
 		}
 		else {
-			targ.frags = targ.frags - 1;
+			add_frag(targ, -1);
 			bprint(targ.netname);
 
 			// HIP: JIM ----------------------------
@@ -768,15 +767,15 @@ void(entity targ, entity attacker, entity inflictor) ClientObituaryOld = {
 			// ROGUE -------------------------------------------------
 			if (attacker.classname == "Vengeance") {
 				// vengeance sphere doesn't count as a negative frag
-				targ.frags = targ.frags + 1;
+				add_frag(targ, 1);
 				bprint(" was purged by the Vengeance Sphere\n");
 				return;
 			}
 			if (attacker.classname == "power_shield") {
 				// shield attacks should count for frags too..
 				// shield death doesn't count as a negative frag
-				targ.frags = targ.frags + 1;
-				attacker.owner.frags = attacker.owner.frags + 1;
+				add_frag(targ, 1);
+				add_frag(attacker.owner, 1);
 				bprint(" was smashed by ");
 				bprint(attacker.owner.netname);
 				return;

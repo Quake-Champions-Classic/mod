@@ -115,7 +115,7 @@ void() QCC_TotemTouch = {
 			if (head.takedamage) {
 				if (head != self.owner) {
 					if (head.flags & FL_MONSTER)
-						T_Damage(head, self, self.owner, damg * 4);
+						T_Damage(head, self, self.owner, head.max_health + damg);
 					else
 						T_Damage(head, self, self.owner, damg);
 				}
@@ -167,11 +167,12 @@ void() QCC_TotemProc = [0, QCC_TotemProc] {
 	// Hitbox child is smaller than AoE of Totem
 	entity totem_hitbox = spawn();
 	totem_hitbox.classname = "totem_hitbox";
+	totem_hitbox.qccFlags |= QCC_FL_ABILITY;
 	totem_hitbox.owner = self;
-	totem_hitbox.solid = SOLID_TRIGGER;
+	totem_hitbox.solid = SOLID_BBOX;
 	totem_hitbox.takedamage = DAMAGE_AIM;
 	totem_hitbox.health = 25;
-	setsize(totem_hitbox, '-6 -6 0', '6 6 20');
+	setsize(totem_hitbox, '-3 -3 0', '3 3 7');
 	setorigin(totem_hitbox, self.origin);
 	totem_hitbox.th_die = QCC_TotemDie;
 
@@ -225,7 +226,7 @@ void() QCC_TotemThrow = {
 	totem.owner = self;
 	totem.team = self.team;
 	totem.qccAbilityEntCt = self.qccAbilityEntCt;
-	totem.qccFlags = QCC_FL_ABILITY;
+	totem.qccFlags |= QCC_FL_ABILITY;
 
 	totem.movetype = MOVETYPE_TOSS;
 	totem.solid = SOLID_BBOX;
@@ -236,6 +237,7 @@ void() QCC_TotemThrow = {
 	setmodel(totem, "progs/w_totem.mdl");
 	setsize(totem, '0 0 0', '0 0 0');
 	setorigin(totem, self.origin);
+	totem.skin = self.skin % 5;
 
     totem.think = QCC_TotemProc;
     totem.nextthink = time + 0.1;

@@ -89,6 +89,7 @@ void() QCC_DynaOops = {
 
     // Blow up the dynamite on Caleb
     self.owner.qccAbilityEnt = world;
+    self.owner.th_pain = player_pain;
     self.owner.th_die = PlayerDie;
     setorigin(self, self.owner.origin);
     T_Damage(self.owner, self, self.owner, 150);
@@ -198,22 +199,31 @@ void() caleb_dynapain2 = [161, caleb_dynapain2] {
 }
 
 void() caleb_dynadeath = [167, caleb_dynadeath2] {
-    self.walkframe = self.frame;
+    if (self.qccAbilityEnt != world) {
+        remove(self.qccAbilityEnt);
+        self.qccAbilityEnt = world;
+    }
+    self.th_pain = player_pain;
+    self.th_die = PlayerDie;
+    self.walkframe = 168;
     QCC_DeathCommon();
 }
 void() caleb_dynadeath2 = [168, caleb_dynadeath2] {
-    if (self.walkframe < 176) {
+    if (self.walkframe < 175) {
         self.frame = self.walkframe;
         self.walkframe += 1;
         return;
     }
     sound(self, CHAN_WEAPON, "silence.wav", 1, ATTN_NORM);
     self.health = -99;
+    self.nextthink = -1;
 	GibPlayer();
-	self.think = PlayerDead;
-    newmis = spawn();
-    newmis.think = BecomeExplosion;
-    newmis.nextthink = time;
+    entity bomb;
+    bomb = spawn();
+    setsize(bomb, '0 0 0', '0 0 0');		
+	setorigin(bomb, self.origin);
+    bomb.think = QCC_DynaBlow;
+    bomb.nextthink = time;
 }
 
 void() caleb_dynastand = [143, caleb_dynastand] {
@@ -344,21 +354,24 @@ void(entity targ, entity attacker) QCC_DropLifeEssence = {
         return;
     
     entity e;
-    e = spawn();
-    e.classname = "life_essence";
-    e.owner = attacker;
-    e.team = attacker.team;
-    setmodel(e, "progs/lifeessence.mdl");
-    setsize(e, VEC_HULL_MIN, VEC_HULL_MAX);
-    e.flags = FL_ITEM;
-	e.solid = SOLID_TRIGGER;
-    setorigin(e, targ.origin);
-    e.qccFlags |= QCC_FL_THROWABLE;
-	e.healamount = 25;
-    e.qccAbilityTimer = time + 30;
-    e.touch = QCC_LifeEssenceTouch;
-    e.think = QCC_LifeEssenceProc;
-    e.nextthink = time;
+    traceline(targ.origin, targ.origin + '0 0 -500', TRUE, targ);
+    if (trace_fraction < 1) {
+        e = spawn();
+        e.classname = "life_essence";
+        e.owner = attacker;
+        e.team = attacker.team;
+        setmodel(e, "progs/lifeessence.mdl");
+        setsize(e, VEC_HULL_MIN, VEC_HULL_MAX);
+        e.flags = FL_ITEM;
+        e.solid = SOLID_TRIGGER;
+        setorigin(e, trace_endpos);
+        e.qccFlags |= QCC_FL_THROWABLE;
+        e.healamount = 25;
+        e.qccAbilityTimer = time + 30;
+        e.touch = QCC_LifeEssenceTouch;
+        e.think = QCC_LifeEssenceProc;
+        e.nextthink = time;
+    }
 }
 
 /*

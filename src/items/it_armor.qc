@@ -70,7 +70,7 @@ void() qcc_armor_touch = {
         }
         else 
 #endif
-        if (deathmatch && deathmatch != 2) {
+        if (deathmatch) {
             self.nextthink = time + 30;
             self.think = SUB_regen;
         }

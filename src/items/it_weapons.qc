@@ -123,7 +123,7 @@ void() weapon_touch = {
 	activator = other;
 	SUB_UseTargets();
 
-	if (coop || deathmatch == 2 || deathmatch == 3 || deathmatch == 5) {
+	if (coop) {
 		if (other.items & self.weapon || other.qccItems3 & self.weapon) {
 			self.target = string_null;
 			return;
@@ -233,8 +233,11 @@ void() weapon_touch = {
 	self.model = string_null;
 	self.solid = SOLID_NOT;
 
-	if (deathmatch && deathmatch != 2) {
-		self.nextthink = time + 30;
+	if (deathmatch) {
+		if (deathmatch == 2) // Duel
+			self.nextthink = time + 5;
+		else // Free For All or TDM
+			self.nextthink = time + 1;
 		self.think = SUB_regen;
 	}
 	else if (self.wait) {

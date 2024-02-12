@@ -150,24 +150,19 @@ void() ammo_touch = {
 		self.cnt++;
         //Not been picked up by all players yet.
 		if (self.cnt < num_players) {
-			self.nextthink = time + 1; 
-			self.think = SUB_regen; // Respawn almost immediately
+			self.nextthink = time + 1;
 		}
         // Respawn after 4 mins in case the players get stuck on something hard.
 		else {
 			self.enemy = world;
 			self.cnt = 0;
 			self.nextthink = time + 4 * 60;
-			self.think = SUB_regen;
 		}
 	}
 	else 
 #endif
 	if (deathmatch)	{
-		if (deathmatch == 3 || deathmatch == 5)
-			self.nextthink = time + 15;
-		else if (deathmatch != 2)
-			self.nextthink = time + 30;
+		self.nextthink = time + 20;
 	}
 	else if (self.wait)	{
 		self.enemy = world;

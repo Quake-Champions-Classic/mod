@@ -456,6 +456,7 @@ void() QCC_PlasmaTrailProc = {
 	entity ent;	
 	ent = spawn();	
 	setmodel(ent, "progs/w_plastrail.mdl");
+	ent.skin = self.owner.skin % 5;
 	
 	ent.solid = SOLID_TRIGGER;
 	setsize(ent, '-20 -15 -15', '20 15 15');

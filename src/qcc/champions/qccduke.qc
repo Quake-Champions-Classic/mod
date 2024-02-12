@@ -121,7 +121,7 @@ QCC: DEVASTATOR
 ======================================================
 */
 float() DevastatorEnd = {
-    if (time > self.qccAbilityTimer - 45) {
+    if (time > self.qccAbilityTimer - QCC_GLOBAL_COOLDOWN) {
         QCC_RestoreWeapon();
         self.th_pain = player_pain;
         return 1;

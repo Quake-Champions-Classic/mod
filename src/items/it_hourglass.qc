@@ -28,7 +28,7 @@ void() qcc_hourglass_touch = {
         return;
     }
 
-    if (deathmatch && deathmatch != 2) // deathmatch 2 is silly old rules
+    if (deathmatch)
 		self.nextthink = time + 20;
 
 #ifdef COOP_RESPAWN_ITEMS_FOR_PLAYERS		

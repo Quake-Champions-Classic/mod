@@ -20,6 +20,8 @@ void() ClientConnect = {
 		self.qccChampion = self.qccNextChampion;
 		parm16 = self.qccChampion;
 		self.qccSkin = rint(random() * 32768);
+		if (deathmatch >= QCC_TDM)
+			self.qccSkin = self.qccSkin % 2 + 1; // Red Team or Blue Team
 		parm15 = self.qccSkin;
 	}
 

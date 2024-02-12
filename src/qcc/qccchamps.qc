@@ -306,8 +306,11 @@ void() QCC_PreThinkImpulse = {
 void(float max_skins) QCC_SetSkin = {
 	self.qccMaxSkins = max_skins;
 	self.qccSkin = self.qccSkin % self.qccMaxSkins;
-	// Team play sets skins accordingly; Most engines automatically set team based upon pants color
-	if (teamplay > 0 && self.team > -1 && !coop) {
+	// Team play sets skins accordingly
+	if (deathmatch >= QCC_TDM && !coop) {
+		self.team = self.qccSkin % QCC_MAX_TEAMS;
+		if (self.team < QCC_TEAM_RED)
+			self.team = QCC_TEAM_RED;
 		self.skin = self.team % self.qccMaxSkins;
 		// Doom Slayer on Green Team should be green, not black
 		if (self.qccChampion == QCC_DOOMSLAYER && self.team == 4)
@@ -324,7 +327,7 @@ void() QCC_SwapTeam = {
 
 	self.team += 1;
 	if (self.team >= QCC_MAX_TEAMS)
-		self.team = 0;
+		self.team = QCC_TEAM_RED;
 	
 	self.qccSkin = self.team;
 	if (self.qccSkin >= self.qccMaxSkins)
@@ -349,7 +352,7 @@ void() QCC_SwapTeam = {
 	}
 
 	if (ExtSupported("EX_BPRINT"))
-		bprint("{} has joined the {} Team\n", self.netname);
+		bprint("{} has joined the {} Team\n", self.netname, team_color);
 	else {
 		bprint(self.netname);
 		bprint(" has joined the ");

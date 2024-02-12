@@ -105,7 +105,7 @@ void(entity targ, entity attacker, entity inflictor) Killed = {
 	if (cvar("horde") && (attacker.classname) == "player" && (targ.classname == "player")) {
 		dprint("punish teamkill\n");
 		attacker.killtime = 0;
-		attacker.frags -= 2;
+		add_frag(attacker, -2);
 	}
 	
 	// bump the monster counter
@@ -161,9 +161,10 @@ void(entity targ, entity attacker, entity inflictor) Killed = {
 		}
 
 		if (attacker.classname == "player") {
-			attacker.frags = attacker.frags + 1;
+			add_frag(attacker, 1);
 			// Monster kills cool down the ability timer because it's fun to use abilities more than once in a SP map
-			if (attacker.qccAbilityTimer <= time + QCC_GLOBAL_COOLDOWN)
+			// Just don't offer cooldowns when using abilities to do the killing
+			if (!(inflictor.qccFlags & QCC_FL_ABILITY) && attacker.qccAbilityTimer > -1 && attacker.qccAbilityTimer <= time + QCC_GLOBAL_COOLDOWN)
 				QCC_AbilityCooldown(attacker);
 		}
 		
@@ -240,11 +241,7 @@ void(entity targ, entity inflictor, entity attacker, float damage) T_Damage = {
 	// shub kill crash fix.
 	if (targ.classname == "monster_oldone" && damage < 9999)
 		return;
-	
-	// Halve self damage for Ranger
-	if (targ.qccChampion == QCC_RANGER && targ == attacker)
-		damage = damage / 2;
-	
+		
 	if (targ.classname == "trigger_explosion") {
 		if (IsExplosionDamage != 1)
 			return;
@@ -267,10 +264,28 @@ void(entity targ, entity inflictor, entity attacker, float damage) T_Damage = {
 	if ((inflictor != world) && (targ.movetype == MOVETYPE_WALK)) {
 		dir = targ.origin - (inflictor.absmin + inflictor.absmax) * 0.5;
 		dir = normalize(dir);
-		if (targ.qccSelfDamage != 0 && targ == attacker) // allow Ranger and Keel to rocket jump normally
-			targ.velocity += dir * (damage / targ.qccSelfDamage) * 4;
+		targ.velocity += dir * damage * 8;
+	}
+
+	// Self damage reduction
+	if (targ == attacker) {
+		if (targ.qccSelfDamage != 0)
+			damage = ceil(damage * targ.qccSelfDamage);
 		else
-			targ.velocity += dir * damage * 8;
+			damage /= 2;
+	}
+
+	if (targ != attacker && targ.team == attacker.team) {
+		if (teamplay) // Don't hurt team mates!
+			return;
+		if (targ.qccFlags & QCC_FL_ABILITY) // Don't hurt your team's ability spawns (Totems, turrets, etc...)
+			return;
+	}
+
+	// Don't hurt your own ability spawns (Totems, turrets, etc...)
+	if (targ.qccFlags & QCC_FL_ABILITY) {
+		if (targ.owner == attacker || targ.owner.owner == attacker)
+			return;
 	}
 
 	// check for quad damage powerup on the attacker
@@ -329,10 +344,6 @@ void(entity targ, entity inflictor, entity attacker, float damage) T_Damage = {
         	self.empathy_sound = time + 0.5;
 		}
 	}
-
-	// team play damage avoidance
-	if ((teamplay == 1 && targ != attacker) && (targ.team > 0) && (targ.team == attacker.team))
-		return;
 	
 	// MG1: special case for killable chthon (yoder, december 16 2020)
 	if ((targ.classname == "monster_boss")) { // is killable chthon
@@ -489,13 +500,6 @@ void(entity inflictor, entity attacker, float damage, entity ignore) T_RadiusDam
 			if (points < 0)
 				points = 0;
 			points = damage - points;
-
-			if (head == attacker) {
-				if (self.qccSelfDamage != 0)
-					points = points * self.qccSelfDamage;
-				else
-					points *= 0.5;
-			}
 
 			if ((inflictor.qccFlags & QCC_FL_ABILITY) && (head.flags & FL_MONSTER))
 				points *= 4;

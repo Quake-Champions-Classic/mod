@@ -28,6 +28,9 @@ void CheatCommand() {
 	self.healthrot_nextcheck = time + 3;
 	self.armorvalue = self.qccMaxArmor + 75;
 	self.qccArmorRot_nextcheck = time + 3;
+	self.ammo_bullets = 150;
+	self.ammo_bolts = 15;
+	self.ammo_slugs = 10;
 	self.items = self.items | QCC_IT_RAILGUN;
 	self.qccAbilityTimer = 0;
 	// ------------------------------------------------

@@ -55,8 +55,7 @@ void() key_setsounds = {
 };
 
 // Silver Key
-void() item_key1 =
-{
+void() item_key1 = {
 	if (world.worldtype == WORLDTYPE_MEDIEVAL) {
 		precache_model("progs/w_s_key.mdl");
 		setmodel(self, "progs/w_s_key.mdl");

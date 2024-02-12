@@ -91,7 +91,7 @@ void() ClientKill = {
 	else {
 		set_suicide_frame();
 		self.modelindex = self.modelindex_champ;
-		self.frags = self.frags - 2; // Extra penalty
+		add_frag(self, -2); // Extra penalty
 		respawn();
 	}
 };

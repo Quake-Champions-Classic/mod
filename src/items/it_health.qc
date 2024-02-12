@@ -95,9 +95,8 @@ void() health_touch = {
 	
 	self.model = string_null;
 	self.solid = SOLID_NOT;
-
-    // Deathmatch 2 is silly old rules
-	if (deathmatch && deathmatch != 2) {
+	
+	if (deathmatch) {
 		if (self.healtype == 2)
 			self.nextthink = time + 30; // QCC: Reduced to 30 seconds because QUAKE CHAMPIONS
 		else

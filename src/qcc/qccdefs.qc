@@ -126,6 +126,7 @@ float QCC_GLOBAL_COOLDOWN = 60;
 float QCC_LIGHT = 0;
 float QCC_MEDIUM = 1;
 float QCC_HEAVY = 2;
+
 // Impulses
 float QCC_IM_ABILITY = 22;
 float QCC_IM_PICK_CHAMP = 23;
@@ -135,6 +136,7 @@ float QCC_IM_PREV_CHAMP = 26;
 float QCC_IM_OBSERVER = 29;
 float QCC_IM_RAILGUN = 39;
 float QCC_IM_CHAMPSTART = 100;
+
 // Items
 float QCC_IT2_BULLETS = 8;
 float QCC_IT2_BOLTS = 16;
@@ -143,6 +145,15 @@ float QCC_IT2_SLUGS = 32;
 float QCC_IT_HEAVYMACHINEGUN = 4; // replaces nailgun
 float QCC_IT_TRIBOLT = 16; // replaces grenade launcher
 float QCC_IT_RAILGUN = 65536;
+
+// Game Modes
+enum : float {
+	QCC_CAMPAIGN,
+	QCC_FFA,
+	QCC_DUEL,
+	QCC_TDM,
+	QCC_CTF
+};
 
 // Champion IDs
 enum : float {
@@ -196,12 +207,18 @@ nosave float *qcc_world_sounds; // this will point to world.sounds to allow us t
 
 // TEAMPLAY
 enum : float {
+	QCC_TEAM_NONE,
 	QCC_TEAM_RED,
 	QCC_TEAM_BLUE,
 	QCC_TEAM_YELLOW,
 	QCC_TEAM_GREEN,
 	QCC_MAX_TEAMS
 };
+
+float qccTeamScore[5];
+
+void(entity fragger, float new_frags) add_frag;
+
 
 /*
 -------------------------------------

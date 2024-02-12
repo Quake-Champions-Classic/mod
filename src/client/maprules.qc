@@ -58,6 +58,7 @@ void() NextLevel = {
 			o.map = mapname;
 		}
 	}
+
 	nextmap = o.map;
 	gameover = TRUE;
 	if (o.nextthink < time) {
@@ -68,7 +69,7 @@ void() NextLevel = {
 
 // Exit deathmatch games upon conditions
 void() CheckRules = {
-	float timelimit, fraglimit;
+	float timelimit, fraglimit, endgame;
 	
 	if (gameover) // Someone else quit the game already
 		return;
@@ -77,12 +78,75 @@ void() CheckRules = {
 	fraglimit = cvar("fraglimit");
 	
 	if (timelimit && time >= timelimit) {
-		NextLevel();
-		return;
+		endgame = TRUE;
+		if (deathmatch >= QCC_TDM) {
+			if (qccTeamScore[QCC_TEAM_RED] > qccTeamScore[QCC_TEAM_BLUE] && 
+				qccTeamScore[QCC_TEAM_RED] > qccTeamScore[QCC_TEAM_YELLOW] &&
+				qccTeamScore[QCC_TEAM_RED] > qccTeamScore[QCC_TEAM_GREEN]) 
+			{
+				centerprint_all("Red Team Wins");
+			}
+			else if (qccTeamScore[QCC_TEAM_BLUE] > qccTeamScore[QCC_TEAM_RED] && 
+				qccTeamScore[QCC_TEAM_BLUE] > qccTeamScore[QCC_TEAM_YELLOW] &&
+				qccTeamScore[QCC_TEAM_BLUE] > qccTeamScore[QCC_TEAM_GREEN]) 
+			{
+				centerprint_all("Blue Team Wins");
+			}
+			else if (qccTeamScore[QCC_TEAM_YELLOW] > qccTeamScore[QCC_TEAM_BLUE] && 
+				qccTeamScore[QCC_TEAM_YELLOW] > qccTeamScore[QCC_TEAM_RED] &&
+				qccTeamScore[QCC_TEAM_YELLOW] > qccTeamScore[QCC_TEAM_GREEN]) 
+			{
+				centerprint_all("Yellow Team Wins");
+			}
+			else if (qccTeamScore[QCC_TEAM_GREEN] > qccTeamScore[QCC_TEAM_BLUE] && 
+				qccTeamScore[QCC_TEAM_GREEN] > qccTeamScore[QCC_TEAM_YELLOW] &&
+				qccTeamScore[QCC_TEAM_GREEN] > qccTeamScore[QCC_TEAM_RED]) 
+			{
+				centerprint_all("Green Team Wins");
+			}
+			else 
+				centerprint_all("Tie Game!");
+
+		}
 	}
 	
-	if (fraglimit && self.frags >= fraglimit) {
-		NextLevel();
-		return;
+	if (fraglimit) {
+		if (deathmatch >= QCC_TDM) {
+			if (qccTeamScore[QCC_TEAM_RED] >= fraglimit) {
+				endgame = TRUE;
+				centerprint_all("Red Team Wins");
+			}
+			else if (qccTeamScore[QCC_TEAM_BLUE] >= fraglimit) {
+				endgame = TRUE;
+				centerprint_all("Blue Team Wins");
+			}
+			else if (qccTeamScore[QCC_TEAM_YELLOW] >= fraglimit) {
+				endgame = TRUE;
+				centerprint_all("Yellow Team Wins");
+			}
+			else if (qccTeamScore[QCC_TEAM_GREEN] >= fraglimit) {
+				endgame = TRUE;
+				centerprint_all("Green Team Wins");
+			}
+
+		}
+		else if (self.frags >= fraglimit)
+			endgame = TRUE;
 	}
+
+	if (!endgame)
+		return;
+	
+	NextLevel();
 };
+
+// Use this function when adding or subtracting player flags, so that we can keep better track of our teamplay
+void(entity fragger, float new_frags) add_frag = {
+	fragger.frags += new_frags;
+	//float fraglimit = cvar("fraglimit");
+	if (deathmatch == QCC_TDM) {
+		if (teamplay && fragger.classname == "player" && fragger.team > QCC_TEAM_NONE && fragger.team < QCC_MAX_TEAMS) {
+			qccTeamScore[fragger.team - 1] += new_frags;
+		}
+	}
+}

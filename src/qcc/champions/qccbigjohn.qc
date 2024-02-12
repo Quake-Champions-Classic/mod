@@ -75,6 +75,8 @@ BIG BARRAGE
 void() bigjohn_die =[148, bigjohn_die2] {
 	self.qccAbilityTimer = time + QCC_GLOBAL_COOLDOWN - self.currentammo / 2;
 	self.walkframe = 148;
+	self.th_die = PlayerDie;
+	self.th_pain = player_pain;
 	QCC_DeathCommon();
 };
 
@@ -82,8 +84,8 @@ void() bigjohn_die2 =[149, bigjohn_die2] {
 	self.walkframe += 1;
 	if (self.walkframe > 155) {
 		self.health = -99;
+		self.nextthink = -1;
 		GibPlayer();
-		self.think = PlayerDead;
 		return;
 	}
 	self.frame = self.walkframe;
@@ -214,7 +216,7 @@ BOT STUFF
 */
 void() QCC_BigJohnBotPre = {
     if (self.enemy.flags & FL_MONSTER || self.enemy.classname == "player") {
-        if (self.frame < 143 && (self.qccAbilityTimer < time + 45 - self.qccAbilityCost) && self.qccAbilityTimer > -1 && visible(self.enemy)) {
+        if (self.frame < 143 && (self.qccAbilityTimer < time + QCC_GLOBAL_COOLDOWN - self.qccAbilityCost) && self.qccAbilityTimer > -1 && visible(self.enemy)) {
             QCC_FireAbility();
         }
     }

@@ -59,6 +59,7 @@ void() QCC_Keen = {
 	self.qccSndH2oDeath = "keen/death1.wav";
 
 	self.qccVictoryFrame = 143;
+	self.qccSpeakShubGreet = "keen/mortstart.wav";
 
 	if (time - self.ltime < 15) {
 		if (self.qccSkin > 6) // Mortimer McMire!

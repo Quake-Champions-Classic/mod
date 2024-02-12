@@ -26,7 +26,7 @@ void() QCC_Observer = {
     // Remove frags and team so that observers can't cheat hopefully
     self.team = TEAM_NONE;
     if (self.frags > 0) // don't remove suicide penalties, that's cheating, too
-        self.frags = 0;
+        add_frag(self, -self.frags);
 
     // Adjust health and armor
     self.health = 666;
