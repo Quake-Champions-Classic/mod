@@ -3,6 +3,20 @@
 MAP RULES
 ===============================================================================
 */
+float(entity check_ent) not_deathmatch = {
+    if (deathmatch) {
+        remove(check_ent);
+        return TRUE;
+    }
+    return FALSE;
+}
+
+float(entity check_ent) not_horde = {
+    if (not_deathmatch(check_ent))
+        return TRUE;
+    return FALSE;
+}
+
 void() NextLevel = {
 	entity o;
 
@@ -168,9 +182,13 @@ void(entity scorer, float new_score) add_score = {
 	}
 }
 
-void() update_deathmatch_mode = {
+void(entity powerup) disable_powerup;
+void(entity powerup) enable_powerup;
+
+void(float new_mode) update_deathmatch_mode = {
 	entity oself;
 
+	cvar_set("deathmatch", ftos(new_mode));
 	deathmatch = cvar("deathmatch");
 
 	switch (deathmatch) {
@@ -194,6 +212,43 @@ void() update_deathmatch_mode = {
 			centerprint_all("You are playing Capture the Flag"); break;		
 		default:
 			centerprint_all("Unknown Deathmatch Mode"); break;
+	}
+
+	entity pw;
+	// Disable powerups in Duel
+	if (deathmatch == QCC_DUEL) {
+		pw = nextent(world);
+		while (pw != world) {
+			if (pw.classname == "item_artifact_invulnerability" || 
+				pw.classname == "item_artifact_super_damage" || 
+				pw.classname == "item_artifact_invisibility" || 
+				pw.classname == "item_hornofconjuring" || 
+				pw.classname == "item_artifact_empathy_shields" || 
+				pw.classname == "item_powerup_shield" || 
+				pw.classname == "item_powerup_belt" || 
+				pw.classname == "item_sphere" || 
+				pw.classname == "item_random_powerup") {
+					disable_powerup(pw);
+				}
+			pw = nextent(pw);
+		}
+	}
+	else if (deathmatch && deathmatch != QCC_DUEL) {
+		pw = nextent(world);
+		while (pw != world) {
+			if (pw.classname == "item_artifact_invulnerability" || 
+				pw.classname == "item_artifact_super_damage" || 
+				pw.classname == "item_artifact_invisibility" || 
+				pw.classname == "item_hornofconjuring" || 
+				pw.classname == "item_artifact_empathy_shields" || 
+				pw.classname == "item_powerup_shield" || 
+				pw.classname == "item_powerup_belt" || 
+				pw.classname == "item_sphere" || 
+				pw.classname == "item_random_powerup") {
+					enable_powerup(pw);
+				}
+			pw = nextent(pw);
+		}
 	}
 
 	if (deathmatch >= QCC_TDM) {

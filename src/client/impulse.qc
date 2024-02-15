@@ -147,15 +147,12 @@ void () DumpCoordinates = {
 void() ImpulseCommands = {
 	if (self.impulse >= 1 && self.impulse <= 8)
 		W_ChangeWeapon();
+	else if (self.impulse >= 36 && self.impulse <= 39)
+		W_ChangeWeapon();
 	else if (self.impulse == 10)
 		CycleWeaponCommand();
 	else if (self.impulse == 12)
-		CycleWeaponReverseCommand();	
-	// QUAKE CHAMPIONS CLASSIC -------------------
-	else if (self.impulse == QCC_IM_UPDATE_DEATHMATCH)
-		update_deathmatch_mode();
-	else if (self.impulse == QCC_IM_RAILGUN)
-		W_ChangeWeapon();
+		CycleWeaponReverseCommand();
 	else if (self.impulse == QCC_IM_ABILITY && self.health > 0)
 		QCC_FireAbility();
 	else if (self.impulse == QCC_IM_INTERACT)
@@ -168,10 +165,8 @@ void() ImpulseCommands = {
 		self.qccSkinFunc();
 	else if (self.impulse == QCC_IM_OBSERVER)
 		QCC_Observer();
-	// HIP ---------------------------------------
-	else if (self.impulse >= 36 && self.impulse <= 39)
-		W_ChangeWeapon();
-	// -------------------------------------------
+	else if (self.impulse >= QCC_IM_UPDATE_DEATHMATCH && self.impulse < QCC_IM_UPDATE_DEATHMATCH + QCC_MAX_DM_MODES)
+		update_deathmatch_mode(self.impulse - QCC_IM_UPDATE_DEATHMATCH);
 	else if (self.impulse == 9)
 		CheatCommand();
 	else if (self.impulse == 255)

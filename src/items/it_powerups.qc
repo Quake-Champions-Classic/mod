@@ -77,7 +77,7 @@ void() powerup_touch = {
 		sprint(other,"\n");
 	}
 
-	if (deathmatch) {
+	if (deathmatch && deathmatch != QCC_DUEL) {
 		self.mdl = self.model;
 
 		if ((self.spawnflags & 1)) {
@@ -158,13 +158,23 @@ void() powerup_touch = {
 		remove(self);
 };
 
+void(entity powerup) disable_powerup = {
+	powerup.mdl = powerup.model;
+	powerup.nextthink = -1;
+	powerup.think = SUB_Null;
+	powerup.solid = SOLID_NOT;
+	powerup.model = string_null;
+}
+
+void(entity powerup) enable_powerup = {
+	if (powerup.solid != SOLID_NOT || powerup.nextthink > -1)
+		return;
+	powerup.nextthink = time + 90;
+	powerup.think = SUB_regen;
+}
+
 // Player is invulnerable for 30 seconds
 void() item_artifact_invulnerability = {
-	if (deathmatch == QCC_DUEL) {
-		remove(self);
-		return;
-	}
-
     self.items = IT_INVULNERABILITY;
 	setmodel(self, "progs/invulner.mdl");
     setsize(self, '-16 -16 -24', '16 16 32');
@@ -208,11 +218,6 @@ void() item_artifact_envirosuit = {
 
 // Player is invisible for 30 seconds
 void() item_artifact_invisibility = {
-	if (deathmatch == QCC_DUEL) {
-		remove(self);
-		return;
-	}
-
     self.items = IT_INVISIBILITY;
     setmodel(self, "progs/invisibl.mdl");
 	setsize(self, '-16 -16 -24', '16 16 32');
@@ -237,12 +242,7 @@ void() item_artifact_invisibility = {
 
 
 // The next attack from the player will do 4x damage
-void() item_artifact_super_damage = {
-	if (deathmatch == QCC_DUEL) {
-		remove(self);
-		return;
-	}
-	
+void() item_artifact_super_damage = {	
     self.items = IT_QUAD;
 	setmodel(self, "progs/quaddama.mdl");
 	setsize(self, '-16 -16 -24', '16 16 32');
@@ -397,12 +397,7 @@ void() horn_touch = {
 	horn_active = 0;
 };
 
-void() item_hornofconjuring = {
-	if (deathmatch == QCC_DUEL) {
-		remove(self);
-		return;
-	}
-	
+void() item_hornofconjuring = {	
 	self.touch = horn_touch;
 	precache_model("progs/horn.mdl");
 	precache_sound("hipitems/horn.wav");
@@ -415,11 +410,6 @@ void() item_hornofconjuring = {
 // QUAKED item_artifact_empathy_shields (0 .5 .8) (-16 -16 0) (16 16 32)
 // Empathy Shield.
 void() item_artifact_empathy_shields = {
-	if (deathmatch == QCC_DUEL) {
-		remove(self);
-		return;
-	}
-	
 	self.touch = hip_powerup_touch;
 	precache_model("progs/empathy.mdl");
 	precache_sound("hipitems/empathy.wav");
@@ -600,11 +590,6 @@ float(entity targ, entity inflictor, entity attacker, float damage) shield_hit =
 };
 
 void() item_powerup_shield = {
-	if (deathmatch == QCC_DUEL) {
-		remove(self);
-		return;
-	}
-	
 	self.touch = newitems_touch;
 	precache_model("progs/shield.mdl");
 	precache_model("progs/p_shield.mdl");
@@ -625,11 +610,6 @@ void() item_powerup_shield = {
 // QUAKED item_powerup_belt (0 .5 .8) (-16 -16 -24) (16 16 32)
 // The anti-grav belt
 void() item_powerup_belt = {
-	if (deathmatch == QCC_DUEL) {
-		remove(self);
-		return;
-	}
-	
 	self.touch = newitems_touch;
 	precache_model("progs/beltup.mdl");
 	precache_sound("belt/pickup.wav");
@@ -756,11 +736,6 @@ void() item_sphere = {
 		remove(self);
         return;
     }
-
-	if (deathmatch == QCC_DUEL) {
-		remove(self);
-		return;
-	}
 	
     precache_model("progs/sphere.mdl");
 	precache_sound("sphere/sphere.wav");
@@ -852,13 +827,7 @@ void() item_random_powerup = {
 	if (!deathmatch) {
 		remove(self);
 		return;
-	}
-	
-	if (deathmatch == QCC_DUEL) {
-		remove(self);
-		return;
-	}
-	
+	}	
 	
 	// Precache the lot of it....
 	precache_model("progs/shield.mdl");

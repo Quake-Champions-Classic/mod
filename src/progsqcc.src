@@ -62,7 +62,6 @@ client/levelchange.qc
 client/intermission.qc
 triggers/trigger_changelevel.qc
 client/playerspawn.qc
-qcc/qccmaprules.qc
 client/maprules.qc
 client/client_connect.qc
 

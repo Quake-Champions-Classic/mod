@@ -28,7 +28,7 @@ void (vector org, entity death_owner) spawn_tdeath;
 void() QCC_Precaches;		// world
 void() QCC_SpawnWeapons;	// world
 void() QCC_PreThinkImpulse;	// client
-void() update_deathmatch_mode;
+void(float new_mode) update_deathmatch_mode;
 
 // SHARED
 void() QCC_SpawnChampion;
@@ -156,7 +156,8 @@ enum : float {
 	QCC_DUEL,
 	QCC_FFA2, // IW defaults to Deathmatch 1 in MP, while Remaster defaults to Deathmatch 3? Bad but necessary hack
 	QCC_TDM,
-	QCC_CTF
+	QCC_CTF,
+	QCC_MAX_DM_MODES
 };
 
 // Champion IDs

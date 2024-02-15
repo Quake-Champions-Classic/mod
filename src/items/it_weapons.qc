@@ -124,7 +124,7 @@ void() weapon_touch = {
 	SUB_UseTargets();
 
 	if (coop) {
-		if (other.items & self.weapon || other.qccItems3 & self.weapon) {
+		if ((other.items & self.weapon) || (other.qccItems3 & self.weapon)) {
 			self.target = string_null;
 			return;
 		}
@@ -223,7 +223,7 @@ void() weapon_touch = {
 		if (!deathmatch)
 			self.weapon = new;
 		else
-			Deathmatch_Weapon (old, new);
+			Deathmatch_Weapon(old, new);
 	}
 	W_SetCurrentAmmo();
 

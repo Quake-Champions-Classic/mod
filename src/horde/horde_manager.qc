@@ -223,6 +223,7 @@ void() horde_manager = {
 	// AY, Dec06 2021, auto set horde cvar
 	if (!cvar("horde"))
 		cvar_set("horde", "1");
+	isHordeMode = cvar("horde");
 	// end AY
 	
     // Precaches
