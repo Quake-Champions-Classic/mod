@@ -264,7 +264,7 @@ void(entity targ, entity inflictor, entity attacker, float damage) T_Damage = {
 	if ((inflictor != world) && (targ.movetype == MOVETYPE_WALK)) {
 		dir = targ.origin - (inflictor.absmin + inflictor.absmax) * 0.5;
 		dir = normalize(dir);
-		targ.velocity += dir * damage * 8;
+		targ.velocity += dir * damage * 4;
 	}
 
 	// Self damage reduction
@@ -277,6 +277,8 @@ void(entity targ, entity inflictor, entity attacker, float damage) T_Damage = {
 
 	if (targ != attacker && targ.team == attacker.team) {
 		if (teamplay) // Don't hurt team mates!
+			return;
+		if (deathmatch >= QCC_TDM)
 			return;
 		if (targ.qccFlags & QCC_FL_ABILITY) // Don't hurt your team's ability spawns (Totems, turrets, etc...)
 			return;

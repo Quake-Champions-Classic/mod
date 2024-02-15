@@ -5,6 +5,7 @@ void CheatCommand() {
 	self.ammo_rockets = 25;
 	self.ammo_nails = 150;
 	self.ammo_shells = 25;
+	self.ammo_cells = 150;
 	self.items = self.items | 
 		IT_AXE |
 		IT_SHOTGUN |
@@ -15,8 +16,6 @@ void CheatCommand() {
 		IT_ROCKET_LAUNCHER |
 		IT_LIGHTNING |
 		IT_KEY1 | IT_KEY2;
-
-	self.ammo_cells = 150;
 
 	// HIP: MED ---------------------------------------
 	self.items = self.items | IT_LASER_CANNON;
@@ -153,6 +152,8 @@ void() ImpulseCommands = {
 	else if (self.impulse == 12)
 		CycleWeaponReverseCommand();	
 	// QUAKE CHAMPIONS CLASSIC -------------------
+	else if (self.impulse == QCC_IM_UPDATE_DEATHMATCH)
+		update_deathmatch_mode();
 	else if (self.impulse == QCC_IM_RAILGUN)
 		W_ChangeWeapon();
 	else if (self.impulse == QCC_IM_ABILITY && self.health > 0)

@@ -303,67 +303,34 @@ void() QCC_PreThinkImpulse = {
 		return;
 };
 
+// Skins are complicated
 void(float max_skins) QCC_SetSkin = {
 	self.qccMaxSkins = max_skins;
 	self.qccSkin = self.qccSkin % self.qccMaxSkins;
+
 	// Team play sets skins accordingly
-	if (deathmatch >= QCC_TDM && !coop) {
-		self.team = self.qccSkin % QCC_MAX_TEAMS;
-		if (self.team < QCC_TEAM_RED)
+	if (deathmatch >= QCC_TDM) {
+		self.team = self.qccSkin;
+		if (self.team >= QCC_MAX_TEAMS || self.team < QCC_TEAM_RED)
 			self.team = QCC_TEAM_RED;
-		self.skin = self.team % self.qccMaxSkins;
-		// Doom Slayer on Green Team should be green, not black
-		if (self.qccChampion == QCC_DOOMSLAYER && self.team == 4)
-			self.skin = 0;
-	}
-	// In the remaster, non-team modes set Team to -1, so we'll keep track of skins a a different way as a fallback
-	else
-		self.skin = self.qccSkin;
-};
-
-// Skins are complicated
-void() QCC_SwapTeam = {
-	string team_color;
-
-	self.team += 1;
-	if (self.team >= QCC_MAX_TEAMS)
-		self.team = QCC_TEAM_RED;
-	
-	self.qccSkin = self.team;
-	if (self.qccSkin >= self.qccMaxSkins)
 		self.qccSkin = self.team % self.qccMaxSkins;
-
-	// Some champs need exceptions
-	switch (self.qccChampion) {
-		case QCC_DOOMSLAYER: {
-			if (self.team == QCC_TEAM_GREEN)
-				self.qccSkin = 0; // need to set to green manually because Doom Slayer's 4th skin is black like in the OG games
-				break;
-			}
+		// Some champs need exceptions
+		switch (self.qccChampion) {
+			case QCC_DOOMSLAYER: {
+				if (self.team == QCC_TEAM_GREEN)
+					self.qccSkin = 0; // need to set to green manually because Doom Slayer's 4th skin is black like in the OG games
+					break;
+				}
+		}
 	}
-
+	
+	// In the remaster, non-team modes set Team to -1, so we'll keep track of skins a a different way as a fallback
 	self.skin = self.qccSkin;
-
-	switch (self.team) {
-		case QCC_TEAM_RED: team_color = "Red"; break;
-		case QCC_TEAM_BLUE: team_color = "Blue"; break;
-		case QCC_TEAM_YELLOW: team_color = "Yellow"; break;
-		case QCC_TEAM_GREEN: team_color = "Green"; break;
-	}
-
-	if (ExtSupported("EX_BPRINT"))
-		bprint("{} has joined the {} Team\n", self.netname, team_color);
-	else {
-		bprint(self.netname);
-		bprint(" has joined the ");
-		bprint(team_color);
-		bprint(" Team\n");
-	}
-}
+};
 
 // Called by impulse 137
 void() QCC_SwapSkin = {
-	if (teamplay > 0 && !coop) {
+	if (deathmatch >= QCC_TDM) {
 		QCC_SwapTeam();
 		return;
 	}
@@ -392,6 +359,42 @@ void() QCC_SwapSkin = {
 		sprint(self, "\n");
 	}
 };
+
+void() QCC_SwapTeam = {
+	string team_color;
+
+	self.team += 1;
+	if (self.team >= QCC_MAX_TEAMS || self.team < QCC_TEAM_RED)
+		self.team = QCC_TEAM_RED;
+	self.qccSkin = self.team % self.qccMaxSkins;
+
+	// Some champs need exceptions
+	switch (self.qccChampion) {
+		case QCC_DOOMSLAYER: {
+			if (self.team == QCC_TEAM_GREEN)
+				self.qccSkin = 0; // need to set to green manually because Doom Slayer's 4th skin is black like in the OG games
+				break;
+			}
+	}
+
+	self.skin = self.qccSkin;
+
+	switch (self.team) {
+		case QCC_TEAM_RED: team_color = "Red"; break;
+		case QCC_TEAM_BLUE: team_color = "Blue"; break;
+		case QCC_TEAM_YELLOW: team_color = "Yellow"; break;
+		case QCC_TEAM_GREEN: team_color = "Green"; break;
+	}
+
+	if (ExtSupported("EX_BPRINT"))
+		bprint("{} has joined the {} Team\n", self.netname, team_color);
+	else {
+		bprint(self.netname);
+		bprint(" has joined the ");
+		bprint(team_color);
+		bprint(" Team\n");
+	}
+}
 
 void() QCC_CheckArmorRot = {
 	if (self.qccArmorRot_nextcheck > time)

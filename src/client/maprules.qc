@@ -111,27 +111,19 @@ void() CheckRules = {
 	}
 	
 	if (fraglimit) {
-		if (deathmatch >= QCC_TDM) {
-			if (qccTeamScore[QCC_TEAM_RED] >= fraglimit) {
-				endgame = TRUE;
-				centerprint_all("Red Team Wins");
-			}
-			else if (qccTeamScore[QCC_TEAM_BLUE] >= fraglimit) {
-				endgame = TRUE;
-				centerprint_all("Blue Team Wins");
-			}
-			else if (qccTeamScore[QCC_TEAM_YELLOW] >= fraglimit) {
-				endgame = TRUE;
-				centerprint_all("Yellow Team Wins");
-			}
-			else if (qccTeamScore[QCC_TEAM_GREEN] >= fraglimit) {
-				endgame = TRUE;
-				centerprint_all("Green Team Wins");
-			}
-
-		}
-		else if (self.frags >= fraglimit)
+		if (self.frags >= fraglimit)
 			endgame = TRUE;
+		
+		if (deathmatch >= QCC_TDM) {
+			if (qccTeamScore[QCC_TEAM_RED] >= fraglimit)
+				centerprint_all("Red Team Wins");
+			else if (qccTeamScore[QCC_TEAM_BLUE] >= fraglimit)
+				centerprint_all("Blue Team Wins");
+			else if (qccTeamScore[QCC_TEAM_YELLOW] >= fraglimit)
+				centerprint_all("Yellow Team Wins");
+			else if (qccTeamScore[QCC_TEAM_GREEN] >= fraglimit)
+				centerprint_all("Green Team Wins");
+		}
 	}
 
 	if (!endgame)
@@ -142,11 +134,79 @@ void() CheckRules = {
 
 // Use this function when adding or subtracting player flags, so that we can keep better track of our teamplay
 void(entity fragger, float new_frags) add_frag = {
-	fragger.frags += new_frags;
-	//float fraglimit = cvar("fraglimit");
-	if (deathmatch == QCC_TDM) {
-		if (teamplay && fragger.classname == "player" && fragger.team > QCC_TEAM_NONE && fragger.team < QCC_MAX_TEAMS) {
-			qccTeamScore[fragger.team - 1] += new_frags;
+	entity pl;
+	// Only add frags if we're not playing CTF
+	if (deathmatch <= QCC_TDM) {
+		fragger.frags += new_frags;
+		if (deathmatch == QCC_TDM) {
+			if (fragger.classname == "player" && fragger.team > QCC_TEAM_NONE && fragger.team < QCC_MAX_TEAMS) {
+				qccTeamScore[fragger.team - 1] += new_frags;
+				pl = find(world, classname, "player");
+				while (pl != world) {
+					if (pl != fragger && pl.team == fragger.team)
+						pl.frags += new_frags;
+					pl = find(pl, classname, "player");
+				}
+			}
 		}
+	}
+}
+
+// Use this function for capturing flags or accumulating soul points in sacrifice
+void(entity scorer, float new_score) add_score = {
+	entity pl;
+	if (deathmatch >= QCC_CTF) {
+		if (scorer.classname == "player" && scorer.team > QCC_TEAM_NONE && scorer.team < QCC_MAX_TEAMS) {
+			qccTeamScore[scorer.team] += new_score;
+			pl = find(world, classname, "player");
+			while (pl != world) {
+				if (pl.team == scorer.team)
+					pl.frags = qccTeamScore[scorer.team] += new_score;
+				pl = find(pl, classname, "player");
+			}
+		}
+	}
+}
+
+void() update_deathmatch_mode = {
+	entity oself;
+
+	deathmatch = cvar("deathmatch");
+
+	switch (deathmatch) {
+		case QCC_CAMPAIGN: {
+			if (isHordeMode)
+				centerprint_all("You are playing Horde Mode");
+			else if (coop)
+				centerprint_all("You are playing Coop");
+			else
+				centerprint_all("You are playing Single Player");
+			return;			
+		}
+		case QCC_FFA:
+		case QCC_FFA2:
+			centerprint_all("You are playing Deathmatch Free For All"); break;		
+		case QCC_DUEL:
+			centerprint_all("You are playing Duel"); break;		
+		case QCC_TDM:
+			centerprint_all("You are playing Team Deathmatch"); break;
+		case QCC_CTF:
+			centerprint_all("You are playing Capture the Flag"); break;		
+		default:
+			centerprint_all("Unknown Deathmatch Mode"); break;
+	}
+
+	if (deathmatch >= QCC_TDM) {
+		oself = self;
+		self = find(world, classname, "player");
+		while (self != world) {
+			self.team = self.qccSkin % QCC_MAX_TEAMS;
+			if (self.flags & FL_ISBOT) // Bots should only pick red or blue team
+				self.team = rint(random() * 32678) % 2 + 1;
+			self.team -= 1;
+			QCC_SwapTeam();
+			self = find(self, classname, "player");
+		}
+		self = oself;
 	}
 }

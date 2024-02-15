@@ -138,7 +138,7 @@ void() weapon_touch = {
 			if (other.ammo_shells < 10)
 				other.ammo_shells = 10;
 			else
-				other.ammo_shells += 5;
+				other.ammo_shells += 1;
 			break;
 		}
 
@@ -157,7 +157,7 @@ void() weapon_touch = {
 			if (other.ammo_rockets < 10)
 				other.ammo_rockets = 10;
 			else
-				other.ammo_rockets += 5;
+				other.ammo_rockets += 1;
 			break;
 		}
 
@@ -183,7 +183,7 @@ void() weapon_touch = {
 			if (other.ammo_bolts < 10)
 				other.ammo_bolts = 10;
 			else
-				other.ammo_bolts += 5;
+				other.ammo_bolts += 1;
 			break;
 		}
 
@@ -191,7 +191,7 @@ void() weapon_touch = {
 			if (other.ammo_slugs < 10)
 				other.ammo_slugs = 10;
 			else
-				other.ammo_slugs += 5;
+				other.ammo_slugs += 1;
 			break;
 		}
 
@@ -233,7 +233,7 @@ void() weapon_touch = {
 	self.model = string_null;
 	self.solid = SOLID_NOT;
 
-	if (deathmatch) {
+	if (deathmatch || isHordeMode) {
 		if (deathmatch == 2) // Duel
 			self.nextthink = time + 5;
 		else // Free For All or TDM

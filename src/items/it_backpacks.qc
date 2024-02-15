@@ -40,10 +40,13 @@ void() BackpackTouch = {
 	self = stemp;
 
 	// Change weapons
-	other.ammo_shells = other.ammo_shells + self.ammo_shells;
-	other.ammo_nails = other.ammo_nails + self.ammo_nails;
-	other.ammo_rockets = other.ammo_rockets + self.ammo_rockets;
-	other.ammo_cells = other.ammo_cells + self.ammo_cells;
+	other.ammo_shells += self.ammo_shells;
+	other.ammo_nails += self.ammo_nails;
+	other.ammo_rockets += self.ammo_rockets;
+	other.ammo_cells += self.ammo_cells;
+	other.ammo_bullets += self.ammo_bullets;
+	other.ammo_bolts += self.ammo_bolts;
+	other.ammo_slugs += self.ammo_slugs;
 
 	new = self.items;
 	if (!new)
@@ -90,6 +93,7 @@ void() BackpackTouch = {
 			sprint(other, " rockets");
 		}
 	}
+
 	if (self.ammo_cells) {
 		if (acount)
 			sprint(other, ", ");

@@ -310,7 +310,7 @@ void() QCC_LifeEssenceTouch = {
     if (other.classname != "player")
 		return;
     // Enemies can't pick them up
-    if (teamplay && other.team != self.team)
+    if ((teamplay || deathmatch >= QCC_TDM) && other.team != self.team)
         return;
 	// Nyx can't pick up stuff during Ghost Walk
 	if (other.qccChampion == QCC_NYX && other.weapon == QCC_ABILITY)
@@ -350,7 +350,7 @@ void() QCC_LifeEssenceProc = [0, QCC_LifeEssenceProc] {
 void(entity targ, entity attacker) QCC_DropLifeEssence = {
     if (targ == attacker)
         return;
-    if (teamplay && targ.team == attacker.team)
+    if ((teamplay || deathmatch >= QCC_TDM) && targ.team == attacker.team)
         return;
     
     entity e;

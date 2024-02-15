@@ -234,7 +234,7 @@ void() QCC_KeenProjectileTouch = {
 			}
 		}
 		else if (other.flags & FL_CLIENT) {
-			if (!teamplay || other.team != self.owner.team) {
+			if ((!teamplay && deathmatch < QCC_TDM) || other.team != self.owner.team) {
 				other.attack_finished = time + 1;
 				T_Damage(other, self, self.owner, 25);
 			}

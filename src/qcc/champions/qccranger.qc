@@ -138,6 +138,7 @@ void() QCC_DireOrbAnimProc = [144, QCC_DireOrbAnimProc] {
 		self.weaponframe = self.walkframe;
 	}
 	self.walkframe = self.walkframe + 1;
+	self.nextthink = 0.02;
 }
 
 void(entity attacker, float damage) QCC_DireOrbPain = {PainSound();};
@@ -147,7 +148,7 @@ void() QCC_DireOrbAnim = {
 	self.weapon = QCC_ABILITY;
 	self.weaponmodel = "progs/v_dorb.mdl";
 	self.weaponframe = 0;
-	self.attack_finished = time + 0.25;
+	self.attack_finished = time + 0.1;
 	self.show_hostile = time + 1;	// wake monsters up
 	self.th_pain = QCC_DireOrbPain;
 	QCC_DireOrbAnimProc();
@@ -267,7 +268,7 @@ void() QCC_RangerBotPre = {
 						QCC_FireAbility();
 						return;
 					}
-                    else if (teamplay && head.team != self.team) {
+                    else if ((teamplay || deathmatch >= QCC_TDM) && head.team != self.team) {
                         if ((head.flags & FL_MONSTER) || head.classname == "player") {
                                 QCC_FireAbility();
                                 return;

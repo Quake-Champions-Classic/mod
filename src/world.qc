@@ -471,10 +471,10 @@ void(entity ent) CopyToBodyQueue = {
 	bodyqueue_head.modelindex = ent.modelindex;
 	bodyqueue_head.frame = ent.frame;
 	bodyqueue_head.colormap = ent.colormap;
-	// QCC ----------------------------------------
 	if (ent.modelindex == ent.modelindex_champ)
 		bodyqueue_head.skin = ent.skin;
-	// --------------------------------------------
+	else if (ent.movetype == MOVETYPE_TOSS || ent.movetype == MOVETYPE_GIB)
+		bodyqueue_head.skin = ent.skin;
 	bodyqueue_head.movetype = ent.movetype;
 	bodyqueue_head.velocity = ent.velocity;
 	bodyqueue_head.flags = 0;

@@ -28,6 +28,7 @@ void (vector org, entity death_owner) spawn_tdeath;
 void() QCC_Precaches;		// world
 void() QCC_SpawnWeapons;	// world
 void() QCC_PreThinkImpulse;	// client
+void() update_deathmatch_mode;
 
 // SHARED
 void() QCC_SpawnChampion;
@@ -39,6 +40,7 @@ void(entity ent) QCC_AbilityCooldown;
 void() QCC_RestoreWeapon;
 void(float max_skins) QCC_SetSkin;
 void() QCC_SwapSkin;
+void() QCC_SwapTeam;
 void() QCC_CheckArmorRot;
 void() QCC_MovePreThink;
 void() QCC_MovePostThink;
@@ -135,6 +137,7 @@ float QCC_IM_INTERACT = 25;
 float QCC_IM_PREV_CHAMP = 26;
 float QCC_IM_OBSERVER = 29;
 float QCC_IM_RAILGUN = 39;
+float QCC_IM_UPDATE_DEATHMATCH = 40;
 float QCC_IM_CHAMPSTART = 100;
 
 // Items
@@ -151,6 +154,7 @@ enum : float {
 	QCC_CAMPAIGN,
 	QCC_FFA,
 	QCC_DUEL,
+	QCC_FFA2, // IW defaults to Deathmatch 1 in MP, while Remaster defaults to Deathmatch 3? Bad but necessary hack
 	QCC_TDM,
 	QCC_CTF
 };

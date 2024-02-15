@@ -33,11 +33,15 @@ void() ammo_touch = {
 		if (other.ammo_shells < AM_MAX_SHELLS) {
 			other.ammo_shells += self.aflag;
 			picked_up = TRUE;
+			if (other.ammo_shells > AM_MAX_SHELLS)
+				other.ammo_shells = AM_MAX_SHELLS;
 		}
 
 		if (find(world, classname, "qcc_item_bullets") == world) {
 			if (other.ammo_bullets < AM_MAX_BULLETS) {
 				other.ammo_bullets += self.aflag;
+				if (other.ammo_bullets > AM_MAX_BULLETS)
+					other.ammo_bullets = AM_MAX_BULLETS;
 				picked_up = TRUE;
 			}
 		}
@@ -46,6 +50,8 @@ void() ammo_touch = {
 	if (self.weapon & IT_NAILS) {
 		if (other.ammo_nails < AM_MAX_NAILS) {
 			other.ammo_nails += self.aflag;
+			if (other.ammo_nails > AM_MAX_NAILS)
+				other.ammo_nails = AM_MAX_NAILS;
 			picked_up = TRUE;
 		}
 	}
@@ -53,12 +59,16 @@ void() ammo_touch = {
 	if (self.weapon & IT_ROCKETS) {
 		if (other.ammo_rockets < AM_MAX_ROCKETS) {
 			other.ammo_rockets += self.aflag;
+			if (other.ammo_rockets > AM_MAX_ROCKETS)
+				other.ammo_rockets = AM_MAX_ROCKETS;
 			picked_up = TRUE;
 		}
 		
 		if (find(world, classname, "qcc_item_bolts") == world) {
 			if (other.ammo_bolts < AM_MAX_BOLTS) {
 				other.ammo_bolts += 5;
+				if (other.ammo_bolts > AM_MAX_BOLTS)
+					other.ammo_bolts = AM_MAX_BOLTS;
 				picked_up = TRUE;
 			}
 		}
@@ -67,12 +77,16 @@ void() ammo_touch = {
 	if (self.weapon & IT_CELLS) {
 		if (other.ammo_cells < AM_MAX_CELLS) {
 			other.ammo_cells += self.aflag;
+			if (other.ammo_cells > AM_MAX_CELLS)
+				other.ammo_cells = AM_MAX_CELLS;
 			picked_up = TRUE;
 		}
 		
 		if (find(world, classname, "qcc_item_slugs") == world) {
 			if (other.ammo_slugs < AM_MAX_SLUGS) {
 				other.ammo_slugs += 5;
+				if (other.ammo_slugs > AM_MAX_SLUGS)
+					other.ammo_slugs = AM_MAX_SLUGS;
 				picked_up = TRUE;
 			}
 		}
@@ -81,6 +95,8 @@ void() ammo_touch = {
 	if (self.qccItems3 & QCC_IT2_BULLETS) {
 		if (other.ammo_bullets < AM_MAX_BULLETS) {
 			other.ammo_bullets += self.aflag;
+			if (other.ammo_bolts > AM_MAX_BOLTS)
+				other.ammo_bolts = AM_MAX_BOLTS;
 			picked_up = TRUE;
 		}
 	}
@@ -88,6 +104,8 @@ void() ammo_touch = {
 	if (self.qccItems3 & QCC_IT2_BOLTS) {
 		if (other.ammo_bolts < AM_MAX_BOLTS) {
 			other.ammo_bolts += self.aflag;
+			if (other.ammo_bolts > AM_MAX_BOLTS)
+				other.ammo_bolts = AM_MAX_BOLTS;
 			picked_up = TRUE;
 		}
 	}
@@ -95,6 +113,8 @@ void() ammo_touch = {
 	if (self.qccItems3 & QCC_IT2_SLUGS) {
 		if (other.ammo_slugs < AM_MAX_SLUGS) {
 			other.ammo_slugs += self.aflag;
+			if (other.ammo_slugs > AM_MAX_SLUGS)
+				other.ammo_slugs = AM_MAX_SLUGS;
 			picked_up = TRUE;
 		}
 	}

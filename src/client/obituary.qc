@@ -30,7 +30,7 @@ void(entity targ, entity attacker, entity inflictor) ClientObituary = {
 				bprint(attacker.owner.netname);
 				bprint("'s deadly slipgate\n");
 			}
-			if (attacker.owner.qccChampion == QCC_NYX && attacker.owner.weapon == QCC_ABILITY) {	
+			else if (attacker.owner.qccChampion == QCC_NYX && attacker.owner.weapon == QCC_ABILITY) {	
 				bprint(targ.netname);
 				bprint(" was turned inside out by ");
 				bprint(attacker.owner.netname);
@@ -106,7 +106,7 @@ void(entity targ, entity attacker, entity inflictor) ClientObituary = {
 					bprint("$qc_suicide_loaded", targ.netname);
 				return;
 			}
-			else if ((teamplay == 2) && (targteam == attackerteam) && (attackerteam != 0)) {
+			else if ((teamplay == 2 || deathmatch >= QCC_TDM) && (targteam == attackerteam) && (attackerteam != 0)) {
 				if (rnum < 0.25)
 					bprint("$qc_ff_teammate", attacker.netname);
 				else if (rnum < 0.50)
@@ -471,7 +471,7 @@ void(entity targ, entity attacker, entity inflictor) ClientObituaryOld = {
 				bprint(attacker.owner.netname);
 				bprint("'s deadly slipgate");
 			}
-			if (attacker.owner.qccChampion == QCC_NYX && attacker.owner.weapon == QCC_ABILITY) {	
+			else if (attacker.owner.qccChampion == QCC_NYX && attacker.owner.weapon == QCC_ABILITY) {	
 				bprint(" was turned inside out by ");
 				bprint(attacker.owner.netname);
 			}
@@ -544,7 +544,7 @@ void(entity targ, entity attacker, entity inflictor) ClientObituaryOld = {
 					bprint(" checks if their weapon is loaded\n"); // HIP: JIM
 				return;
 			}
-			else if ((teamplay == 2) && (targ.team > 0)&&(targ.team == attacker.team)) {
+			else if ((teamplay == 2 || deathmatch >= QCC_TDM) && (targ.team > 0)&&(targ.team == attacker.team)) {
 				if (rnum < 0.25)
 					deathstring = " mows down a teammate\n";
 				else if (rnum < 0.50)

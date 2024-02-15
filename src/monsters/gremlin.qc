@@ -1572,7 +1572,7 @@ void(entity targ, entity inflictor, entity attacker, float damage) Gremlin_Damag
 	}
 
    // team play damage avoidance
-	if ((teamplay == 1) && (targ.team > 0) && (targ.team == attacker.team))
+	if ((teamplay == 1 || deathmatch >= QCC_TDM) && (targ.team > 0) && (targ.team == attacker.team))
 		return;
 
    // do the damage

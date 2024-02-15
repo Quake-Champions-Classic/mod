@@ -83,7 +83,7 @@ void() QCC_TotemTouch = {
 	}
 
 	// Explode on enemies
-	if (other.takedamage == DAMAGE_AIM && ((!teamplay && other != self.owner) || other.team != self.team)) {
+	if (other.takedamage == DAMAGE_AIM && ((!teamplay && deathmatch < QCC_TDM && other != self.owner) || other.team != self.team)) {
 		setmodel(self, "progs/s_explod.spr");
 		setorigin(self, self.origin + '0 0 16');
 		

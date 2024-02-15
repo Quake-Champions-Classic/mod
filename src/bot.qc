@@ -34,6 +34,9 @@ Example usages of this function:
 void Bot_PreThink() {
     if (self.health > 0) // Don't try to use abilities while dead, seems to cause problems
         self.qccBotPreThink();
+    // Don't target team mates
+    if (deathmatch >= QCC_TDM && self.enemy.team == self.team)
+        self.enemy = world;
 };
 
 /*
