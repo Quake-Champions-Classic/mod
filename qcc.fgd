@@ -1900,7 +1900,7 @@ model(
 @PointClass size(-8 -8 0, 8 8 16) base(AppearflagsAlt)
 	model(
         {{
-			model != "" -> { path: model, frame: count },
+			model != "" -> { path: model, frame: count, scale: scale },
 			{ path: "progs/quaddama.mdl", frame: 0 }
         }}
     ) = qcc_prop_dynamic : "Prop Dynamic" [
@@ -1910,6 +1910,7 @@ model(
 		]
 		model(string) : "Prop model" : "progs/quaddama.mdl"
 		angles(vector) : "Model rotation" : "0 0 0"
+		scale(float) : "Model scale" : "1"
 		count(integer) : "Model starting frame" : 0
 		cnt(integer) : "If more than 0, this prop will play a looping animation, using cnt as the loop."
 		speed(float) : "Animation playback speed" : 0.1

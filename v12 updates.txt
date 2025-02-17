@@ -1,0 +1,8 @@
+Version 12
+Additions
+- New map: The Vale of Pnath.
+- New music: "The Netherworld" (track34.ogg) Based off of Andrew Hulshult's "Ithagnal" track in Quake Champions.
+Changes
+- Crucible and Insomnia now have map names instead of just filenames when displaying map info in game.
+Bug Fixes
+- Plugged a leak in Insomnia.
