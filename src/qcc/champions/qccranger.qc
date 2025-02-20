@@ -253,6 +253,7 @@ BOT STUFF
 */
 void() QCC_RangerBotPre = {
 	entity head;
+	
 	if (self.enemy.flags & FL_MONSTER || self.enemy.classname == "player") {
         if (self.qccAbilityTimer < time && self.qccAbilityTimer >= 0 && visible(self.enemy)) {
             // Ranger dire orbs anywhere

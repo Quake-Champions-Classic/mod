@@ -700,6 +700,7 @@ model(
 	spawnflags(flags) = [ 1: "No Message" : 0 ]
 	count(integer) : "Count before trigger" : 2
 	delay (integer) : "Delay"
+	wait (integer) : "Count reset value" : 2
 	message(string) : "Message"
 ]
 // mg1 added Additive Push and Start Off flags
@@ -1130,7 +1131,7 @@ model(
 
 // Hipnotic Miscellaneous
 
-@PointClass size(-32 -32 -24, 32 32 40) base(Targetname, Appearflags) = func_spawn : "Entity spawner"
+@PointClass size(-32 -32 -24, 32 32 40) color(255 0 0) base(Targetname, Appearflags) = func_spawn : "Entity spawner"
 [
 	spawnflags(flags) =
 	[
@@ -1145,7 +1146,7 @@ model(
 		1: "Reoccuring"
 	]
 ]
-@PointClass size(-16 -16 -24, 16 16 40) base(Targetname, Appearflags) = func_spawn_small : "small Spawn"
+@PointClass size(-16 -16 -24, 16 16 40) color(255 0 0) base(Targetname, Appearflags) = func_spawn_small : "small Spawn"
 [
 	spawnflags(flags) =
 	[
@@ -1900,7 +1901,7 @@ model(
 @PointClass size(-8 -8 0, 8 8 16) base(AppearflagsAlt)
 	model(
         {{
-			model != "" -> { path: model, frame: count, scale: scale },
+			model != "" -> { path: model, frame: count, scale: scale, skin: skin },
 			{ path: "progs/quaddama.mdl", frame: 0 }
         }}
     ) = qcc_prop_dynamic : "Prop Dynamic" [
@@ -1909,6 +1910,7 @@ model(
 			1 : "Start off" : 0
 		]
 		model(string) : "Prop model" : "progs/quaddama.mdl"
+		skin(integer) : "Prop skin" : 0
 		angles(vector) : "Model rotation" : "0 0 0"
 		scale(float) : "Model scale" : "1"
 		count(integer) : "Model starting frame" : 0

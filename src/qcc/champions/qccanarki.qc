@@ -16,7 +16,7 @@ void() QCC_Anarki = {
     self.qccPreThink = QCC_AnarkiPreThink;
     self.qccBotPostThink = QCC_AnarkiBotPost;
     self.qccFlags |= QCC_FL_ACROBAT;
-
+    
     // Anarki Bonus Health
     entity ent;
     ent = find(world, classname, "anarki_bonus");

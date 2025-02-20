@@ -26,8 +26,9 @@ void() QCC_SpawnChampion = {
 	self.qccSkinFunc = QCC_SwapSkin;
 	self.qccGibSkins = 1;
 	self.qccSpeakSpawn = SUB_Null;
-	self.qccSpeakFrag = QCC_SpeakFragNull;
+	self.qccSpeakFrag = QCC_SpeakCombatNull;
 	self.qccSpeakItem = QCC_SpeakItemNull;
+	self.qccSpeakDamaged = QCC_SpeakCombatNull;
 	self.qccSpeakCthonGreet = string_null;
 	self.qccSpeakCthonKill = string_null;
 	self.qccSpeakShubGreet = string_null;
@@ -71,6 +72,8 @@ void() QCC_SpawnChampion = {
 			QCC_Galena(); break;
 		case QCC_DUKENUKEM:
 			QCC_DukeNukem(); break;
+		case QCC_GORDONFREEMAN:
+			QCC_GordonFreeman(); break;
 		case QCC_CALEB:
 			QCC_Caleb(); break;
 		case QCC_DUSKDUDE:
@@ -153,6 +156,7 @@ void(float pick_dir) QCC_PickChampion = {
 		promptchoice(self, "Anarki", QCC_IM_CHAMPSTART + QCC_ANARKI);
 		promptchoice(self, "Galena", QCC_IM_CHAMPSTART + QCC_GALENA);
 		promptchoice(self, "Duke Nukem", QCC_IM_CHAMPSTART + QCC_DUKENUKEM);
+		promptchoice(self, "Gordon Freeman", QCC_IM_CHAMPSTART + QCC_GORDONFREEMAN);
 		promptchoice(self, "Caleb", QCC_IM_CHAMPSTART + QCC_CALEB);
 		promptchoice(self, "The Intruder", QCC_IM_CHAMPSTART + QCC_DUSKDUDE);
 		promptchoice(self, "Big John", QCC_IM_CHAMPSTART + QCC_BIGJOHN);
@@ -199,6 +203,8 @@ void() QCC_PickChampion2 = {
 				champ_string = "Galena"; break;
 			case QCC_DUKENUKEM:
 				champ_string = "Duke Nukem"; break;
+			case QCC_GORDONFREEMAN:
+				champ_string = "Gordon Freeman"; break;
 			case QCC_CALEB:
 				champ_string = "Caleb"; break;
 			case QCC_DUSKDUDE:
@@ -244,6 +250,8 @@ void() QCC_PickChampion2 = {
 					centerprint(self, "You are now Galena"); break;
 				case QCC_DUKENUKEM:
 					centerprint(self, "You are now Duke Nukem"); break;
+				case QCC_GORDONFREEMAN:
+					centerprint(self, "You are now Gordon Freeman"); break;
 				case QCC_CALEB:
 					centerprint(self, "You are now Caleb"); break;
 				case QCC_DUSKDUDE:
@@ -282,6 +290,8 @@ void() QCC_PickChampion2 = {
 					centerprint(self, "You will respawn as Galena"); break;
 				case QCC_DUKENUKEM:
 					centerprint(self, "You will respawn as Duke Nukem"); break;
+				case QCC_GORDONFREEMAN:
+					centerprint(self, "You will respawn as Gordon Freeman"); break;
 				case QCC_CALEB:
 					centerprint(self, "You will respawn as Caleb"); break;
 				case QCC_DUSKDUDE:

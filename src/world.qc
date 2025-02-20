@@ -357,6 +357,10 @@ void() worldspawn = {
 	precache_sound("items/inv1.wav");
 	precache_sound("items/inv2.wav");
 	precache_sound("items/inv3.wav");
+
+	// Reset Horde
+	cvar_set("horde", "0");
+	isHordeMode = 0;
 	
 	// announcer stuff
 	qcc_announcer = spawn();

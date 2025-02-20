@@ -81,6 +81,16 @@ void() ammo_touch = {
 				other.ammo_cells = AM_MAX_CELLS;
 			picked_up = TRUE;
 		}
+
+		// Gordon Freeman can use cells to recharge armor
+		if (other.qccChampion == QCC_GORDONFREEMAN) {
+			if (other.armorvalue < other.qccMaxArmor) {
+				other.armorvalue += 15;
+				if (other.armorvalue > other.qccMaxArmor)
+					other.armorvalue = other.qccMaxArmor;
+				picked_up = TRUE;
+			}
+		}
 		
 		if (find(world, classname, "qcc_item_slugs") == world) {
 			if (other.ammo_slugs < AM_MAX_SLUGS) {
@@ -140,6 +150,7 @@ void() ammo_touch = {
 	}
 
 	sound(other, CHAN_ITEM, "weapons/lock4.wav", 1, ATTN_NORM);
+	other.qccSpeakItem(other, self);
 	stuffcmd(other, "bf\n");
 
 	// Change to a better weapon if appropriate

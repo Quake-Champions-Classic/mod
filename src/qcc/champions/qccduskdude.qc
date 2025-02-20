@@ -17,6 +17,7 @@ void() QCC_DuskDude =
 	self.qccBotPreThink = QCC_DuskDudeBotPre;
 	self.qccFlags |= QCC_FL_ACROBAT;
 	self.qccFlags |= QCC_FL_MERMAID;
+	self.qccFlags |= QCC_FL_FAST_MELEE;
 	sound(self, CHAN_VOICE, "silence.wav", 1, ATTN_NORM);
 	if (ExtSupported("EX_LOCALSOUND"))
 		localsound(self, "dusk/sicklestart.wav");

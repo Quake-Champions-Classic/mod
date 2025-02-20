@@ -53,7 +53,7 @@ void() counter_use = {
 	if (self.spawnflags & COUNTER_LOOPS)
 		self.count = self.wait;
 	
-	multi_trigger ();
+	multi_trigger();
 };
 
 /*QUAKED trigger_counter (.5 .5 .5) ? nomessage

@@ -45,7 +45,7 @@ void() QCC_CheckArmorRot;
 void() QCC_MovePreThink;
 void() QCC_MovePostThink;
 void() QCC_DeathCommon;
-void(entity targ, entity attacker) QCC_SpeakFragNull = {};
+void(entity targ, entity attacker) QCC_SpeakCombatNull = {};
 void(entity collector, entity item) QCC_SpeakItemNull = {};
 
 // WEAPONS
@@ -97,6 +97,10 @@ void() QCC_Jetpack;			// client
 void() QCC_DukeSpawn;
 void(entity targ, entity attacker) QCC_DukeFrag;
 void(entity collector, entity item) QCC_DukeItem;
+// Gordon Freeman
+void() QCC_GordonFreeman;
+void(entity targ, entity attacker) QCC_GordonDamaged;
+void(entity collector, entity item) QCC_GordonItem;
 // Caleb
 void() QCC_Caleb;
 void() QCC_CalebSpawn;
@@ -174,6 +178,7 @@ enum : float {
 	QCC_ANARKI,
 	QCC_GALENA,
 	QCC_DUKENUKEM,
+	QCC_GORDONFREEMAN,
 	QCC_CALEB,
 	QCC_DUSKDUDE,
 	QCC_BIGJOHN,
@@ -202,6 +207,7 @@ float QCC_FL_CUSTOM_SIZE =		32768;
 float QCC_FL_CUSTOM_VIEW =		65536;
 float QCC_FL_CHANNELING =		131072;	// 5% cooldown on health pickup; 10% cooldown on Mega pickup
 float QCC_FL_ABILITY =			262144; // needed for radius damaging abilities
+float QCC_FL_FAST_MELEE =		524288; // For quick attacking melee characters like Gordon Freeman and Dusk Dude
 
 
 // Music
@@ -288,6 +294,7 @@ ENTITY FIELDS
 // Sound
 .void() qccSpeakSpawn;
 .void(entity targ, entity attacker) qccSpeakFrag;
+.void(entity targ, entity attacker) qccSpeakDamaged;
 .void(entity collector, entity item) qccSpeakItem;
 .string qccSpeakCthonGreet;
 .string qccSpeakCthonKill;

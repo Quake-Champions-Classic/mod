@@ -49,7 +49,7 @@ void() W_FireAxe = {
 		if (self.qccChampion == QCC_DOOMSLAYER)
 			QCC_DoomPunchHit();
 		else {
-			if (self.qccChampion == QCC_DUSKDUDE) // Dusk Dude attackes faster, so he should deal a little less damage
+			if (self.qccFlags & QCC_FL_FAST_MELEE) // Dusk Dude and Gordon Freeman attack faster, so they should deal a little less damage
 				T_Damage(trace_ent, self, self, 50);
 			else
 				T_Damage(trace_ent, self, self, 70);

@@ -134,7 +134,7 @@ void() deathmonger_melee14 =[ $melee14, deathmonger_melee15 ] {};
 
 // Hammer impact
 void() deathmonger_melee15 =[ $melee15, deathmonger_melee16 ] {
-
+	// attack check + damage calc here
 };
 
 void() deathmonger_melee16 =[ $melee16, deathmonger_melee17 ] {};

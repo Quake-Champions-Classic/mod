@@ -385,8 +385,8 @@ void() W_Attack = {
 			else
 				player_axed1();
 			self.attack_finished = time + 0.5;
-			if (self.qccChampion == QCC_DUSKDUDE) // Dusk Dude's sickles are fast in DUSK
-				self.attack_finished = time + 0.3;
+			if (self.qccFlags & QCC_FL_FAST_MELEE) // Dusk Dude's sickles are fast in DUSK
+				self.attack_finished = time + 0.25;
 			return;
 		}
 

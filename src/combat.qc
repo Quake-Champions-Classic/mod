@@ -189,6 +189,7 @@ void(entity targ, entity attacker, entity inflictor) Killed = {
 		// Some champions have taunts
 		attacker.qccSpeakFrag(targ, attacker);
 	}
+		
 	
 	ClientObituary(self, attacker, inflictor);
 	self.takedamage = DAMAGE_NO;
@@ -376,6 +377,9 @@ void(entity targ, entity inflictor, entity attacker, float damage) T_Damage = {
 
 	if (targ.qccStunned > time) // QCC: Stunned enemies can't react until the stun is over
 		return;
+
+	 if (targ.classname == "player")
+	 	targ.qccSpeakDamaged(targ, attacker);
 
 	//react to the damage
 	oldself = self;

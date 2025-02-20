@@ -124,8 +124,7 @@ QCC: DOUBLE JUMP
 ======================================================
 */
 void() QCC_DoubleJump = {
-    if (!(self.flags & FL_ONGROUND))
-	{
+    if (!(self.flags & FL_ONGROUND)) {
         if (self.qccDoubleJump != 0)
             return;
         if (!(self.flags & FL_JUMPRELEASED))
@@ -134,19 +133,18 @@ void() QCC_DoubleJump = {
         self.flags = self.flags - (self.flags & FL_JUMPRELEASED);
         self.flags = self.flags - (self.flags & FL_ONGROUND);	// don't stairwalk
         self.button2 = 0;
-        sound(self, CHAN_BODY, "doom/dsjump2.wav", 1, ATTN_NORM);
 		self.qccDoubleJump = -1;
+
+        sound(self, CHAN_BODY, "doom/dsjump2.wav", 1, ATTN_NORM);
+
         if (self.velocity_z > 0)
 			self.velocity_z = self.velocity_z + 270;
 		else
 			self.velocity_z = 270;
         return;
     }
-    else
-    {
-        self.qccDoubleJump = 0;
-        return;
-    }
+    
+	self.qccDoubleJump = 0;
 };
 
 /*

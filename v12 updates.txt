@@ -1,8 +1,15 @@
 Version 12
 Additions
+- New champion: Gordon Freeman.
 - New map: The Vale of Pnath.
 - New music: "The Netherworld" (track34.ogg) Based off of Andrew Hulshult's "Ithagnal" track in Quake Champions.
+- Add "skin" property to qcc_prop_dynamic in qcc.fgd.
+- Add "wait" property to trigger_counter in qcc.fgd. Wait is used as the reset value when a counter reaches zero.
+- Add new "qccSpeakDamaged" property, to allow for extra sounds on getting hurt. Used with Gordon's HEV suit.
+- Add new "QCC_FL_FAST_MELEE" flag, for quicker melee characters like Gordon and Dusk Dude.
 Changes
 - Crucible and Insomnia now have map names instead of just filenames when displaying map info in game.
+- "qccSpeakFrag" and "qccSpeakDamage" now use the QCC_SpeakCombatNull method as the default.
 Bug Fixes
 - Plugged a leak in Insomnia.
+- isHordeMode resets state on New Game. This previously would cause unexpected crashes on Hourglass pickup when starting a new game after playing a Horde Mode map in Ironwail, possibly other engines.
