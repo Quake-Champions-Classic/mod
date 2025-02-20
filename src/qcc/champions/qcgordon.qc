@@ -293,13 +293,17 @@ void(entity targ, entity attacker) QCC_GordonDamaged = {
 	else {
 		if (targ.health < 51)
 			s = "gordon/health_critical.wav";
+		else if (targ.armorvalue < 1)
+			s = "gordon/armor0.wav";
 		else if (targ.health < 71)
 			s = "gordon/blood_loss.wav";
-		if (attacker == world && targ.waterlevel > 0) {
-			if (self.watertype == CONTENT_SLIME)
-				s = "gordon/biohazard.wav";
-			else if (self.watertype == CONTENT_LAVA)
-				s = "gordon/heat_damage.wav";
+		if (attacker == world) {
+			if (targ.waterlevel > 0) {
+				if (self.watertype == CONTENT_SLIME)
+					s = "gordon/biohazard.wav";
+				else if (self.watertype == CONTENT_LAVA)
+					s = "gordon/heat_damage.wav";
+			}
 		}
 	}
 
@@ -329,6 +333,8 @@ void(entity collector, entity item) QCC_GordonItem = {
 			s = "gordon/armor50.wav";
 		else if (collector.armorvalue >= 25)
 			s = "gordon/armor25.wav";
+		else if (collector.armorvalue >= 15)
+			s = "gordon/armor15.wav";
     }
     // Megahealth
     else if (item.classname == "item_health" && item.spawnflags & H_MEGA)

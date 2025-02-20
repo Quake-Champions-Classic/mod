@@ -161,7 +161,7 @@ void() QCC_Precaches =
 	precache_model("progs/v_crowbar.mdl");
 	precache_model("progs/qchltele1.spr");
 	precache_model("progs/qchltele2.spr");
-	precache_sound("gordon/armor25.wav"); precache_sound("gordon/armor50.wav"); precache_sound("gordon/armor75.wav"); precache_sound("gordon/armor100.wav"); 
+	precache_sound("gordon/armor15.wav"); precache_sound("gordon/armor25.wav"); precache_sound("gordon/armor50.wav"); precache_sound("gordon/armor75.wav"); precache_sound("gordon/armor100.wav"); 
 	precache_sound("gordon/armor125.wav"); precache_sound("gordon/armor150.wav"); precache_sound("gordon/armor175.wav"); precache_sound("gordon/armor0.wav"); 
 	precache_sound("gordon/beamstart2.wav"); precache_sound("gordon/beamstart3.wav"); precache_sound("gordon/beamstart7.wav"); precache_sound("gordon/biohazard.wav"); 
 	precache_sound("gordon/breathe1.wav"); precache_sound("gordon/breathe2.wav"); precache_sound("gordon/cbar_hit1.wav"); precache_sound("gordon/cbar_hitbod1.wav"); 

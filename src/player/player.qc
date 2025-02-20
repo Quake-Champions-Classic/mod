@@ -610,6 +610,9 @@ void() GibPlayer = {
 		sound(self, CHAN_VOICE, "player/gib.wav", 1, ATTN_NONE);
 	else
 		sound(self, CHAN_VOICE, "player/udeath.wav", 1, ATTN_NONE);
+	
+	if (self.qccChampion == QCC_GORDONFREEMAN)
+		sound(self, 5, "gordon/death.wav", 1, ATTN_NORM);
 };
 
 void() PlayerDie = {
