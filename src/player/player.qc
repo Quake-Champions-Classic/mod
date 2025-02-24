@@ -499,6 +499,8 @@ void() DeathSound = {
 	else
 		self.noise = self.qccSndDeath5;
 	sound(self, CHAN_VOICE, self.noise, 1, ATTN_NONE);
+	if (self.qccChampion == QCC_GORDONFREEMAN)
+		sound(self, 5, "silence.wav", 0, ATTN_NONE);
 	return;
 };
 

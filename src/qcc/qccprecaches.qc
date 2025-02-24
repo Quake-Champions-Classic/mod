@@ -161,16 +161,17 @@ void() QCC_Precaches =
 	precache_model("progs/v_crowbar.mdl");
 	precache_model("progs/qchltele1.spr");
 	precache_model("progs/qchltele2.spr");
-	precache_sound("gordon/armor15.wav"); precache_sound("gordon/armor25.wav"); precache_sound("gordon/armor50.wav"); precache_sound("gordon/armor75.wav"); precache_sound("gordon/armor100.wav"); 
-	precache_sound("gordon/armor125.wav"); precache_sound("gordon/armor150.wav"); precache_sound("gordon/armor175.wav"); precache_sound("gordon/armor0.wav"); 
-	precache_sound("gordon/beamstart2.wav"); precache_sound("gordon/beamstart3.wav"); precache_sound("gordon/beamstart7.wav"); precache_sound("gordon/biohazard.wav"); 
-	precache_sound("gordon/breathe1.wav"); precache_sound("gordon/breathe2.wav"); precache_sound("gordon/cbar_hit1.wav"); precache_sound("gordon/cbar_hitbod1.wav"); 
+	precache_sound("gordon/armor15.wav"); precache_sound("gordon/armor25.wav"); precache_sound("gordon/armor50.wav"); precache_sound("gordon/armor75.wav"); 
+	precache_sound("gordon/armor100.wav"); precache_sound("gordon/armor125.wav"); precache_sound("gordon/armor150.wav"); precache_sound("gordon/armor175.wav"); 
+	precache_sound("gordon/armor0.wav"); precache_sound("gordon/beamstart2.wav"); precache_sound("gordon/beamstart3.wav"); precache_sound("gordon/beamstart7.wav"); 
+	precache_sound("gordon/biohazard.wav"); precache_sound("gordon/breathe2.wav"); precache_sound("gordon/cbar_hit1.wav"); precache_sound("gordon/cbar_hitbod1.wav"); 
 	precache_sound("gordon/cbar_miss1.wav"); precache_sound("gordon/death.wav"); precache_sound("gordon/health_critical.wav"); precache_sound("gordon/heat_damage.wav"); 
 	precache_sound("gordon/near_death.wav"); precache_sound("gordon/pl_fallpain3.wav"); precache_sound("gordon/pl_jump1.wav"); precache_sound("gordon/jumpmod_boost2.wav"); 
 	precache_sound("gordon/pl_jumpland2.wav"); precache_sound("gordon/pl_pain2.wav"); precache_sound("gordon/pl_pain4.wav"); precache_sound("gordon/pl_pain5.wav"); 
 	precache_sound("gordon/pl_pain6.wav"); precache_sound("gordon/pl_pain7.wav"); precache_sound("gordon/pl_swim3.wav"); precache_sound("gordon/pl_swim4.wav"); 
 	precache_sound("gordon/adrenaline.wav"); precache_sound("gordon/antitoxin.wav"); precache_sound("gordon/morphine.wav"); precache_sound("gordon/pain_block.wav"); 
-	precache_sound("gordon/sprayer.wav"); precache_sound("gordon/blood_loss.wav");
+	precache_sound("gordon/sprayer.wav"); precache_sound("gordon/blood_loss.wav"); precache_sound("gordon/major_lacerations.wav"); precache_sound("gordon/minor_fracture.wav"); 
+	precache_sound("gordon/shock_damage.wav"); 
 
 	// CALEB
 	precache_model("progs/qccaleb.mdl"); precache_model("progs/h_qccaleb.mdl"); precache_model("progs/lifeessence.mdl");

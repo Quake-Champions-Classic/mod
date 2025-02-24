@@ -379,7 +379,7 @@ void(entity targ, entity inflictor, entity attacker, float damage) T_Damage = {
 		return;
 
 	 if (targ.classname == "player")
-	 	targ.qccSpeakDamaged(targ, attacker);
+	 	targ.qccSpeakDamaged(targ, inflictor);
 
 	//react to the damage
 	oldself = self;

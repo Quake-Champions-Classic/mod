@@ -209,7 +209,7 @@ void() PlayerPostThink = {
 		if (self.watertype == CONTENT_WATER)
 			sound(self, CHAN_BODY, "player/h2ojump.wav", 1, ATTN_NORM);
 		else if (self.jump_flag < -650 && !(self.qccFlags & QCC_FL_ACROBAT)) {
-			T_Damage(self, world, world, 5); 
+			T_Damage(self, world, world, 5);
 			sound(self, CHAN_VOICE, self.qccSndLand2, 1, ATTN_NORM);
 			if (self.health <= 5)
 				self.deathtype = "falling";

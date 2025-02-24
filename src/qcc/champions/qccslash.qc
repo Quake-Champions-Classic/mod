@@ -454,7 +454,8 @@ void() QCC_PlasmaTrailProc = {
 	}
 
 	entity ent;	
-	ent = spawn();	
+	ent = spawn();
+	ent.classname = "plasmatrail";
 	setmodel(ent, "progs/w_plastrail.mdl");
 	ent.skin = self.owner.skin % 5;
 	

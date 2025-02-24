@@ -82,7 +82,7 @@ void() QCC_GhostwalkProc = {
 	if (self.qccAbilityTimer > time) {
 		self.nextthink = time + 0.01;
         if (self.qccAbilityTimer == 1)
-            spawn_tdeath (self.owner.origin,self.owner);
+            spawn_tdeath (self.owner.origin, self.owner);
     }
 	else {
         stuffcmd(self.owner, "v_cshift 1 1 1 1\n"); // reset view color

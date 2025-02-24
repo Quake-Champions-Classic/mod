@@ -42,7 +42,7 @@ void() QCC_GordonFreeman = {
 	self.qccSndBurn1 = "gordon/pl_pain7.wav";
 	self.qccSndBurn2 = "gordon/pl_pain7.wav";
 	self.qccSndGasp1 = "gordon/breathe2.wav";
-	self.qccSndGasp2 = "gordon/breathe1.wav";
+	self.qccSndGasp2 = "gordon/breathe2.wav";
 	self.qccSndDrown1 = "gordon/pl_swim3.wav";
 	self.qccSndDrown2 = "gordon/pl_swim4.wav";
 	self.qccSndH2oDeath = "gordon/death.wav";
@@ -100,17 +100,17 @@ void() s_hltele1_proc = [0, s_hltele1_proc] {
 		return;
 	}
 	self.frame = self.walkframe;
-	self.nextthink = 0.01;
+	self.nextthink = 0.0167;
 };
 
-void() s_hltele2_proc = [0, s_hltele1_proc] {
+void() s_hltele2_proc = [0, s_hltele2_proc] {
 	self.walkframe += 1;
 	if (self.walkframe > 18) {
 		remove(self);
 		return;
 	}
 	self.frame = self.walkframe;
-	self.nextthink = 0.01;
+	self.nextthink = 0.0167;
 };
 
 void(vector org) QCC_ResonanceParticles = {
@@ -140,7 +140,7 @@ void() QCC_ResonanceWarp = {
 	setmodel(ent, "progs/qchltele1.spr");
 	setorigin(ent, self.qccAbilityOwner.origin);
 	ent.think = s_hltele1_proc;
-	ent.nextthink = 0.016;
+	ent.nextthink = 0.0167;
 
 	// Teleport FX end pos
 	QCC_ResonanceParticles(self.origin);
@@ -149,28 +149,45 @@ void() QCC_ResonanceWarp = {
 	setmodel(ent, "progs/qchltele2.spr");
 	setorigin(ent, self.origin);
 	ent.think = s_hltele2_proc;
-	ent.nextthink = 0.016;
+	ent.nextthink = 0.0167;
 
 	// Teleport Gordon
 	ent = self.qccAbilityOwner;
 	
 	QCC_ResonanceFlash(ent);
 	spawn_tdeath(self.origin, ent);
-	
+	makevectors(self.mangle);
+
 	setorigin(ent, self.origin);
 	ent.fixangle = 1;
-	ent.teleport_time = time + 0.7;
-	makevectors(self.angles);
-	ent.angles = self.angles;
+	ent.teleport_time = time + 0;
+	ent.angles = self.mangle;
 	ent.velocity = v_forward * 100;
 	
 	if (!coop && !deathmatch)
 		FogPushSettingsFrom(ent, self, 0);
 	
 	ent.flags -= (self.flags & FL_ONGROUND);
-
 	ent.qccAbilityTimer = time + QCC_GLOBAL_COOLDOWN;
 	remove(self);
+};
+
+void() QCC_ResonanceProc = {
+	// Check if dead
+	if (self.qccAbilityOwner.deadflag >= DEAD_DYING) {
+		self.qccAbilityOwner.qccAbilityTimer = time + QCC_GLOBAL_COOLDOWN;
+		remove(self);
+		return;
+	}
+
+	if (self.qccAbilityTimer < time) {
+		QCC_ResonanceWarp();
+		return;
+	}
+	if (self.qccAbilityTimer < time + 0.01)
+		spawn_tdeath(self.origin, self.qccAbilityOwner);
+
+	self.nextthink = time + 0.01;
 };
 
 // Called by Gordon
@@ -187,17 +204,20 @@ void() QCC_ResonanceCascade = {
 
 	// Setup Warp Ent
 	self.qccAbilityEnt = spawn();
+	self.qccAbilityEnt.movetype = MOVETYPE_NONE;
+	self.qccAbilityEnt.solid = SOLID_NOT;
 	self.qccAbilityEnt.qccAbilityOwner = self;
+	setsize(self.qccAbilityEnt, '0 0 0', '0 0 0');
 
 	// Check if we targeted somebody we can kill
-	makevectors	(self.v_angle);
+	makevectors(self.v_angle);
 	org = self.origin;
 	traceline(org, org + v_forward * 4096, 0, self);
-	if (trace_ent.takedamage) {
+	if ((trace_ent.flags & FL_MONSTER || trace_ent.classname == "player") && trace_ent.health > 0) {
 		setorigin(self.qccAbilityEnt, trace_ent.origin);
 		self.qccAbilityEnt.angles = self.angles;
 	}
-	// Find a random player start or teleport destination if no target
+	// Find the farthest spawn point or teleport destination if no target
 	else {
 		dist = 0;
 		ent = nextent(world);
@@ -210,8 +230,33 @@ void() QCC_ResonanceCascade = {
 				odist = dist;
 				dist = vlen(ent.origin - self.origin);
 				if (dist > odist) {
-					setorigin(self.qccAbilityEnt, ent.origin);
-					self.qccAbilityEnt.angles = ent.mangle;
+					vector aVec;	
+					makevectors(ent.mangle);	
+					aVec = ent.origin;
+					float bad_org;
+					float i = 0;
+					while (i < 6) {
+						vector vCheck;
+						bad_org = FALSE;
+						if (i < 2)
+							vCheck = v_forward * 32;
+						if (i > 1 && i < 4)
+							vCheck = v_up * 32;
+						if (i > 3)
+							vCheck = v_right * 32;
+						if (i == 1 || i == 3 || i == 5)
+							vCheck = vCheck - vCheck * 2;
+						traceline(aVec, aVec + vCheck, TRUE, self);
+						if (trace_fraction < 1) {
+							bad_org = TRUE;
+							break;
+						}
+						i = i + 1;
+					}
+					if (!bad_org) {
+						setorigin(self.qccAbilityEnt, ent.origin);
+						self.qccAbilityEnt.mangle = ent.mangle;
+					}
 				}
 			}
 			ent = nextent(ent);
@@ -219,8 +264,9 @@ void() QCC_ResonanceCascade = {
 	}
 
 	// Delay the warp, to give opponents a bit of warning
-	self.qccAbilityEnt.think = QCC_ResonanceWarp;
-	self.qccAbilityEnt.nextthink = time + 2.5;
+	self.qccAbilityEnt.qccAbilityTimer = time + 2.5;
+	self.qccAbilityEnt.think = QCC_ResonanceProc;
+	self.qccAbilityEnt.nextthink = time + 0.1;
 
 	// Initial spark
 	QCC_ResonanceParticles(self.origin);
@@ -276,36 +322,111 @@ QCC: HEV STATUS
 ======================================================
 */
 // HEV Damage
-void(entity targ, entity attacker) QCC_GordonDamaged = {
-	string s;
+void(entity targ, entity inflictor) QCC_GordonDamaged = {
+	string s = "";
 
-	if (targ.qccTauntTimer > time)
-        return;
-
-	if (targ.health <= 0) {
-		if (targ.health < -40)
-			s = "gordon/death.wav";
-		else
-			return;
-	}
-	else if (targ.health < 26)
+	if (targ.health < 21)
 		s = "gordon/near_death.wav";
-	else {
-		if (targ.health < 51)
-			s = "gordon/health_critical.wav";
-		else if (targ.armorvalue < 1)
-			s = "gordon/armor0.wav";
-		else if (targ.health < 71)
-			s = "gordon/blood_loss.wav";
-		if (attacker == world) {
-			if (targ.waterlevel > 0) {
-				if (self.watertype == CONTENT_SLIME)
-					s = "gordon/biohazard.wav";
-				else if (self.watertype == CONTENT_LAVA)
-					s = "gordon/heat_damage.wav";
+	else if (targ.qccTauntTimer < time) {
+		// Player Weapons
+		if (inflictor.classname == "player" || inflictor.classname == "monster_gremlin") {
+			if (inflictor.weapon == QCC_ABILITY) {
+				s = "gordon/blood_loss.wav";
+			}
+			else if (inflictor.weapon == QCC_IT_HEAVYMACHINEGUN || inflictor.weapon == QCC_IT_RAILGUN || 
+				inflictor.weapon == IT_SHOTGUN || inflictor.weapon == IT_SUPER_SHOTGUN) {
+				s = "gordon/blood_loss.wav";
+			}
+			else if (inflictor.weapon == IT_LIGHTNING)
+				s = "gordon/shock_damage.wav";
+			else if (inflictor.weapon == IT_AXE) {
+				if (inflictor.qccChampion == QCC_DOOMSLAYER || inflictor.qccChampion == QCC_DUKENUKEM || 
+					inflictor.qccChampion == QCC_KEEN || inflictor.qccChampion == QCC_GORDONFREEMAN) {
+					s = "gordon/blood_loss.wav";
+				}
+				else
+					s = "gordon/major_lacerations.wav";
 			}
 		}
+		else if (inflictor.classname == "missile" || inflictor.classname == "grenade" || inflictor.classname == "proximity_grenade" || 
+					inflictor.classname == "keelgrenade" || inflictor.classname == "keelminigrenade" || 
+					inflictor.classname == "MiniGrenade" || inflictor.classname == "MultiRocket") {
+				s = "gordon/blood_loss.wav";
+		}
+		else if (inflictor.classname == "spike" || inflictor.classname == "super_spike") {
+			s = "gordon/major_lacerations.wav";
+		}
+		// Environment
+		if (inflictor == world) {
+			if (targ.waterlevel > 0) {
+				if (self.watertype == CONTENT_SLIME)
+				s = "gordon/biohazard.wav";
+				else if (self.watertype == CONTENT_LAVA)
+				s = "gordon/heat_damage.wav";
+			}
+			else {
+				if (self.jump_flag < -650)
+				s = "gordon/minor_fracture.wav";
+			}
+		}
+		// Monsters (mostly)
+		else if (inflictor.flags & FL_MONSTER) {
+			if (inflictor.classname == "monster_army" || 
+				inflictor.classname == "monster_zombie" || 
+				inflictor.classname == "monster_fish" || 
+				inflictor.classname == "monster_mummy" || 
+				inflictor.classname == "monster_morph" || 
+				inflictor.classname == "monster_armagon" || 
+				inflictor.classname == "monster_death_monger" || 
+				inflictor.classname == "monster_volkerh") {
+				if (targ.armorvalue < 1)
+					s = "gordon/armor0.wav";
+				else
+					s = "gordon/blood_loss.wav";
+			}
+			else if (inflictor.classname == "monster_shambler") {
+				if (inflictor.frame < 69)
+					s = "gordon/major_lacerations.wav";
+				else
+					s = "gordon/shock_damage.wav";
+			}
+			else if (inflictor.classname == "monster_tarbaby")
+				s = "gordon/biohazard.wav";
+			else if (inflictor.classname == "monster_eel" || inflictor.classname == "monster_dragon")
+				s = "gordon/shock_damage.wav";
+			else if (inflictor.classname == "monster_goroth")
+				s = "gordon/heat_damage.wav";
+			else if (inflictor.classname == "monster_volkerh" && inflictor.frame > 92 && inflictor.frame < 100)
+				s = "gordon/shock_damage.wav";
+			else if (targ.armorvalue < 1)
+				s = "gordon/armor0.wav";
+			else
+				s = "gordon/major_lacerations.wav";
+		}
+		else if (inflictor.classname == "wizard_spike" || inflictor.classname == "acidspit") {
+			s = "gordon/biohazard.wav";
+		}
+		else if (inflictor.classname == "knight_spike" || inflictor.classname == "enforcer_laser" || 
+			inflictor.classname == "lavaball" || inflictor.classname == "lava_spike" || 
+			inflictor.classname == "flamestrike" || 
+			inflictor.classname == "fireball" || inflictor.classname == "lavaman_ball" || 
+			inflictor.classname == "chthon_lavaball") {
+			s = "gordon/heat_damage.wav";
+		}
+		else if (inflictor.classname == "plasma" || inflictor.classname == "plasmatrail") {
+			s = "gordon/shock_damage.wav";
+		}
+		else if (targ.armorvalue < 1)
+			s = "gordon/armor0.wav";
+		else
+			s = "gordon/blood_loss.wav";
+
+		if (targ.health < 41)
+			s = "gordon/health_critical.wav";
 	}
+
+	if (s == "")
+		return;
 
 	sound(targ, 5, s, 1, ATTN_NORM);
     targ.qccTauntTimer = time + 6;

@@ -72,8 +72,10 @@ void() tdeath_touch = {
 		else
 			T_Damage(other, self, self, 50000);
 		// QCC: fix to allow warping inside monsters that don't gib, hope it doesn't break anything
-		if (other.flags & FL_MONSTER && other.health < 1)
+		if (other.flags & FL_MONSTER && other.health < 1) {
 			other.solid = SOLID_NOT;
+			setorigin(other, other.origin); // relink to the world
+		}
 	}
 };
 
@@ -92,7 +94,7 @@ void(vector org, entity death_owner) spawn_tdeath_fast = {
 	death.touch = tdeath_touch;
 	death.nextthink = time + 0.01;
 	death.think = SUB_Remove;
-	death.owner = death_owner;	
+	death.owner = death_owner;
 	force_retouch = 2;  // make sure even still objects get hit
 };
 

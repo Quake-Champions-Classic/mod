@@ -136,6 +136,32 @@ void() QCC_DireOrbAnimProc = [144, QCC_DireOrbAnimProc] {
 	else {
 		self.frame = self.frame + self.walkframe;
 		self.weaponframe = self.walkframe;
+		// Actual warp is delayed so we don't have collision issues on a perfect orb
+		if (self.walkframe == 1) {
+			vector aVec;	
+			makevectors(self.qccAbilityEnt.mangle);	
+			aVec = self.qccAbilityEnt.origin;
+			float i = 0;
+			while (i < 6) {
+				vector vCheck;
+				if (i < 2)
+					vCheck = v_forward * 32;
+				if (i > 1 && i < 4)
+					vCheck = v_up * 32;
+				if (i > 3)
+					vCheck = v_right * 32;
+				if (i == 1 || i == 3 || i == 5)
+					vCheck = vCheck - vCheck * 2;
+				traceline(aVec, aVec + vCheck, TRUE, self);
+				if (trace_fraction < 1)
+					aVec = aVec - vCheck;
+				i = i + 1;
+			}
+			spawn_tfog(self.origin);
+			setorigin(self,aVec);
+			self.teleport_time = time + 0;
+			self.flags -= self.flags & FL_ONGROUND;
+		}
 	}
 	self.walkframe = self.walkframe + 1;
 	self.nextthink = 0.02;
@@ -156,12 +182,11 @@ void() QCC_DireOrbAnim = {
 
 // Called by Ranger
 void() QCC_DireOrbWarp = {
-	QCC_DireOrbAnim ();
+	QCC_DireOrbAnim();
 	
 	vector aVec;	
 	makevectors(self.qccAbilityEnt.mangle);	
 	aVec = self.qccAbilityEnt.origin;
-	
 	float i;
 	i = 0;
 	while (i < 6) {
@@ -174,18 +199,14 @@ void() QCC_DireOrbWarp = {
 			vCheck = v_right * 32;
 		if (i == 1 || i == 3 || i == 5)
 			vCheck = vCheck - vCheck * 2;
-		
 		traceline(aVec, aVec + vCheck, TRUE, self);
 		if (trace_fraction < 1)
 			aVec = aVec - vCheck;
-		
 		i = i + 1;
 	}
-	
+
 	spawn_tfog(self.origin);
 	spawn_tdeath(aVec, self);
-
-	setorigin(self,aVec);
 	
 	i = 0;
 	while (i < 4) {
@@ -201,13 +222,16 @@ void() QCC_DireOrbWarp = {
 		spawn_tfog(aVec + offset);
 		i = i + 1;
 	}
-	
-	self.teleport_time = time + 0;
-	self.flags = self.flags - self.flags & FL_ONGROUND;
+
 	self.qccAbilityEnt.nextthink = time + 0;
 	self.qccAbilityEnt.think = QCC_DireOrbExplosion;
-	
+	if (!coop && !deathmatch)
+		FogPushSettingsFrom(self, self.qccAbilityEnt, 0);
 	self.qccAbilityTimer = 0;
+};
+
+void() QCC_DireOrbActivate = {
+
 };
 
 // Called by Ranger

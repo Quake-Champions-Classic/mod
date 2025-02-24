@@ -85,7 +85,7 @@ void() ammo_touch = {
 		// Gordon Freeman can use cells to recharge armor
 		if (other.qccChampion == QCC_GORDONFREEMAN) {
 			if (other.armorvalue < other.qccMaxArmor) {
-				other.armorvalue += 15;
+				other.armorvalue += 25;
 				if (other.armorvalue > other.qccMaxArmor)
 					other.armorvalue = other.qccMaxArmor;
 				picked_up = TRUE;

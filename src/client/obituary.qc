@@ -24,7 +24,7 @@ void(entity targ, entity attacker, entity inflictor) ClientObituary = {
 	if (targ.classname == "player") {
 		if (attacker.classname == "teledeath") {
 			// QCC ------------------------------------------------------------------
-			if (attacker.owner.qccChampion == QCC_RANGER && attacker.owner.qccAbilityTimer > time + 43) {
+			if (attacker.owner.qccChampion == QCC_RANGER && (attacker.owner.qccAbilityTimer > time || attacker.owner.qccAbilityTimer < 0)) {
 				bprint(targ.netname);
 				bprint(" was disintegrated by ");
 				bprint(attacker.owner.netname);
@@ -35,6 +35,12 @@ void(entity targ, entity attacker, entity inflictor) ClientObituary = {
 				bprint(" was turned inside out by ");
 				bprint(attacker.owner.netname);
 				bprint("\n");
+			}
+			else if (attacker.owner.qccChampion == QCC_GORDONFREEMAN && (attacker.owner.qccAbilityTimer > time || attacker.owner.qccAbilityTimer < 0)) {
+				bprint(targ.netname);
+				bprint(" was quantum entangled by ");
+				bprint(attacker.owner.netname);
+				bprint("'s resonance cascade\n");
 			}
 			// ----------------------------------------------------------------------
 			else
@@ -229,6 +235,8 @@ void(entity targ, entity attacker, entity inflictor) ClientObituary = {
 						deathstring = " had the flesh peeled from their bones by ";
 					else if (attacker.qccChampion == QCC_DUKENUKEM)
 						deathstring = " received an ass-kicking by ";
+					else if (attacker.qccChampion == QCC_GORDONFREEMAN)
+						deathstring = " was pried open by ";
 					else if (attacker.qccChampion == QCC_CALEB)
 						deathstring = " was impaled by ";
 					else if (attacker.qccChampion == QCC_DUSKDUDE)
@@ -466,7 +474,7 @@ void(entity targ, entity attacker, entity inflictor) ClientObituaryOld = {
 		if (attacker.classname == "teledeath") {
 			bprint(targ.netname);
 			// QCC -----------------------------------------------------------------------------
-			if (attacker.owner.qccChampion == QCC_RANGER && attacker.owner.qccAbilityTimer > time + 43) {
+			if (attacker.owner.qccChampion == QCC_RANGER && (attacker.owner.qccAbilityTimer > time || attacker.owner.qccAbilityTimer < 0)) {
 				bprint(" was disintegrated by ");
 				bprint(attacker.owner.netname);
 				bprint("'s deadly slipgate");
@@ -474,6 +482,11 @@ void(entity targ, entity attacker, entity inflictor) ClientObituaryOld = {
 			else if (attacker.owner.qccChampion == QCC_NYX && attacker.owner.weapon == QCC_ABILITY) {	
 				bprint(" was turned inside out by ");
 				bprint(attacker.owner.netname);
+			}
+			else if (attacker.owner.qccChampion == QCC_GORDONFREEMAN && (attacker.owner.qccAbilityTimer > time || attacker.owner.qccAbilityTimer < 0)) {
+				bprint(" was quantum entangled by ");
+				bprint(attacker.owner.netname);
+				bprint("'s resonance cascade\n");
 			}
 			// ---------------------------------------------------------------------------------
 			else {
@@ -645,6 +658,8 @@ void(entity targ, entity attacker, entity inflictor) ClientObituaryOld = {
 						deathstring = " had the flesh peeled from their bones by ";
 					else if (attacker.qccChampion == QCC_DUKENUKEM)
 						deathstring = " received an ass-kicking by ";
+					else if (attacker.qccChampion == QCC_GORDONFREEMAN)
+						deathstring = " was pried open by ";
 					else if (attacker.qccChampion == QCC_CALEB)
 						deathstring = " was impaled by ";
 					else if (attacker.qccChampion == QCC_DUSKDUDE)

@@ -71,6 +71,7 @@ void() QCC_FlamestrikeThink = {
 	if (trace_fraction < 1) {
 		fire = spawn();
 		fire.owner = self.owner;
+		fire.classname = "flamestrike";
 		fire.movetype = MOVETYPE_NONE;
 		fire.solid = SOLID_TRIGGER;
 		setmodel(fire, "progs/flame2.mdl");

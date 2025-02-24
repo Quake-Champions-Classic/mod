@@ -21,8 +21,9 @@ NEW CHAMPION INSTRUCTIONS
 
 void() W_Attack;
 // Borrowed from Triggers
-void (vector org) spawn_tfog;
-void (vector org, entity death_owner) spawn_tdeath; 
+void(vector org) spawn_tfog;
+void(vector org, entity death_owner) spawn_tdeath;
+void(vector org, entity death_owner) spawn_tdeath_fast;
 
 // INTERLOPERS
 void() QCC_Precaches;		// world
@@ -294,7 +295,7 @@ ENTITY FIELDS
 // Sound
 .void() qccSpeakSpawn;
 .void(entity targ, entity attacker) qccSpeakFrag;
-.void(entity targ, entity attacker) qccSpeakDamaged;
+.void(entity targ, entity inflictor) qccSpeakDamaged;
 .void(entity collector, entity item) qccSpeakItem;
 .string qccSpeakCthonGreet;
 .string qccSpeakCthonKill;
