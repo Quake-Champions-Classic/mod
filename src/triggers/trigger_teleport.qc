@@ -52,7 +52,10 @@ void(vector org) spawn_tfog_silent = {
 };
 
 void() tdeath_touch = {
-	if (other == self.owner)
+	if (other.classname == "monster_hitbox")
+		other = other.owner;
+	
+	if (other == self.owner || other == self.enemy)
 		return;
 
     // frag anyone who teleports in on top of an invincible player
@@ -67,8 +70,9 @@ void() tdeath_touch = {
 	}
 
 	if (other.health) {
-		if ((other.qccFlags & QCC_FL_RESIST_TELEFRAG) && other.health > other.max_health / 3 + 1)
-			T_Damage(other, self, self, other.max_health / 3);
+		// prevent instakill on elder gods
+		if ((other.qccFlags & QCC_FL_RESIST_TELEFRAG))
+			T_Damage(other, self, self, other.max_health / 3 + 1);
 		else
 			T_Damage(other, self, self, 50000);
 		// QCC: fix to allow warping inside monsters that don't gib, hope it doesn't break anything
@@ -76,6 +80,7 @@ void() tdeath_touch = {
 			other.solid = SOLID_NOT;
 			setorigin(other, other.origin); // relink to the world
 		}
+		self.enemy = other; // hack to prevent elder gods from getting hit multiple times
 	}
 };
 

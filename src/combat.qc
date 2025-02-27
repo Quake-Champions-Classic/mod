@@ -226,9 +226,14 @@ void(entity targ, entity inflictor, entity attacker, float damage) T_Damage = {
 	vector	dir;
 	entity	oldself;
 	float	save, take;
-
+	
 	if (!targ.takedamage)
 		return;
+	
+	if (targ.classname == "monster_hitbox") {
+		T_Damage(targ.owner, inflictor, attacker, damage);
+		return;
+	}
 
 	// MG1: Yoder add, September 9 2020
 	if (targ.is_frozen)

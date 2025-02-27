@@ -209,6 +209,7 @@ float QCC_FL_CUSTOM_VIEW =		65536;
 float QCC_FL_CHANNELING =		131072;	// 5% cooldown on health pickup; 10% cooldown on Mega pickup
 float QCC_FL_ABILITY =			262144; // needed for radius damaging abilities
 float QCC_FL_FAST_MELEE =		524288; // For quick attacking melee characters like Gordon Freeman and Dusk Dude
+float QCC_FL_TELETHROWN =		1048576; // Used with Ithagnal's telekinesis, since it modifies velocity in weird ways
 
 
 // Music
@@ -354,7 +355,7 @@ vector(vector point, float ang) QCC_RotatePointYaw = {
 	vector vec;
 	float x, y;
 	
-	vec = '0 1 0' * self.angles_y;
+	vec = '0 1 0' * ang;
 	makevectors(vec);
 	vec = point;
 	x = vec_x * v_forward_x - vec_y * v_forward_y;

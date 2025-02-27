@@ -25,8 +25,7 @@ And add this line to your FGD file to see him properly in Trenchbroom:
 
 */
 
-.float gortaunt_timer;
-
+/* use QCC_RotatePointYaw from qccdefs.qc instead
 vector(vector point, float ang) GorRotatePointYaw =
 {
 	vector vec;
@@ -42,6 +41,7 @@ vector(vector point, float ang) GorRotatePointYaw =
 	
 	return vec;
 }
+*/
 
 void() gor_walk = {
 	ai_walk(16);
@@ -87,13 +87,13 @@ void() GorothTaunt =
 	
 	if (r < 0.33)
 		sound(self, CHAN_VOICE, "goroth/gortaunt1.wav", 1, ATTN_NONE);
-		self.gortaunt_timer = time + 5;
+		self.qccTauntTimer = time + 5;
 	if (r >= 0.33 && r < 0.66)
 		sound(self, CHAN_VOICE, "goroth/gortaunt2.wav", 1, ATTN_NONE);
-		self.gortaunt_timer = time + 10;
+		self.qccTauntTimer = time + 10;
 	if (r >= 0.66)
 		sound(self, CHAN_VOICE, "goroth/gortaunt3.wav", 1, ATTN_NONE);
-		self.gortaunt_timer = time + 7;
+		self.qccTauntTimer = time + 7;
 };
 
 void() gor_stand1	=[	$stand1,	gor_stand2	] {ai_stand();};
@@ -142,7 +142,7 @@ void() gor_run9 =[$walk9, gor_run10] {gor_run();};
 void() gor_run10 =[$walk10, gor_run11] {gor_run();};
 void() gor_run11 =[$walk11, gor_run12] {gor_run();};
 void() gor_run12 =[$walk12, gor_run1] {
-	if (time > self.gortaunt_timer)
+	if (time > self.qccTauntTimer)
 		GorothTaunt();
 	gor_run();
 };
@@ -159,7 +159,7 @@ void(vector lavapos) GorothLavaSplash = {
 	vector vec, dir;
 	float x, y, z;
 		
-	vec = GorRotatePointYaw(lavapos,self.angles_y);		
+	vec = QCC_RotatePointYaw(lavapos,self.angles_y);		
 	vec = self.origin + vec;
 	z = -1;
 	while (z <= 1) {
@@ -184,9 +184,9 @@ void() GorothSmashBoom = {
 	local	float	r;
 	local	entity exp;
 	
-	self.gortaunt_timer = self.gortaunt_timer - 1;
+	self.qccTauntTimer = self.qccTauntTimer - 1;
 	self.nextthink = time + 0.1;
-	if (self.gortaunt_timer > 0)
+	if (self.qccTauntTimer > 0)
 		self.think = GorothSmashBoom;
 	else
 		self.think = SUB_Remove;
@@ -240,15 +240,15 @@ void(vector dir, float rmv_t) GorothSmashMissile = {
 	setorigin(gmis, org);
 	gmis.velocity = dir * 500;
 	gmis.angles = vectoangles(gmis.velocity);
-	gmis.gortaunt_timer = rmv_t;
+	gmis.qccTauntTimer = rmv_t;
 	gmis.nextthink = time;
 	gmis.think = GorothSmashBoom;
 };
 
 void() gor_smash1 =[ $smash1, gor_smash2    ] {
-	if (time > self.gortaunt_timer) {
+	if (time > self.qccTauntTimer) {
 		sound(self, CHAN_VOICE, "goroth/gorsmash.wav", 1, ATTN_NONE);
-		self.gortaunt_timer = time + 4;
+		self.qccTauntTimer = time + 4;
 	}
 	ai_charge(2);
 };
@@ -348,9 +348,9 @@ void() GorothRock = {
 };
 
 void() gor_magic1	=[	$magic1,	gor_magic2	] {
-	if (time > self.gortaunt_timer) {
+	if (time > self.qccTauntTimer) {
 		sound(self, CHAN_VOICE, "goroth/gormagic.wav", 1, ATTN_NONE);
-		self.gortaunt_timer = time + 5;
+		self.qccTauntTimer = time + 5;
 	}
 };
 void() gor_magic2	=[	$magic2,	gor_magic3	]{};
@@ -406,9 +406,9 @@ Goroth throws a spicy meatball and taunts the target.
 ==========================
 */
 void() gor_ball1 = [$ball1, gor_ball2] {
-	if (time > self.gortaunt_timer) {
+	if (time > self.qccTauntTimer) {
 		sound(self, CHAN_VOICE, "goroth/gorsmash.wav", 1, ATTN_NONE);
-		self.gortaunt_timer = time + 4;
+		self.qccTauntTimer = time + 4;
 	}
 };
 void() gor_ball2 = [$ball2, gor_ball3] {ai_face();};
@@ -419,7 +419,7 @@ void() gor_ball6 = [$ball6, gor_ball7] {
 	ai_face();
 	local	vector	org, vec;
 		
-	org = GorRotatePointYaw('466 118 286',self.angles_y);
+	org = QCC_RotatePointYaw('466 118 286',self.angles_y);
 	org = org + self.origin;
 	vec = normalize(self.enemy.origin - org);
 	launch_spike (org, vec);
@@ -438,7 +438,7 @@ void() gor_ball10 = [$ball10, gor_ball11] {ai_face();};
 void() gor_ball11 = [$ball11, gor_ball12] {ai_face();};
 void() gor_ball12 = [$ball12, gor_ball13] {ai_face();};
 void() gor_ball13 = [$ball13, gor_ball14] {
-	if (time > self.gortaunt_timer)
+	if (time > self.qccTauntTimer)
 		GorothTaunt();
 	ai_face();
 };
@@ -508,7 +508,7 @@ void() gor_gib = {
 
 void() gor_death1      =[ $death1, gor_death2     ] {sound(self, CHAN_VOICE, "goroth/gordie.wav", 1, ATTN_NONE);};
 void() gor_death2      =[ $death2, gor_death3     ] {};
-void() gor_death3      =[ $death3, gor_death4     ] {self.solid = SOLID_NOT;};
+void() gor_death3      =[ $death3, gor_death4     ] {self.solid = SOLID_NOT; setorigin(self, self.origin);};
 void() gor_death4      =[ $death4, gor_death5     ] {};
 void() gor_death5      =[ $death5, gor_death6     ] {};
 void() gor_death6      =[ $death6, gor_death7     ] {};
@@ -530,7 +530,7 @@ void() gor_death21     =[ $death21, gor_gib	     ] {};
 
 void() gor_wake = {
 	sound(self, CHAN_VOICE, "goroth/gorwake.wav", 1, ATTN_NONE);
-	self.gortaunt_timer = time + 10;
+	self.qccTauntTimer = time + 10;
 };
 
 //============================================================================
@@ -563,10 +563,10 @@ void() monster_goroth = {
 
 	setsize(self, '-192 -192 -48', '192 192 576');
 	if (skill > 1)
-		self.health = 10000;
+		self.max_health = 10000;
 	else
-		self.health = 6000;
-	self.max_health = self.health;
+		self.max_health = 6000;
+	self.health = self.max_health;
 
 	self.th_stand = gor_stand1;
 	self.th_walk = gor_walk1;
@@ -576,10 +576,11 @@ void() monster_goroth = {
 	self.th_missile = GorothAttack;
 	self.th_pain = gor_pain;
 	self.use = gor_wake;
-	self.combat_style = CS_RANGED;
+	self.combat_style = CS_MIXED;
 
 	self.qccFlags |= QCC_FL_RESIST_ROCKET;
 	self.qccFlags |= QCC_FL_RESIST_TELEFRAG;
+	self.qccFlags |= QCC_FL_FIREPROOF;
 
 	self.netname = "Goroth";
 	self.killstring = " was dominated by Goroth\n";

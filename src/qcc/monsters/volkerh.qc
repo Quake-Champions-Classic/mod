@@ -26,8 +26,8 @@ And add this line to your FGD file to see him properly in Trenchbroom:
 */
 
 .float volmis_t;
-.float voltaunt_timer;
 
+/* use QCC_RotatePointYaw from qccdefs.qc instead
 vector(vector point, float ang) VolRotatePointYaw = {
 	vector vec;
 	float x, y;
@@ -41,6 +41,7 @@ vector(vector point, float ang) VolRotatePointYaw = {
 	vec_y = y;	
 	return vec;
 }
+*/
 
 // copied from boss.qc
 void() vol_face = {	
@@ -78,27 +79,27 @@ $frame death20 death21 death22 death23 death24 death25 death26
 
 // Volkerh special functions
 void() VolkerhTaunt = {
-	if (self.voltaunt_timer > time) 
+	if (self.qccTauntTimer > time) 
 		return;
 	
 	float r;
 	r = random();	
 	if (r < 0.33)
 		sound(self, CHAN_VOICE, "volkerh/voltaunt1.wav", 1, ATTN_NONE);
-		self.voltaunt_timer = time + 12;
+		self.qccTauntTimer = time + 12;
 	if (r >= 0.33 && r < 0.66)
 		sound(self, CHAN_VOICE, "volkerh/voltaunt2.wav", 1, ATTN_NONE);
-		self.voltaunt_timer = time + 8;
+		self.qccTauntTimer = time + 8;
 	if (r >= 0.66)
 		sound(self, CHAN_VOICE, "volkerh/voltaunt3.wav", 1, ATTN_NONE);
-		self.voltaunt_timer = time + 8;
+		self.qccTauntTimer = time + 8;
 };
 
 void(vector bloodpos, float bloodsz) VolkerhBloodFist = {
 	vector vec, dir;
 	float x, y, z;
 		
-	vec = VolRotatePointYaw(bloodpos,self.angles_y);		
+	vec = QCC_RotatePointYaw(bloodpos, self.angles_y);		
 	vec = self.origin + vec;
 	if (bloodsz > 0) {
 		z = -1;
@@ -197,7 +198,7 @@ void() vol_run17 =[ $fly17, vol_run18] {ai_run(7);};
 void() vol_run18 =[ $fly18, vol_run19] {ai_run(7);};
 void() vol_run19 =[ $fly19, vol_run20] {ai_run(7);};
 void() vol_run20 =[ $fly20, vol_run1 ] {
-	if (time > self.voltaunt_timer)
+	if (time > self.qccTauntTimer)
 		VolkerhTaunt();
 	ai_run(7);
 };
@@ -249,8 +250,8 @@ void() VolkerhMissile = {
 	vector	vec, org;
 	float	t;
 	
-	//org = VolRotatePointYaw('187 3 208',self.angles_y);
-	org = VolRotatePointYaw('243 4 270',self.angles_y);
+	//org = QCC_RotatePointYaw('187 3 208',self.angles_y);
+	org = QCC_RotatePointYaw('243 4 270',self.angles_y);
 	org = org + self.origin;
 	
 	// lead the player on hard mode
@@ -282,9 +283,9 @@ void() VolkerhMissile = {
 };
 
 void() vol_magica1 = [$magica1, vol_magica2] {
-	if (time > self.voltaunt_timer) {
+	if (time > self.qccTauntTimer) {
 		sound(self, CHAN_VOICE, "volkerh/volmag1.wav", 1, ATTN_NONE);
-		self.voltaunt_timer = time + 4;
+		self.qccTauntTimer = time + 4;
 	}
 	vol_face ();
 };
@@ -351,8 +352,8 @@ void() vol_magica19 = [$magica19, vol_magica20] {vol_face();};
 void() vol_magica20 = [$magica20, vol_magica21]	{
 	vector vec, dir;
 	float x, y, z;	
-	//vec = VolRotatePointYaw('187 3 208',self.angles_y);		
-	vec = VolRotatePointYaw('243 4 270',self.angles_y);	
+	//vec = QCC_RotatePointYaw('187 3 208',self.angles_y);		
+	vec = QCC_RotatePointYaw('243 4 270',self.angles_y);	
 	vec = self.origin + vec;
 	z = -1;
 	while (z <= 1) {
@@ -396,10 +397,10 @@ void() VolkerhLightning = {
 	
 	self.effects = self.effects | EF_MUZZLEFLASH;
 
-	vol_face ();
+	vol_face();
 
-	//org = VolRotatePointYaw('229 0 246',self.angles_y);
-	org = VolRotatePointYaw('297 0 320',self.angles_y);
+	//org = QCC_RotatePointYaw('229 0 246',self.angles_y);
+	org = QCC_RotatePointYaw('297 0 320',self.angles_y);
 	org = org + self.origin;
 
 	dir = normalize((self.enemy.origin + '0 0 16') - org);
@@ -416,14 +417,14 @@ void() VolkerhLightning = {
 	WriteCoord(MSG_BROADCAST, trace_endpos_y);
 	WriteCoord(MSG_BROADCAST, trace_endpos_z);
 
-	LightningDamage (org, trace_endpos, self, 30);
+	LightningDamage(org, trace_endpos, self, 30);
 };
 
 
 void() vol_magicb1 = [$magicb1, vol_magicb2] {
-	if (time > self.voltaunt_timer) {
+	if (time > self.qccTauntTimer) {
 		sound(self, CHAN_VOICE, "volkerh/volmag2.wav", 1, ATTN_NONE);
-		self.voltaunt_timer = time + 4;
+		self.qccTauntTimer = time + 4;
 	}
 	// VolkerhBloodFist('7 -116 186', 0);
 	// VolkerhBloodFist('1 129 202', 0);
@@ -571,9 +572,9 @@ void() VolkerhBloodspire = {
 };
 
 void() vol_magicc1 = [$magicc1, vol_magicc2] {
-	if (time > self.voltaunt_timer) {
+	if (time > self.qccTauntTimer) {
 		sound(self, CHAN_VOICE, "volkerh/volmag3.wav", 1, ATTN_NONE);
-		self.voltaunt_timer = time + 5.5;
+		self.qccTauntTimer = time + 5.5;
 	}
 };
 void() vol_magicc2 = [$magicc2, vol_magicc3] {};
@@ -692,7 +693,7 @@ void() vol_gib = {
 
 void() vol_death1  =[ $death1,  vol_death2  ] {sound(self, CHAN_VOICE, "volkerh/voldie.wav", 1, ATTN_NONE);};
 void() vol_death2  =[ $death2,  vol_death3  ] {};
-void() vol_death3  =[ $death3,  vol_death4  ] {self.solid = SOLID_NOT;};
+void() vol_death3  =[ $death3,  vol_death4  ] {self.solid = SOLID_NOT; setorigin(self, self.origin);};
 void() vol_death4  =[ $death4,  vol_death5  ] {};
 void() vol_death5  =[ $death5,  vol_death6  ] {};
 void() vol_death6  =[ $death6,  vol_death7  ] {};
@@ -722,7 +723,7 @@ void() vol_death26 =[ $death26, vol_gib ] {};
 
 void() vol_wake = {
 	sound(self, CHAN_VOICE, "volkerh/volwake.wav", 1, ATTN_NONE);
-	self.voltaunt_timer = time + 12;
+	self.qccTauntTimer = time + 12;
 };
 
 //============================================================================
@@ -757,10 +758,10 @@ void() monster_volkerh = {
 
 	setsize(self, '-83 -94 0', '83 94 582');
 	if (skill > 1)
-		self.health = 10000;
+		self.max_health = 10000;
 	else
-		self.health = 6000;
-	self.max_health = self.health;
+		self.max_health = 6000;
+	self.health = self.max_health;
 
 	self.th_stand = vol_stand1;
 	self.th_walk = vol_walk1;

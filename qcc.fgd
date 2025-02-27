@@ -1850,6 +1850,7 @@ model(
 //
 @PointClass base(Monster) size(-192 -192 -48, 192 192 576) model({ "path": ":progs/goroth.mdl" }) = monster_goroth : "Goroth" []
 @PointClass base(Monster) size(-83 -94 0, 83 94 582) model({ "path": ":progs/volkerh.mdl" }) = monster_volkerh : "Volkerh" []
+@PointClass base(Monster) size(-256 -308 -32, 256 308 384) model({ "path": ":progs/ithagnal.mdl" }) = monster_ithagnal : "Ithagnal" []
 @PointClass size(-16 -16 0, 16 16 56) base(Item, Appearflags) model({ "path": ":progs/qchourglass.mdl" }) = qcc_item_hourglass : "Ability Hourglass" []
 @PointClass size(-16 -16 0, 16 16 56) base(Item, Appearflags) model({ "path": ":progs/armor.mdl", "skin": 2 }) = qcc_item_heavyarmor : "Heavy Armor (100)" []
 @PointClass size(-16 -16 0, 16 16 56) base(Item, Appearflags) model({ "path": ":progs/qclarmor.mdl"}) = qcc_item_lightarmor : "Light Armor (50)" []

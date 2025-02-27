@@ -1,2 +1,2 @@
 cd ..\
-start ironwail.exe -game qcc
+start ironwail.exe -game qcc +map ithtest

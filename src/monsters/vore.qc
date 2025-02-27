@@ -147,47 +147,6 @@ void() shalrath_die =
 ShalMissile
 ================
 */
-void() ShalMissileTouch;
-void() ShalHome;
-void() ShalMissile =
-{
-	local	entity 	missile;
-	local	vector	dir;
-	local	float	dist, flytime;
-
-	dir = normalize((self.enemy.origin + '0 0 10') - self.origin);
-	dist = vlen (self.enemy.origin - self.origin);
-	flytime = dist * 0.002;
-
-	if (flytime < 0.1)
-		flytime = 0.1;
-
-	self.effects = self.effects | EF_MUZZLEFLASH;
-	sound(self, CHAN_WEAPON, "shalrath/attack2.wav", 1, ATTN_NORM);
-
-	missile = spawn();
-	missile.classname = "vore_ball";
-	missile.owner = self;
-
-	missile.solid = SOLID_BBOX;
-	missile.movetype = MOVETYPE_FLYMISSILE;
-	setmodel(missile, "progs/v_spike.mdl");
-
-	setsize(missile, '0 0 0', '0 0 0');		
-
-	missile.origin = self.origin + '0 0 10';
-	missile.velocity = dir * 400;
-	missile.avelocity = '300 300 300';
-	missile.nextthink = flytime + time;
-	missile.think = ShalHome;
-	missile.enemy = self.enemy;
-	missile.touch = ShalMissileTouch;
-
-	missile.classname = "missile"; // QCC
-	missile.qccFlags |= QCC_FL_THROWABLE; // QCC: this'll be funny
-	missile.qccFlags |= QCC_FL_CANDEFLECT;
-};
-
 void() ShalHome =
 {
 	vector	dir, vtemp;
@@ -239,6 +198,45 @@ void() ShalMissileTouch =
 	setmodel(self, "progs/s_explod.spr");
 	self.solid = SOLID_NOT;
 	s_explode1 ();
+};
+
+void() ShalMissile =
+{
+	local	entity 	missile;
+	local	vector	dir;
+	local	float	dist, flytime;
+
+	dir = normalize((self.enemy.origin + '0 0 10') - self.origin);
+	dist = vlen (self.enemy.origin - self.origin);
+	flytime = dist * 0.002;
+
+	if (flytime < 0.1)
+		flytime = 0.1;
+
+	self.effects = self.effects | EF_MUZZLEFLASH;
+	sound(self, CHAN_WEAPON, "shalrath/attack2.wav", 1, ATTN_NORM);
+
+	missile = spawn();
+	missile.classname = "vore_ball";
+	missile.owner = self;
+
+	missile.solid = SOLID_BBOX;
+	missile.movetype = MOVETYPE_FLYMISSILE;
+	setmodel(missile, "progs/v_spike.mdl");
+
+	setsize(missile, '0 0 0', '0 0 0');		
+
+	missile.origin = self.origin + '0 0 10';
+	missile.velocity = dir * 400;
+	missile.avelocity = '300 300 300';
+	missile.nextthink = flytime + time;
+	missile.think = ShalHome;
+	missile.enemy = self.enemy;
+	missile.touch = ShalMissileTouch;
+
+	missile.classname = "missile"; // QCC
+	missile.qccFlags |= QCC_FL_THROWABLE; // QCC: this'll be funny
+	missile.qccFlags |= QCC_FL_CANDEFLECT;
 };
 
 //=================================================================

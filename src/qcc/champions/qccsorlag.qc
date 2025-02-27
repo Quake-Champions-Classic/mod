@@ -164,7 +164,7 @@ void() QCC_AcidSpitTouch = {
         self.movetype = MOVETYPE_NONE;
         self.solid = SOLID_TRIGGER;
         setmodel(self, "progs/s_sorpool.mdl");
-        setsize(self, '-12 -12 0', '12 12 4');
+        setsize(self, '-20 -20 0', '20 20 4');
         setorigin(self, trace_endpos);
 
         vec = trace_plane_normal;

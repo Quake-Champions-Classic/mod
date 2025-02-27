@@ -138,6 +138,7 @@ void() QCC_ResonanceWarp = {
 	sound(self.qccAbilityOwner, 6, "gordon/beamstart2.wav", 0.6, ATTN_NORM);
 	ent = spawn();
 	setmodel(ent, "progs/qchltele1.spr");
+	ent.effects |= EF_DIMLIGHT;
 	setorigin(ent, self.qccAbilityOwner.origin);
 	ent.think = s_hltele1_proc;
 	ent.nextthink = 0.0167;
@@ -147,6 +148,7 @@ void() QCC_ResonanceWarp = {
 	sound(self, 6, "gordon/beamstart7.wav", 0.6, ATTN_NORM);
 	ent = spawn();
 	setmodel(ent, "progs/qchltele2.spr");
+	ent.effects |= EF_DIMLIGHT;
 	setorigin(ent, self.origin);
 	ent.think = s_hltele2_proc;
 	ent.nextthink = 0.0167;
@@ -275,6 +277,7 @@ void() QCC_ResonanceCascade = {
 	sound(self.qccAbilityEnt, 6, "gordon/beamstart3.wav", 0.6, ATTN_NORM);
 
 	QCC_ResonanceFlash(self);
+	self.effects |= EF_DIMLIGHT;
 };
 
 /*

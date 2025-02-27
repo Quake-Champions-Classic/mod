@@ -113,9 +113,8 @@ OgreFireGrenade
 void() MultiGrenadeTouch;		// ROGUE
 void() MultiGrenadeExplode;
 
-void() OgreFireGrenade =
-{
-	local	entity missile;
+void() OgreFireGrenade = {
+	entity missile;
 	
 	self.effects = self.effects | EF_MUZZLEFLASH;
 
@@ -134,9 +133,7 @@ void() OgreFireGrenade =
 	missile.velocity = normalize(self.enemy.origin - self.origin);
 	missile.velocity = missile.velocity * 600;
 	missile.velocity_z = 200;
-
 	missile.avelocity = '300 300 300';
-
 	missile.angles = vectoangles(missile.velocity);
 
 	if (cvar("pr_checkextension"))

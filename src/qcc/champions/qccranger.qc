@@ -51,7 +51,25 @@ void() QCC_Ranger = {
 QCC: DIRE ORB
 ======================================================
 */
-void() QCC_DireOrbExplosion;
+// Called by Orb
+void() QCC_DireOrbExplosion = {
+	self.owner.qccAbilityTimer = time + QCC_GLOBAL_COOLDOWN;
+	self.movetype = MOVETYPE_NONE;
+	self.velocity = '0 0 0';
+	self.touch = SUB_Null;
+	self.effects |= EF_QUADLIGHT;
+	setmodel(self, "progs/s_explod.spr");
+	
+	T_RadiusDamage(self, self.owner, 50, self.owner);
+	
+	WriteByte(MSG_BROADCAST, SVC_TEMPENTITY);
+	WriteByte(MSG_BROADCAST, TE_EXPLOSION);
+	WriteCoord(MSG_BROADCAST, self.origin_x);
+	WriteCoord(MSG_BROADCAST, self.origin_y);
+	WriteCoord(MSG_BROADCAST, self.origin_z);
+	
+	s_explode1 ();
+};
 
 void() QCC_DireOrbCheck = {
 	if (self.owner.deadflag >= DEAD_DEAD)
@@ -75,26 +93,6 @@ void() dorb_x5 = [4, dorb_x6] {};
 void() dorb_x6 = [3, dorb_x7] {};
 void() dorb_x7 = [2, dorb_x8] {};
 void() dorb_x8 = [1, QCC_DireOrbExplosion] {};
-
-// Called by Orb
-void() QCC_DireOrbExplosion = {
-	self.owner.qccAbilityTimer = time + QCC_GLOBAL_COOLDOWN;
-	self.movetype = MOVETYPE_NONE;
-	self.velocity = '0 0 0';
-	self.touch = SUB_Null;
-	self.effects |= EF_QUADLIGHT;
-	setmodel(self, "progs/s_explod.spr");
-	
-	T_RadiusDamage(self, self.owner, 50, self.owner);
-	
-	WriteByte(MSG_BROADCAST, SVC_TEMPENTITY);
-	WriteByte(MSG_BROADCAST, TE_EXPLOSION);
-	WriteCoord(MSG_BROADCAST, self.origin_x);
-	WriteCoord(MSG_BROADCAST, self.origin_y);
-	WriteCoord(MSG_BROADCAST, self.origin_z);
-	
-	s_explode1 ();
-};
 
 // Called by Orb
 void() QCC_DireOrbTouch = {
@@ -137,7 +135,7 @@ void() QCC_DireOrbAnimProc = [144, QCC_DireOrbAnimProc] {
 		self.frame = self.frame + self.walkframe;
 		self.weaponframe = self.walkframe;
 		// Actual warp is delayed so we don't have collision issues on a perfect orb
-		if (self.walkframe == 1) {
+		if (self.qccAbilityTimer == 0 && self.walkframe == 1) {
 			vector aVec;	
 			makevectors(self.qccAbilityEnt.mangle);	
 			aVec = self.qccAbilityEnt.origin;
@@ -165,7 +163,7 @@ void() QCC_DireOrbAnimProc = [144, QCC_DireOrbAnimProc] {
 	}
 	self.walkframe = self.walkframe + 1;
 	self.nextthink = 0.02;
-}
+};
 
 void(entity attacker, float damage) QCC_DireOrbPain = {PainSound();};
 
@@ -178,7 +176,7 @@ void() QCC_DireOrbAnim = {
 	self.show_hostile = time + 1;	// wake monsters up
 	self.th_pain = QCC_DireOrbPain;
 	QCC_DireOrbAnimProc();
-}
+};
 
 // Called by Ranger
 void() QCC_DireOrbWarp = {
@@ -228,10 +226,6 @@ void() QCC_DireOrbWarp = {
 	if (!coop && !deathmatch)
 		FogPushSettingsFrom(self, self.qccAbilityEnt, 0);
 	self.qccAbilityTimer = 0;
-};
-
-void() QCC_DireOrbActivate = {
-
 };
 
 // Called by Ranger

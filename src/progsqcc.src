@@ -191,6 +191,7 @@ monsters/morph.qc
 monsters/dragon.qc
 qcc/monsters/goroth.qc
 qcc/monsters/volkerh.qc
+qcc/monsters/ithagnal.qc
 
 qcc/qccbouncepad.qc
 qcc/qccpropdynamic.qc
