@@ -208,12 +208,17 @@
 
 { // Heavy Machine Gun
   name			qcc_weapon_heavymachinegun
-  flags			weapon | ammo | nails
+  flags			weapon | ammo | lava_nails
+}
+
+{ // Tribolt
+  name			qcc_weapon_tribolt
+  flags			weapon | ammo | multi_rockets
 }
 
 { // Railgun
   name			"qcc_weapon_railgun"
-  flags			weapon | ammo | cells
+  flags			weapon | ammo | plasma_cells
 }
 
 { // Unholy Totem

@@ -249,6 +249,39 @@
 }
 
 // QCC weapons
+//{
+//  name			"heavy_machine_gun"
+//  number		4
+//  damage		90
+//  min_range		0
+//  max_range		2048
+//  min_height	0
+//  max_height	0
+//  priority		7
+//  ammo			laval_nails
+//  ammo_name		"ammo_slugs"
+//  min_ammo		10
+//  max_ammo		150
+//  flags			hitscan
+//  aim_point		center
+//}
+
+//{
+//  name			"tribolt"
+//  number		16
+//  damage		70
+//  min_range		96
+//  max_range		1048
+//  min_height	0
+//  max_height	512
+//  priority		3
+//  ammo			multi_rockets
+//  ammo_name		"ammo_bolts"
+//  min_ammo		1
+//  max_ammo		15
+//  flags			projectile | explosive | parabolic
+//  aim_point		center
+//}
 
 {
   name			"rail_gun"
@@ -259,10 +292,10 @@
   min_height	0
   max_height	0
   priority		7
-  ammo			cells
-  ammo_name		"ammo_cells"
-  min_ammo		10
-  max_ammo		150
+  ammo			plasma_cells
+  ammo_name		"ammo_slugs"
+  min_ammo		1
+  max_ammo		10
   flags			hitscan
   aim_point		head
 }

@@ -86,3 +86,9 @@
   interaction	shoot
   health		true
 }
+
+// QCC ents
+{
+  name			qcc_bouncepad
+  interaction	ride
+}

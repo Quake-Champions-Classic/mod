@@ -135,7 +135,7 @@ void() QCC_DireOrbAnimProc = [144, QCC_DireOrbAnimProc] {
 		self.frame = self.frame + self.walkframe;
 		self.weaponframe = self.walkframe;
 		// Actual warp is delayed so we don't have collision issues on a perfect orb
-		if (self.qccAbilityTimer == 0 && self.walkframe == 1) {
+		if (self.qccAbilityTimer > (time + 55) && self.walkframe == 1) {
 			vector aVec;	
 			makevectors(self.qccAbilityEnt.mangle);	
 			aVec = self.qccAbilityEnt.origin;

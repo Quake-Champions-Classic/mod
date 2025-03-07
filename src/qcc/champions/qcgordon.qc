@@ -215,7 +215,7 @@ void() QCC_ResonanceCascade = {
 	makevectors(self.v_angle);
 	org = self.origin;
 	traceline(org, org + v_forward * 4096, 0, self);
-	if ((trace_ent.flags & FL_MONSTER || trace_ent.classname == "player") && trace_ent.health > 0) {
+	if ((trace_ent.flags & FL_MONSTER || trace_ent.classname == "player") && trace_ent.health > 0 && trace_ent != self) {
 		setorigin(self.qccAbilityEnt, trace_ent.origin);
 		self.qccAbilityEnt.angles = self.angles;
 	}
@@ -232,33 +232,8 @@ void() QCC_ResonanceCascade = {
 				odist = dist;
 				dist = vlen(ent.origin - self.origin);
 				if (dist > odist) {
-					vector aVec;	
-					makevectors(ent.mangle);	
-					aVec = ent.origin;
-					float bad_org;
-					float i = 0;
-					while (i < 6) {
-						vector vCheck;
-						bad_org = FALSE;
-						if (i < 2)
-							vCheck = v_forward * 32;
-						if (i > 1 && i < 4)
-							vCheck = v_up * 32;
-						if (i > 3)
-							vCheck = v_right * 32;
-						if (i == 1 || i == 3 || i == 5)
-							vCheck = vCheck - vCheck * 2;
-						traceline(aVec, aVec + vCheck, TRUE, self);
-						if (trace_fraction < 1) {
-							bad_org = TRUE;
-							break;
-						}
-						i = i + 1;
-					}
-					if (!bad_org) {
-						setorigin(self.qccAbilityEnt, ent.origin);
-						self.qccAbilityEnt.mangle = ent.mangle;
-					}
+					setorigin(self.qccAbilityEnt, ent.origin);
+					self.qccAbilityEnt.mangle = ent.mangle;
 				}
 			}
 			ent = nextent(ent);
@@ -277,7 +252,6 @@ void() QCC_ResonanceCascade = {
 	sound(self.qccAbilityEnt, 6, "gordon/beamstart3.wav", 0.6, ATTN_NORM);
 
 	QCC_ResonanceFlash(self);
-	self.effects |= EF_DIMLIGHT;
 };
 
 /*

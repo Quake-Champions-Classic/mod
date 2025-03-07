@@ -54,14 +54,18 @@ void() IthagnalTaunt = {
 	float r;
 	r = random();	
 	if (r < 0.33)
-		//sound(self, CHAN_VOICE, "ithagnal/ithtaunt1.wav", 1, ATTN_NONE);
-		self.qccTauntTimer = time + 12;
+		sound(self, CHAN_VOICE, "ithagnal/ithtaunt1.wav", 1, ATTN_NONE);
+		self.qccTauntTimer = time + 11;
 	if (r >= 0.33 && r < 0.66)
-		//sound(self, CHAN_VOICE, "ithagnal/ithtaunt2.wav", 1, ATTN_NONE);
-		self.qccTauntTimer = time + 8;
+		sound(self, CHAN_VOICE, "ithagnal/ithtaunt2.wav", 1, ATTN_NONE);
+		self.qccTauntTimer = time + 9;
 	if (r >= 0.66)
-		//sound(self, CHAN_VOICE, "ithagnal/ithtaunt3.wav", 1, ATTN_NONE);
-		self.qccTauntTimer = time + 8;
+		sound(self, CHAN_VOICE, "ithagnal/ithtaunt3.wav", 1, ATTN_NONE);
+		self.qccTauntTimer = time + 10;
+};
+
+void() IthagnalStep = {
+    sound(self, 7, "hknight/hit.wav", 0.7, ATTN_NONE);
 };
 
 void(vector pos, float sz) IthagnalMagicHand = {
@@ -100,8 +104,11 @@ void() ith_stand_loop = [$stand1, ith_stand_loop] {
     self.frame = self.walkframe;
     if (self.walkframe < $stand30)
         self.walkframe += 1;
-    else
+    else {
         self.walkframe = $stand1;
+        if (random() < 0.2)
+		    sound(self, CHAN_VOICE, "ithagnal/ithidle.wav", 1, ATTN_NONE);
+    }
     ai_stand();
 };
 
@@ -114,8 +121,13 @@ void() ith_walk_loop = [$walk1, ith_walk_loop] {
     self.frame = self.walkframe;
     if (self.walkframe < $walk8)
         self.walkframe += 1;
-    else
+        if (self.walkframe % 2)
+            IthagnalStep();
+    else {
         self.walkframe = $walk1;
+        if (random() < 0.2)
+		    sound(self, CHAN_VOICE, "ithagnal/ithidle.wav", 1, ATTN_NONE);
+    }
     ai_walk(16);
 };
 
@@ -126,10 +138,15 @@ void() ith_walk = {
 
 void() ith_run_loop = [$walk1, ith_run_loop] {
     self.frame = self.walkframe;
-    if (self.walkframe < $walk8)
+    if (self.walkframe < $walk8) {
         self.walkframe += 1;
-    else
+        if (self.walkframe % 2)
+            IthagnalStep();
+    }
+    else {
         self.walkframe = $walk1;
+		//IthagnalTaunt();
+    }
     ai_run(40);
 };
 
@@ -142,7 +159,7 @@ void() ith_run = {
     COMBAT
 ==================*/
 void() ith_wake = {
-    //sound(self, CHAN_VOICE, "ithagnal/ithwake.wav", 1, ATTN_NONE);
+    sound(self, CHAN_VOICE, "ithagnal/ithwake.wav", 1, ATTN_NONE);
 	self.qccTauntTimer = time + 10;
 };
 
@@ -163,7 +180,7 @@ void(vector pos) IthMissile = {
 		flytime = 0.1;
 
 	self.effects = self.effects | EF_MUZZLEFLASH;
-	sound(self, CHAN_WEAPON, "shalrath/attack2.wav", 1, ATTN_NORM);
+	sound(self, CHAN_WEAPON, "shalrath/attack2.wav", 1, ATTN_NONE);
 
 	missile = spawn();
 	missile.classname = "vore_ball";
@@ -189,7 +206,14 @@ void(vector pos) IthMissile = {
 };
 
 // Ithagnal raises her hand to charge several voreballs, then launches them
-void() ith_voreball1 = [$voreball1, ith_voreball2] {IthagnalMagicHand('170 143 304', 0); ai_face();};
+void() ith_voreball1 = [$voreball1, ith_voreball2] {
+    IthagnalMagicHand('170 143 304', 0); 
+    ai_face();
+    if (random() < 0.5)
+        sound(self, 6, "ithagnal/ithball1.wav", 1, ATTN_NONE);
+    else
+        sound(self, 6, "ithagnal/ithball2.wav", 1, ATTN_NONE);
+};
 void() ith_voreball2 = [$voreball2, ith_voreball3] {IthagnalMagicHand('154 -150 376', 0); ai_face();};
 void() ith_voreball3 = [$voreball3, ith_voreball4] {IthagnalMagicHand('125 -150 452', 0); ai_face();};
 void() ith_voreball4 = [$voreball4, ith_voreball5] {IthagnalMagicHand('94 -139 524', 0); ai_face();};
@@ -214,7 +238,7 @@ void() ith_voreball20 = [$voreball20, ith_voreball21] {};
 void() ith_voreball21 = [$voreball21, ith_voreball22] {};
 void() ith_voreball22 = [$voreball22, ith_voreball23] {};
 void() ith_voreball23 = [$voreball23, ith_voreball24] {};
-void() ith_voreball24 = [$voreball24, ith_run] {self.attack_finished = time + 1.5;};
+void() ith_voreball24 = [$voreball24, ith_run] {self.attack_finished = time + 1.5; IthagnalTaunt();};
 
 // VOMIT ======================================================================
 void() IthVomitAnim2 = [0, IthVomitAnim2] {
@@ -316,7 +340,14 @@ void(vector pos) IthVomit = {
 };
 
 // Ithagnal vomits corrosive bile across the floor, don't step in it!
-void() ith_vomit1 = [$vomit1, ith_vomit2] {ai_face();};
+void() ith_vomit1 = [$vomit1, ith_vomit2] {
+    ai_face();
+    if (random() < 0.5)
+        sound(self, CHAN_VOICE, "ithagnal/ithvomit1.wav", 1, ATTN_NONE);
+    else
+        sound(self, CHAN_VOICE, "ithagnal/ithvomit2.wav", 1, ATTN_NONE);
+    self.qccTauntTimer = time;
+};
 void() ith_vomit2 = [$vomit2, ith_vomit3] {ai_face();};
 void() ith_vomit3 = [$vomit3, ith_vomit4] {ai_face();};
 void() ith_vomit4 = [$vomit4, ith_vomit5] {ai_face();};
@@ -335,11 +366,16 @@ void() ith_vomit16 = [$vomit16, ith_vomit17] {ai_face();};
 void() ith_vomit17 = [$vomit17, ith_vomit18] {ai_face();};
 void() ith_vomit18 = [$vomit18, ith_vomit19] {ai_face();};
 void() ith_vomit19 = [$vomit19, ith_vomit20] {ai_face();};
-void() ith_vomit20 = [$vomit20, ith_run] {self.attack_finished = time + 1.5;};
+void() ith_vomit20 = [$vomit20, ith_run] {self.attack_finished = time + 1.5; IthagnalTaunt();};
 
 // VOMIT ======================================================================
 // Ithagnal throws her enemies around her chambers with her mind
-void() ith_telethrow1 = [$telethrow1, ith_telethrow2] {};
+void() ith_telethrow1 = [$telethrow1, ith_telethrow2] {
+    if (random() < 0.5)
+            sound(self, CHAN_WEAPON, "ithagnal/ithtelet1.wav", 1, ATTN_NONE);
+        else
+            sound(self, CHAN_WEAPON, "ithagnal/ithtelet2.wav", 1, ATTN_NONE);
+};
 void() ith_telethrow2 = [$telethrow2, ith_telethrow3] {};
 void() ith_telethrow3 = [$telethrow3, ith_telethrow4] {};
 void() ith_telethrow4 = [$telethrow4, ith_telethrow5] {};
@@ -374,7 +410,7 @@ void() ith_telethrow6 = [$telethrow6, ith_telethrow7] {
 void() ith_telethrow7 = [$telethrow7, ith_telethrow8] {};
 void() ith_telethrow8 = [$telethrow8, ith_telethrow9] {};
 void() ith_telethrow9 = [$telethrow9, ith_telethrow10] {};
-void() ith_telethrow10 = [$telethrow10, ith_run] {self.attack_finished = time + 1.5;};
+void() ith_telethrow10 = [$telethrow10, ith_run] {self.attack_finished = time + 1.5; IthagnalTaunt();};
 
 // Grab our victims and projectiles
 void() IthagnalGrab = {
@@ -398,7 +434,13 @@ void() IthagnalGrab = {
     }
 };
 
-void() ith_teletouch1 = [$teletouch1, ith_teletouch2] {ai_face();};
+void() ith_teletouch1 = [$teletouch1, ith_teletouch2] {
+    ai_face();
+    if (random() < 0.5)
+        sound(self, CHAN_WEAPON, "ithagnal/ithteleg1.wav", 1, ATTN_NONE);
+    else
+        sound(self, CHAN_WEAPON, "ithagnal/ithteleg2.wav", 1, ATTN_NONE);
+};
 void() ith_teletouch2 = [$teletouch2, ith_teletouch3] {ai_face();};
 void() ith_teletouch3 = [$teletouch3, ith_teletouch4] {ai_face();};
 void() ith_teletouch4 = [$teletouch4, ith_teletouch5] {ai_face();};
@@ -474,7 +516,13 @@ void() ith_attack = {
     DAMAGE
 ==================*/
 void(entity attacker, float damage)	ith_pain = {
-	return;
+    // if (random() < 0.2) {
+    //     if (random() < 0.5)
+    //         sound(self, CHAN_VOICE, "ithagnal/ithpain1.wav", 1, ATTN_NONE);
+    //     else
+    //         sound(self, CHAN_VOICE, "ithagnal/ithpain2.wav", 1, ATTN_NONE);
+    // }
+    return;
 };
 
 // called by hitboxes
@@ -558,7 +606,7 @@ void() ith_spawn_hitboxes = {
 };
 
 void() ith_head_pop = {
-	vector	oldo;
+	vector	oldo, vec;
 	float	x, y, z, r;
 
 	sound(self, CHAN_BODY, "player/udeath.wav", 1, ATTN_NONE);
@@ -570,9 +618,11 @@ void() ith_head_pop = {
 		while (x <= -52) {
 			y = -8;
 			while (y <= 8) {
-				self.origin_x = oldo_x + x;
-				self.origin_y = oldo_y + y;
-				self.origin_z = oldo_z + z;
+                vec_x = x;
+                vec_y = y;
+                vec_z = z;
+                vec = QCC_RotatePointYaw(vec, self.angles_y);
+                self.origin = oldo + vec;
 
 				r = random();
 				if (r < 0.3)				
@@ -641,7 +691,7 @@ void() ith_death_proc = [$death1, ith_death_proc] {
 
 void() ith_death = {
     self.walkframe = $death1;
-    //sound(self, CHAN_VOICE, "ithagnal/ithdie.wav", 1, ATTN_NONE);
+    sound(self, CHAN_VOICE, "ithagnal/ithpain2.wav", 1, ATTN_NONE);
     ith_death_proc();
 };
 
@@ -660,14 +710,25 @@ void() monster_ithagnal = {
     precache_model("progs/ithvomit2.mdl");
 	
 	precache_sound("boss2/pop2.wav");
-    precache_sound("shalrath/attack.wav");
 	precache_sound("shalrath/attack2.wav");
+    precache_sound("hknight/hit.wav");
 	
-	// precache_sound("ithagnal/ithwake.wav");
-	// precache_sound("ithagnal/ithtaunt1.wav");
-	// precache_sound("ithagnal/ithtaunt2.wav");
-	// precache_sound("ithagnal/ithtaunt3.wav");
-	// precache_sound("ithagnal/ithdie.wav");
+	precache_sound("ithagnal/ithwake.wav");
+    precache_sound("ithagnal/ithidle.wav");
+	precache_sound("ithagnal/ithtaunt1.wav");
+	precache_sound("ithagnal/ithtaunt2.wav");
+	precache_sound("ithagnal/ithtaunt3.wav");
+	precache_sound("ithagnal/ithdie.wav");
+    precache_sound("ithagnal/ithpain1.wav");
+    precache_sound("ithagnal/ithpain2.wav");
+    precache_sound("ithagnal/ithball1.wav");
+    precache_sound("ithagnal/ithball2.wav");
+    precache_sound("ithagnal/ithvomit1.wav");
+    precache_sound("ithagnal/ithvomit2.wav");
+    precache_sound("ithagnal/ithteleg1.wav");
+    precache_sound("ithagnal/ithteleg2.wav");
+    precache_sound("ithagnal/ithtelet1.wav");
+    precache_sound("ithagnal/ithtelet2.wav");
 
 	self.solid = SOLID_NOT;
 	self.movetype = MOVETYPE_STEP;

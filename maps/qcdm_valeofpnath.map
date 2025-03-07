@@ -18329,12 +18329,12 @@
 "_tb_name" "ithorb"
 "_tb_id" "290"
 "_tb_linked_group_id" "{e4ac6460-2fc9-4f7d-989c-8fb305fdb3cc}"
-"_tb_transformation" "1 0 0 -74 0 1 0 -444 0 0 1 -370 0 0 0 1"
+"_tb_transformation" "1 0 0 -74 0 1 0 -444 0 0 1 -374 0 0 0 1"
 }
 // entity 217
 {
 "classname" "qcc_prop_dynamic"
-"origin" "-498 -1436 142"
+"origin" "-498 -1436 138"
 "model" "progs/ithorbs.mdl"
 "cnt" "8"
 "angles" "0 0 0"
