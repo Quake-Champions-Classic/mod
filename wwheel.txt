@@ -1,8 +1,8 @@
 slot 0
 {
     impulse     2
-    icon        "gfx/weapons/ww_shotgun1_1.lmp"
-    icon_sel    "gfx/weapons/ww_shotgun1_2.lmp"
+    icon        "gfx/weapons/ww_hmg1_1.lmp"
+    icon_sel    "gfx/weapons/ww_hmg1_2.lmp"
     ammoicon    "sb_shells"
     entvaroffs  216
     weaponnum   1
@@ -21,8 +21,8 @@ slot 1
 slot 2
 {
     impulse     4
-    icon        "gfx/weapons/ww_nail1_1.lmp"
-    icon_sel    "gfx/weapons/ww_nail1_2.lmp"
+    icon        "gfx/weapons/ww_nail2_1.lmp"
+    icon_sel    "gfx/weapons/ww_nail2_2.lmp"
     ammoicon    "sb_nails"
     entvaroffs  220
     weaponnum   4
@@ -31,18 +31,18 @@ slot 2
 slot 3
 {
     impulse     5
-    icon        "gfx/weapons/ww_nail2_1.lmp"
-    icon_sel    "gfx/weapons/ww_nail2_2.lmp"
-    ammoicon    "sb_nails"
-    entvaroffs  220
+    icon        "gfx/weapons/ww_rocket1_1.lmp"
+    icon_sel    "gfx/weapons/ww_rocket1_2.lmp"
+    ammoicon    "sb_rocket"
+    entvaroffs  224
     weaponnum   8
 }
 
 slot 4
 {
     impulse     6
-    icon        "gfx/weapons/ww_rocket1_1.lmp"
-    icon_sel    "gfx/weapons/ww_rocket1_2.lmp"
+    icon        "gfx/weapons/ww_rocket2_1.lmp"
+    icon_sel    "gfx/weapons/ww_rocket2_2.lmp"
     ammoicon    "sb_rocket"
     entvaroffs  224
     weaponnum   16
@@ -51,34 +51,24 @@ slot 4
 slot 5
 {
     impulse     7
-    icon        "gfx/weapons/ww_rocket2_1.lmp"
-    icon_sel    "gfx/weapons/ww_rocket2_2.lmp"
-    ammoicon    "sb_rocket"
-    entvaroffs  224
-    weaponnum   32
-}
-
-slot 6
-{
-    impulse     8
     icon        "gfx/weapons/ww_light_1.lmp"
     icon_sel    "gfx/weapons/ww_light_2.lmp"
     ammoicon    "sb_cells"
     entvaroffs  228
-    weaponnum   64
+    weaponnum   32
 }
 
-slot 7
+slot 6
 {
     impulse     39
     icon        "gfx/weapons/ww_railgun_1.lmp"
     icon_sel    "gfx/weapons/ww_railgun_2.lmp"
     ammoicon    "sb_cells"
     entvaroffs  228
-    weaponnum   65536
+    weaponnum   64
 }
 
-slot 8
+slot 7
 {
     impulse     37
     icon        "gfx/weapons/ui_h_weapon_laser_1.lmp"
@@ -88,7 +78,7 @@ slot 8
     weaponnum   8388608
 }
 
-slot 9
+slot 8
 {
     impulse     1
     weaponnum   4096

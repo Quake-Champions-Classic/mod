@@ -99,7 +99,7 @@ void(vector org, vector dir) launch_spike = {
 void() W_FireSuperSpikes = {
 	vector dir;
 	
-	self.currentammo = self.ammo_nails = self.ammo_nails - 2;
+	self.currentammo = self.ammo_nails = self.ammo_nails - 1;
 	self.attack_finished = time + 0.2;
 
 	dir = aim(self, 1000);
@@ -116,17 +116,19 @@ void() W_FireSuperSpikes = {
 void(float ox) W_FireSpikes = {
 	vector dir;
 	
-	makevectors(self.v_angle);	
-	if (self.ammo_nails >= 2 && self.weapon == IT_SUPER_NAILGUN) {
-		W_FireSuperSpikes();		
-        return;
-	}
-
 	if (self.ammo_nails < 1) {
 		self.weapon = W_BestWeapon ();
 		W_SetCurrentAmmo ();
 		return;
 	}
+
+	makevectors(self.v_angle);
+	
+	if (self.items & IT_SUPER_NAILGUN) {
+		W_FireSuperSpikes();		
+        return;
+	}
+
 
 	self.currentammo = self.ammo_nails = self.ammo_nails - 1;
 	self.attack_finished = time + 0.2;
@@ -150,16 +152,17 @@ void() weapon_nailgun = {
 			return;
 		}
   	}
-	precache_model("progs/g_nail.mdl");
-	setmodel(self, "progs/g_nail.mdl");
-	self.weapon = IT_NAILGUN;
-	if (ExtSupported("EX_SPRINT"))
-		self.netname = "$qc_nailgun";
-	else
-		self.netname = "nailgun";
-	self.touch = weapon_touch;
-	setsize(self, '-16 -16 0', '16 16 56');
-	StartItem();
+	qcc_weapon_heavymachinegun(); // Nailgun no longer needs to be picked up
+	// precache_model("progs/g_nail.mdl");
+	// setmodel(self, "progs/g_nail.mdl");
+	// self.weapon = IT_NAILGUN;
+	// if (ExtSupported("EX_SPRINT"))
+	// 	self.netname = "$qc_nailgun";
+	// else
+	// 	self.netname = "nailgun";
+	// self.touch = weapon_touch;
+	// setsize(self, '-16 -16 0', '16 16 56');
+	// StartItem();
 };
 
 void() weapon_supernailgun = {

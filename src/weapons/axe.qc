@@ -69,3 +69,24 @@ void() W_FireAxe = {
 		WriteCoord(MSG_BROADCAST, org_z);
 	}
 };
+
+void() player_axe1;
+void() player_axeb1;
+void() player_axec1;
+void() player_axed1;
+
+void() W_Axe_Attack = {
+	sound(self, CHAN_WEAPON, self.qccSndMelee, 1, ATTN_NORM);
+	float r = random();
+	if (r < 0.25)
+		player_axe1();
+	else if (r < 0.5)
+		player_axeb1();
+	else if (r < 0.75)
+		player_axec1();
+	else
+		player_axed1();
+	self.attack_finished = time + 0.5;
+	if (self.qccFlags & QCC_FL_FAST_MELEE) // Dusk Dude's sickles are fast in DUSK
+		self.attack_finished = time + 0.25;
+};

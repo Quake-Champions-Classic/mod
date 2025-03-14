@@ -321,6 +321,15 @@ void(entity targ, entity attacker, entity inflictor) ClientObituary = {
 				// ---------------------------------------------------------------------
 
 				// QCC -----------------------------------------------------------------
+				if (rnum == QCC_IT_HEAVYMACHINEGUN) {
+					deathstring = " was riddled by ";
+					deathstring2 = "'s machine gun\n";
+					bprint(targ.netname);
+					bprint(deathstring);
+					bprint(attacker.netname);
+					bprint(deathstring2);
+					return;
+				}
 				if (rnum == QCC_IT_RAILGUN) {
 					deathstring = " was impressed by ";
 					deathstring2 = "'s rail\n";
@@ -722,6 +731,10 @@ void(entity targ, entity attacker, entity inflictor) ClientObituaryOld = {
 				// -------------------------------------------------------------
 
 				// QCC ---------------------------------------------------------
+				else if (rnum == QCC_IT_HEAVYMACHINEGUN) {
+					deathstring = " was riddled by ";
+					deathstring2 = "'s machine gun\n";
+				}
 				else if (rnum == QCC_IT_RAILGUN) {
 					deathstring = " was impressed by ";
 					deathstring2 = "'s rail\n";

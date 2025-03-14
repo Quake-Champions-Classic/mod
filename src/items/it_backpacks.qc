@@ -138,7 +138,7 @@ void() DropBackpack = {
 		return; 
 
     // Nothing in it
-	if (!(self.ammo_shells + self.ammo_nails + self.ammo_rockets + self.ammo_cells))
+	if (!(self.ammo_bullets + self.ammo_shells + self.ammo_nails + self.ammo_bolts + self.ammo_rockets + self.ammo_cells + self.ammo_slugs))
 		return;
 
 	item = spawn();
@@ -149,6 +149,8 @@ void() DropBackpack = {
 	if (ExtSupported("EX_SPRINT")) {
 		if (item.items == IT_AXE)
 			item.netname = "$qc_axe";
+		else if (item.items == QCC_IT_HEAVYMACHINEGUN)
+			item.netname = "Heavy Machine Gun";
 		else if (item.items == IT_SHOTGUN)
 			item.netname = "$qc_shotgun";
 		else if (item.items == IT_SUPER_SHOTGUN)
@@ -179,6 +181,8 @@ void() DropBackpack = {
 	else {
 		if (item.items == IT_AXE)
 			item.netname = "Axe";
+		else if (item.items == QCC_IT_HEAVYMACHINEGUN)
+			item.netname = "Heavy Machine Gun";
 		else if (item.items == IT_SHOTGUN)
 			item.netname = "Shotgun";
 		else if (item.items == IT_SUPER_SHOTGUN)
@@ -207,23 +211,35 @@ void() DropBackpack = {
 			item.netname = "";
 	}
 
+	item.ammo_bullets = self.ammo_bullets;
 	item.ammo_shells = self.ammo_shells;
 	item.ammo_nails = self.ammo_nails;
+	item.ammo_bolts = self.ammo_bolts;
 	item.ammo_rockets = self.ammo_rockets;
 	item.ammo_cells = self.ammo_cells;
+	item.ammo_slugs = self.ammo_slugs;
 
 	// Include some ammo in the backpack if the weapon is being given
+	if (item.ammo_bullets < 20 && item.items == QCC_IT_HEAVYMACHINEGUN) {
+		item.ammo_bullets = 20;
+	}
 	if (item.ammo_shells < 5 && (item.items == IT_SHOTGUN || item.items == IT_SUPER_SHOTGUN)) {
 		item.ammo_shells = 5;
 	}
 	if (item.ammo_nails < 20 && (item.items == IT_NAILGUN || item.items == IT_SUPER_NAILGUN)) {
 		item.ammo_nails = 20;
 	}
+	if  (item.ammo_bolts < 5 && item.items == QCC_IT_TRIBOLT) {
+		item.ammo_bolts = 5;
+	}
 	if (item.ammo_rockets < 5 && (item.items == IT_GRENADE_LAUNCHER || item.items == IT_ROCKET_LAUNCHER)) {
 		item.ammo_rockets = 5;
 	}
-	if (item.ammo_cells < 20 && (item.items == IT_LIGHTNING || item.items == QCC_IT_RAILGUN || item.items == IT_LASER_CANNON || item.items == IT_MJOLNIR)) {
+	if (item.ammo_cells < 20 && (item.items == IT_LIGHTNING || item.items == IT_LASER_CANNON || item.items == IT_MJOLNIR)) {
 		item.ammo_cells = 20;
+	}
+	if (item.ammo_slugs < 5 && item.items == QCC_IT_RAILGUN) {
+		item.ammo_slugs = 5;
 	}
 
 	item.velocity_z = 300;

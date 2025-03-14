@@ -79,6 +79,17 @@ void() W_FireGrenade = {
 	missile.qccFlags |= QCC_FL_CANDEFLECT;
 };
 
+void() W_FireProximityGrenade;
+
+void() W_Grenade_Attack = {
+	player_rocket1();
+	if (!self.qccAltWeapon)
+		W_FireGrenade();
+	else
+		W_FireProximityGrenade();
+	self.attack_finished = time + 0.6;
+};
+
 /*
 ================
 PICKUP

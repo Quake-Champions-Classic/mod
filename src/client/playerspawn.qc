@@ -413,8 +413,12 @@ void() PutClientInServer = {
 	if (coop) { 
 		// In coop we want to give back the players the weapons they progressed with
 		self.items |= (spot.items & IT_ALL_WEAPONS);
-		if (self.items & (IT_NAILGUN | IT_SUPER_NAILGUN) && self.ammo_nails < 50)
+		if (self.items & (QCC_IT_HEAVYMACHINEGUN) && self.ammo_bullets < 50)
+			self.ammo_bullets = 50;
+		if (self.items & (IT_SUPER_NAILGUN) && self.ammo_nails < 50)
 			self.ammo_nails = 50;
+		if (self.items & (QCC_IT_TRIBOLT) && self.ammo_bolts < 5)
+			self.ammo_bolts = 5;
 		if (self.items & (IT_GRENADE_LAUNCHER | IT_ROCKET_LAUNCHER) && self.ammo_rockets < 10)
 			self.ammo_rockets = 10;
 		if (self.items & (IT_LIGHTNING | IT_EXTRA_WEAPON) && self.ammo_cells < 50)

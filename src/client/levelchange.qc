@@ -77,8 +77,8 @@ void() SetChangeParms = {
 	parm2 = self.health;
 	parm3 = self.armorvalue;
 
-	if (self.ammo_shells < 15)
-		parm4 = 15;
+	if (self.ammo_shells < 10)
+		parm4 = 10;
 	else
 		parm4 = self.ammo_shells;
 
@@ -104,7 +104,7 @@ void() SetChangeParms = {
 };
 
 void() SetNewParms = {
-	parm1 = IT_SHOTGUN | IT_AXE;
+	parm1 = IT_AXE;
 	if (skill == 3 && !deathmatch)
 		parm2 = 50;
 	else if (deathmatch)

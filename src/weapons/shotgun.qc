@@ -35,19 +35,29 @@ void() W_FireShotgun = {
 
 void() W_FireSuperShotgun = {
 	vector dir;
-
-	if (self.currentammo == 1) {
-		W_FireShotgun ();
-		return;
-	}
 		
 	sound(self ,CHAN_WEAPON, "weapons/shotgn2.wav", 1, ATTN_NORM);
 	self.punchangle_x = -4;
 	
-	self.currentammo = self.ammo_shells = self.ammo_shells - 2;
+	self.currentammo = self.ammo_shells = self.ammo_shells - 1;
 	dir = aim(self, 100000);
 	FireBullets(30, dir, '0.14 0.08 0');
 };
+
+void() player_shot1;
+
+void() W_Shotgun_Attack = {
+	if (self.items & IT_SUPER_SHOTGUN) {
+		player_shot1();
+		W_FireSuperShotgun();
+		self.attack_finished = time + 0.7;
+	}
+	else {
+		player_shot1();
+		W_FireShotgun();
+		self.attack_finished = time + 0.5;
+	}
+}
 
 /*
 ================

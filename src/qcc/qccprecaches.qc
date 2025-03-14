@@ -4,6 +4,8 @@ void() QCC_Precaches =
 	precache_sound("ablready.wav");
 	// Gauntlet
 	precache_model("progs/v_gaunt.mdl"); precache_sound("weapons/gauntshot.wav");
+	// Heavy Machine Gun
+	precache_model("progs/v_hmg.mdl"); precache_model("progs/g_hmg.mdl"); precache_sound("weapons/hmgshot.wav");
 	// Railgun
 	precache_model("progs/v_rail.mdl"); precache_model("progs/g_rail.mdl"); precache_model("progs/s_rail.mdl"); precache_sound("weapons/railshot.wav");
 	// Hourglass

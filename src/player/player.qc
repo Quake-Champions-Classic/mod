@@ -69,8 +69,14 @@ $frame axattd1 axattd2 axattd3 axattd4 axattd5 axattd6
 PLAYER
 ==============================================================================
 */
-void() player_stand = [$axstnd1, player_stand] {	
-	self.weaponframe = 0;
+void() player_stand = [$axstnd1, player_stand] {
+	if (self.weapon != QCC_IT_HEAVYMACHINEGUN)
+		self.weaponframe = 0;
+	else if (self.weaponframe % 2) { // Make sure spinning barrels spin to no muzzle flash
+		self.weaponframe += 1;
+		if (self.weaponframe == 8)
+			self.weaponframe = 0;
+	}
 
 	if (self.velocity_x || self.velocity_y) {
 		self.walkframe=0;
@@ -171,6 +177,47 @@ void() player_axed4 = [$axattd4, player_run] {
 	if (self.th_run)
 		self.think = self.th_run;
 	self.weaponframe = 8;
+};
+
+// Heavy Machine Gun
+void() player_mg1 = [$nailatt1, player_mg2] {
+	self.effects = self.effects | EF_MUZZLEFLASH;
+
+	if (!self.button0) {
+		self.th_run();
+		return;
+	}
+
+	self.weaponframe = self.weaponframe + 1;
+	if (self.weaponframe == 8)
+		self.weaponframe = 0;
+
+	SuperDamageSound();
+	W_FireHeavyMachineGun();
+	self.attack_finished = time + 0.2;
+
+	if (self.qccChampion == QCC_DUSKDUDE && self.qccAbilityTimer < 0)
+		self.nextthink = time + 0.05;
+};
+
+void() player_mg2 = [$nailatt2, player_mg1] {
+	self.effects = self.effects | EF_MUZZLEFLASH;
+
+	if (!self.button0) {
+		self.th_run();
+		return;
+	}
+
+	self.weaponframe = self.weaponframe + 1;
+	if (self.weaponframe == 8)
+		self.weaponframe = 0;
+
+	SuperDamageSound();
+	W_FireHeavyMachineGun();
+	self.attack_finished = time + 0.2;
+
+	if (self.qccChampion == QCC_DUSKDUDE && self.qccAbilityTimer < 0)
+		self.nextthink = time + 0.05;
 };
 
 // Shotgun

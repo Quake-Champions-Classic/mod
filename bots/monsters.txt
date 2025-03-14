@@ -161,3 +161,8 @@
   classname		"monster_volkerh"
   flags			melee | ranged | flyer
 }
+
+{ // Ithagnal
+  classname		"monster_ithagnal"
+  flags			melee | ranged
+}

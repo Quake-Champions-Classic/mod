@@ -133,7 +133,7 @@ void() weapon_touch = {
 	new = self.weapon;
 
 	switch (self.weapon) {
-		case IT_SHOTGUN:
+		//case IT_SHOTGUN:
 		case IT_SUPER_SHOTGUN: {
 			if (other.ammo_shells < 10)
 				other.ammo_shells = 10;
@@ -142,7 +142,7 @@ void() weapon_touch = {
 			break;
 		}
 
-		case IT_NAILGUN:
+		//case IT_NAILGUN:
 		case IT_SUPER_NAILGUN: {
 			if (other.ammo_nails < 100)
 				other.ammo_nails = 100;

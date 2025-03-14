@@ -150,9 +150,9 @@ float QCC_IT2_BULLETS = 8;
 float QCC_IT2_BOLTS = 16;
 float QCC_IT2_SLUGS = 32;
 
-float QCC_IT_HEAVYMACHINEGUN = 4; // replaces nailgun
-float QCC_IT_TRIBOLT = 16; // replaces grenade launcher
-float QCC_IT_RAILGUN = 65536;
+float QCC_IT_HEAVYMACHINEGUN = 1; // replaces shotgun value
+float QCC_IT_TRIBOLT = 8; // replaces grenade launcher
+float QCC_IT_RAILGUN = 64;
 
 // Game Modes
 enum : float {

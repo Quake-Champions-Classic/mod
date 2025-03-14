@@ -105,8 +105,8 @@ void() ammo_touch = {
 	if (self.qccItems3 & QCC_IT2_BULLETS) {
 		if (other.ammo_bullets < AM_MAX_BULLETS) {
 			other.ammo_bullets += self.aflag;
-			if (other.ammo_bolts > AM_MAX_BOLTS)
-				other.ammo_bolts = AM_MAX_BOLTS;
+			if (other.ammo_bullets > AM_MAX_BULLETS)
+				other.ammo_bullets = AM_MAX_BULLETS;
 			picked_up = TRUE;
 		}
 	}

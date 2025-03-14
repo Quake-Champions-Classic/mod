@@ -16,7 +16,7 @@ void() QCC_W_FireRail = {
 
     self.currentammo = self.ammo_slugs -= 1;
     sound(self, CHAN_WEAPON, "weapons/railshot.wav", 1, ATTN_NORM);
-    self.punchangle_x = -2;
+    self.punchangle_x = -3;
 
     org = self.origin;// + self.view_ofs - '0 0 6';
     // beam trace
@@ -47,7 +47,13 @@ void() QCC_W_FireRail = {
         T_Damage(trace_ent, self, self, 90);
         traceline(trace_endpos, org + v_forward * 4096, 0, trace_ent);
     }
-}
+};
+
+void() W_Railgun_Attack = {
+    player_rocket1();
+    QCC_W_FireRail();
+    self.attack_finished = time + 1.5;
+};
 
 /*
 ================
@@ -120,5 +126,25 @@ float() QCC_Rocket_to_Rail = {
 }
 
 void() qcc_item_slugs = {
-	item_cells();
+	self.touch = ammo_touch;
+
+	if (self.spawnflags & WEAPON_BIG2) {
+		precache_model("maps/b_batt1.bsp");
+		setmodel(self, "maps/b_batt1.bsp");
+		self.aflag = 50;
+	}
+	else {
+		precache_model("maps/b_batt0.bsp");
+		setmodel(self, "maps/b_batt0.bsp");
+		self.aflag = 25;
+	}
+	self.qccItems3 = QCC_IT2_SLUGS;
+
+	if (ExtSupported("EX_SPRINT"))
+		self.netname = "slugs";
+	else
+		self.netname = "slugs";
+    
+	setsize(self, '0 0 0', '32 32 56');
+	StartItem();
 };

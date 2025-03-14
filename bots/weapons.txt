@@ -78,7 +78,7 @@
 
 {
   name			"shotgun"
-  number		1
+  number		2
   damage		80
   min_range		0
   max_range		4096
@@ -129,7 +129,7 @@
 
 {
   name			"super_nailgun"
-  number		8
+  number		4
   damage		18
   min_range		32
   max_range		1500
@@ -146,7 +146,7 @@
 
 {
   name			"grenade_launcher"
-  number		16
+  number		8
   damage		100
   min_range		96
   max_range		1048
@@ -163,7 +163,7 @@
 
 {
   name			"rocket_launcher"
-  number		32
+  number		16
   damage		100
   min_range		128
   max_range		2048
@@ -180,7 +180,7 @@
 
 {
   name			"lightning_gun"
-  number		64
+  number		32
   damage		30
   min_range		0
   max_range		600
@@ -233,7 +233,7 @@
 
 {
   name			"proximity_gun"
-  number		16
+  number		8
   damage		95
   min_range		96
   max_range		1048
@@ -249,26 +249,26 @@
 }
 
 // QCC weapons
-//{
-//  name			"heavy_machine_gun"
-//  number		4
-//  damage		90
-//  min_range		0
-//  max_range		2048
-//  min_height	0
-//  max_height	0
-//  priority		7
-//  ammo			laval_nails
-//  ammo_name		"ammo_slugs"
-//  min_ammo		10
-//  max_ammo		150
-//  flags			hitscan
-//  aim_point		center
-//}
+{
+  name			"heavy_machine_gun"
+  number		1
+  damage		90
+  min_range		0
+  max_range		4096
+  min_height	0
+  max_height	0
+  priority		7
+  ammo			laval_nails
+  ammo_name		"ammo_bullets"
+  min_ammo		10
+  max_ammo		150
+  flags			hitscan
+  aim_point		center
+}
 
 //{
 //  name			"tribolt"
-//  number		16
+//  number		8
 //  damage		70
 //  min_range		96
 //  max_range		1048

@@ -82,6 +82,14 @@ void() W_FireLightning = {
 	LightningDamage(self.origin, trace_endpos + v_forward * 4, self, 13);
 };
 
+void() player_light1;
+
+void() W_Lightning_Attack = {
+	player_light1();
+	self.attack_finished = time + 0.1;
+	sound(self, CHAN_AUTO, "weapons/lstart.wav", 1, ATTN_NORM);
+}
+
 /*
 ================
 PICKUP

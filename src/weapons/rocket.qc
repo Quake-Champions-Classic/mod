@@ -73,6 +73,12 @@ void() W_FireRocket = {
 	newmis = missile; // HIP: MED 11/09/96
 };
 
+void() W_Rocket_Attack = {
+	player_rocket1();
+	W_FireRocket();
+	self.attack_finished = time + 0.8;
+};
+
 /*
 ================
 PICKUP

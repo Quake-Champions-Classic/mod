@@ -257,13 +257,13 @@ float	DAMAGE_AIM			= 2;
 
 // items
 float	IT_AXE				= 4096;
-float	IT_SHOTGUN			= 1;
+float	IT_SHOTGUN			= 2;
 float	IT_SUPER_SHOTGUN	= 2;
 float	IT_NAILGUN			= 4;
-float	IT_SUPER_NAILGUN	= 8;
-float	IT_GRENADE_LAUNCHER	= 16;
-float	IT_ROCKET_LAUNCHER	= 32;
-float	IT_LIGHTNING		= 64;
+float	IT_SUPER_NAILGUN	= 4;
+float	IT_GRENADE_LAUNCHER	= 8;
+float	IT_ROCKET_LAUNCHER	= 16;
+float	IT_LIGHTNING		= 32;
 float	IT_EXTRA_WEAPON		= 128;
 float	IT_SHELLS			= 256;
 float	IT_NAILS			= 512;
@@ -708,7 +708,7 @@ void() boss_death10;
 */
 float		IT_MJOLNIR					= 128;
 float		IT_LASER_CANNON				= 8388608;
-float		IT_PROXIMITY_GUN			= 16;
+float		IT_PROXIMITY_GUN			= IT_GRENADE_LAUNCHER;
 float		HIP_IT_WETSUIT				= 2;
 float		HIP_IT_EMPATHY_SHIELDS		= 4;
 float		HIP_IT_HORN_OF_CONJURING	= 8;

@@ -1855,7 +1855,7 @@ model(
 @PointClass size(-16 -16 0, 16 16 56) base(Item, Appearflags) model({ "path": ":progs/armor.mdl", "skin": 2 }) = qcc_item_heavyarmor : "Heavy Armor (100)" []
 @PointClass size(-16 -16 0, 16 16 56) base(Item, Appearflags) model({ "path": ":progs/qclarmor.mdl"}) = qcc_item_lightarmor : "Light Armor (50)" []
 @PointClass base(Weapon) model({ "path": ":progs/g_rail.mdl" }) = qcc_weapon_railgun : "Railgun" []
-@PointClass base(Weapon) model({ "path": ":progs/g_nail.mdl" }) = qcc_weapon_heavymachinegun : "Heavy Machine Gun" []
+@PointClass base(Weapon) model({ "path": ":progs/g_hmg.mdl" }) = qcc_weapon_heavymachinegun : "Heavy Machine Gun" []
 @PointClass base(Weapon) model({ "path": ":progs/g_rock.mdl" }) = qcc_weapon_tribolt : "Tribolt" []
 
 @PointClass

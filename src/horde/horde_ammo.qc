@@ -59,14 +59,20 @@ void() horde_ammo_touch = {
 	temp_player = find(world, classname, "player");
 	while (temp_player)	{
 		if (temp_player.health > 0) {	// only give ammo to living players
-			if (self.weapon == 1) // shotgun
+			if (self.weapon == 1) // machine gun
+				temp_player.ammo_bullets += self.aflag;
+			else if (self.weapon == 2) // shotgun
 				temp_player.ammo_shells += self.aflag;
-			else if (self.weapon == 2) // spikes
+			else if (self.weapon == 3) // spikes
 				temp_player.ammo_nails += self.aflag;
-			else if (self.weapon == 3) // rockets
+			else if (self.weapon == 4) // tribolt
+				temp_player.ammo_bolts += self.aflag;
+			else if (self.weapon == 5) // rockets
 				temp_player.ammo_rockets += self.aflag;
-			else if (self.weapon == 4) // cells
+			else if (self.weapon == 6) // cells
 				temp_player.ammo_cells += self.aflag;
+			else if (self.weapon == 7) // slugs
+				temp_player.ammo_slugs += self.aflag;
 
 			// temp swap and set bounds
 			t = other;
@@ -109,17 +115,21 @@ void() SpawnAmmo = {
 	else
 		pos = pos - '12 12 0';
 	
-	// NEW: roll a d20, 1-8 is shells, 9-14 is spikes, 14-17 is rockets, 18-20 is cells
-	// OLD: roll a d12, 1-5 is shells, 6-10 is spikes, 11 is rockets, 12 is cells
-	/*
-		ITEM		New %		Old %
-		shells		40%			41.66%
-		spikes		30%			33.33%
-		rockets		20%			8.33 %
-		cells		10%			8.33 %
-	*/
-	r = random() * 20;
-	if (r <= 7) {	// shells
+	r = random() * 25;
+	if (r < 5) { // bullets
+		item.classname = "item_bullets";
+		if (is_big) {
+			setmodel(item, "maps/b_shell1.bsp");
+			item.aflag = 50;
+		}
+		else {
+			setmodel(item, "maps/b_shell0.bsp");
+			item.aflag = 25;
+		}
+		item.weapon = 1;
+		item.netname = "bullets";
+	}
+	else if (r < 10) {	// shells
 		item.classname = "item_shells";
 		if (is_big) {
 			setmodel(item, "maps/b_shell1.bsp");
@@ -129,10 +139,10 @@ void() SpawnAmmo = {
 			setmodel(item, "maps/b_shell0.bsp");
 			item.aflag = 5;
 		}
-		item.weapon = 1;
+		item.weapon = 2;
 		item.netname = "$qc_shells";
 	}
-	else if (r <= 14) {	// spikes
+	else if (r < 15) {	// spikes
 		item.classname = "item_spikes";
 		if (is_big) {
 			setmodel(item, "maps/b_nail1.bsp");
@@ -142,10 +152,23 @@ void() SpawnAmmo = {
 			setmodel(item, "maps/b_nail0.bsp");
 			item.aflag = 25;
 		}
-		item.weapon = 2;
+		item.weapon = 3;
 		item.netname = "$qc_nails";
 	}
-	else if (r <= 17) {	// rockets
+	else if (r < 17) { // bolts
+		item.classname = "item_bolts";
+		if (is_big) {
+			setmodel(item, "maps/b_rock1.bsp");
+			item.aflag = 5;
+		}
+		else {
+			setmodel(item, "maps/b_rock0.bsp");
+			item.aflag = 2;
+		}
+		item.weapon = 4;
+		item.netname = "bolts";
+	}
+	else if (r <= 20) {	// rockets
 		item.classname = "item_rockets";
 		if (is_big) {
 			setmodel(item, "maps/b_rock1.bsp");
@@ -155,10 +178,10 @@ void() SpawnAmmo = {
 			setmodel(item, "maps/b_rock0.bsp");
 			item.aflag = 5;
 		}
-		item.weapon = 3;
+		item.weapon = 5;
 		item.netname = "$qc_rockets";
 	}
-	else {	// cells
+	else if (r < 23) {	// cells
 		item.classname = "item_cells";
 		if (is_big) {
 			setmodel(item, "maps/b_batt1.bsp");
@@ -168,8 +191,21 @@ void() SpawnAmmo = {
 			setmodel(item, "maps/b_batt0.bsp");
 			item.aflag = 25;
 		}
-		item.weapon = 4;
+		item.weapon = 6;
 		item.netname = "$qc_cells";
+	}
+	else { // slugs
+		item.classname = "item_slugs";
+		if (is_big) {
+			setmodel(item, "maps/b_batt1.bsp");
+			item.aflag = 5;
+		}
+		else {
+			setmodel(item, "maps/b_batt0.bsp");
+			item.aflag = 2;
+		}
+		item.weapon = 7;
+		item.netname = "slugs";
 	}
 	setorigin(item, pos + '0 0 1');
 	setsize(item, '0 0 0', '32 32 56');

@@ -197,22 +197,37 @@
 }
 
 { // Light Armor
-  name			qcc_item_lightarmor
+  name			"qcc_item_lightarmor"
   flags			armor
 }
 
 { // Heavy Armor
-  name			qcc_item_heavyarmor
+  name			"qcc_item_heavyarmor"
   flags			armor | mega_item
 }
 
+{ // Bullets
+  name			"qcc_item_bullets"
+  flags			ammo | lava_nails
+}
+
+{ // Bolts
+  name			"qcc_item_bolts"
+  flags			ammo | multi_rockets
+}
+
+{ // Slugs
+  name			"qcc_item_slugs"
+  flags			ammo | plasma_cells
+}
+
 { // Heavy Machine Gun
-  name			qcc_weapon_heavymachinegun
+  name			"qcc_weapon_heavymachinegun"
   flags			weapon | ammo | lava_nails
 }
 
 { // Tribolt
-  name			qcc_weapon_tribolt
+  name			"qcc_weapon_tribolt"
   flags			weapon | ammo | multi_rockets
 }
 
