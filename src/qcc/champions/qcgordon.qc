@@ -114,20 +114,20 @@ void() s_hltele2_proc = [0, s_hltele2_proc] {
 };
 
 void(vector org) QCC_ResonanceParticles = {
-	vector vel;
-	vel_x = -50;
-	while (vel_x <= 50) {
-		vel_y = -50;
-		while (vel_y <= 50) {
-			vel_z = -50;
-			while (vel_z <= 50) {
-				particle(org, vel, 241, 10);
-				vel_z += 25;
-			}
-			vel_y += 25;
-		}
-		vel_x += 25;
-	}
+	// vector vel;
+	// vel_x = -50;
+	// while (vel_x <= 50) {
+	// 	vel_y = -50;
+	// 	while (vel_y <= 50) {
+	// 		vel_z = -50;
+	// 		while (vel_z <= 50) {
+	// 			particle(org, vel, 241, 10);
+	// 			vel_z += 25;
+	// 		}
+	// 		vel_y += 25;
+	// 	}
+	// 	vel_x += 25;
+	// }
 };
 
 // called by Ability Object
