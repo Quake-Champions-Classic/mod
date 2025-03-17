@@ -223,23 +223,23 @@ void() QCC_ResonanceCascade = {
 	}
 	// Find the farthest spawn point or teleport destination if no target
 	else {
-		dist = 0;
-		ent = nextent(world);
-		while (ent != world) {
-			if (ent.classname == "info_teleport_destination" || 
-				ent.classname == "info_player_deathmatch" || 
-				ent.classname == "info_player_coop" ||
-				ent.classname == "info_player_start" || 
-				ent.classname == "info_player_start2" ) {
-				odist = dist;
-				dist = vlen(ent.origin - self.origin);
-				if (dist > odist) {
-					setorigin(self.qccAbilityEnt, ent.origin);
-					self.qccAbilityEnt.angles = ent.angles;
-				}
-			}
-			ent = nextent(ent);
-		}
+		// dist = 0;
+		// ent = nextent(world);
+		// while (ent != world) {
+		// 	if (ent.classname == "info_teleport_destination" || 
+		// 		ent.classname == "info_player_deathmatch" || 
+		// 		ent.classname == "info_player_coop" ||
+		// 		ent.classname == "info_player_start" || 
+		// 		ent.classname == "info_player_start2" ) {
+		// 		odist = dist;
+		// 		dist = vlen(ent.origin - self.origin);
+		// 		if (dist > odist) {
+		// 			setorigin(self.qccAbilityEnt, ent.origin);
+		// 			self.qccAbilityEnt.angles = ent.angles;
+		// 		}
+		// 	}
+		// 	ent = nextent(ent);
+		// }
 	}
 
 	// Delay the warp, to give opponents a bit of warning
