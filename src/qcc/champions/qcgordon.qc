@@ -209,7 +209,9 @@ void() QCC_ResonanceCascade = {
 	self.qccAbilityEnt.movetype = MOVETYPE_NONE;
 	self.qccAbilityEnt.solid = SOLID_NOT;
 	self.qccAbilityEnt.qccAbilityOwner = self;
+	self.qccAbilityEnt.angles = self.angles;
 	setsize(self.qccAbilityEnt, '0 0 0', '0 0 0');
+	setorigin(self.qccAbilityEnt, self.origin);
 
 	// Check if we targeted somebody we can kill
 	makevectors(self.v_angle);
@@ -233,7 +235,7 @@ void() QCC_ResonanceCascade = {
 				dist = vlen(ent.origin - self.origin);
 				if (dist > odist) {
 					setorigin(self.qccAbilityEnt, ent.origin);
-					self.qccAbilityEnt.mangle = ent.mangle;
+					self.qccAbilityEnt.angles = ent.angles;
 				}
 			}
 			ent = nextent(ent);
