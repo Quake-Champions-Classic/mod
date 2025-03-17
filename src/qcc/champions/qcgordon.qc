@@ -84,13 +84,13 @@ void() QCC_ResonanceFlashProc = {
 }
 
 void(entity pl) QCC_ResonanceFlash = {
-	entity ent;
-	stuffcmd(pl, "v_cshift 77 210 130 128\n"); // green view
-	ent = spawn();
-	ent.owner = pl;
-	ent.qccAbilityTimer = time + 1.3;
-	ent.think = QCC_ResonanceFlashProc;
-	ent.nextthink = time + 0.01;
+	// entity ent;
+	// stuffcmd(pl, "v_cshift 77 210 130 128\n"); // green view
+	// ent = spawn();
+	// ent.owner = pl;
+	// ent.qccAbilityTimer = time + 1.3;
+	// ent.think = QCC_ResonanceFlashProc;
+	// ent.nextthink = time + 0.01;
 };
 
 void() s_hltele1_proc = [0, s_hltele1_proc] {
@@ -248,12 +248,12 @@ void() QCC_ResonanceCascade = {
 	self.qccAbilityEnt.nextthink = time + 0.1;
 
 	// Initial spark
-	//QCC_ResonanceParticles(self.origin);
+	QCC_ResonanceParticles(self.origin);
 	sound(self, 6, "gordon/beamstart3.wav", 0.6, ATTN_NORM);
-	//QCC_ResonanceParticles(self.qccAbilityEnt.origin);
+	QCC_ResonanceParticles(self.qccAbilityEnt.origin);
 	sound(self.qccAbilityEnt, 6, "gordon/beamstart3.wav", 0.6, ATTN_NORM);
 
-	//QCC_ResonanceFlash(self);
+	QCC_ResonanceFlash(self);
 };
 
 /*
