@@ -242,18 +242,18 @@ void() QCC_ResonanceCascade = {
 		}
 	}
 
-	// // Delay the warp, to give opponents a bit of warning
-	// self.qccAbilityEnt.qccAbilityTimer = time + 2.5;
-	// self.qccAbilityEnt.think = QCC_ResonanceProc;
-	// self.qccAbilityEnt.nextthink = time + 0.1;
+	// Delay the warp, to give opponents a bit of warning
+	self.qccAbilityEnt.qccAbilityTimer = time + 2.5;
+	//self.qccAbilityEnt.think = QCC_ResonanceProc;
+	//self.qccAbilityEnt.nextthink = time + 0.1;
 
-	// // Initial spark
-	// QCC_ResonanceParticles(self.origin);
-	// sound(self, 6, "gordon/beamstart3.wav", 0.6, ATTN_NORM);
-	// QCC_ResonanceParticles(self.qccAbilityEnt.origin);
-	// sound(self.qccAbilityEnt, 6, "gordon/beamstart3.wav", 0.6, ATTN_NORM);
+	// Initial spark
+	QCC_ResonanceParticles(self.origin);
+	sound(self, 6, "gordon/beamstart3.wav", 0.6, ATTN_NORM);
+	QCC_ResonanceParticles(self.qccAbilityEnt.origin);
+	sound(self.qccAbilityEnt, 6, "gordon/beamstart3.wav", 0.6, ATTN_NORM);
 
-	// QCC_ResonanceFlash(self);
+	QCC_ResonanceFlash(self);
 };
 
 /*
