@@ -114,20 +114,20 @@ void() s_hltele2_proc = [0, s_hltele2_proc] {
 };
 
 void(vector org) QCC_ResonanceParticles = {
-	// vector vel;
-	// vel_x = -50;
-	// while (vel_x <= 50) {
-	// 	vel_y = -50;
-	// 	while (vel_y <= 50) {
-	// 		vel_z = -50;
-	// 		while (vel_z <= 50) {
-	// 			particle(org, vel, 241, 10);
-	// 			vel_z += 25;
-	// 		}
-	// 		vel_y += 25;
-	// 	}
-	// 	vel_x += 25;
-	// }
+	vector vel;
+	vel_x = -50;
+	while (vel_x <= 50) {
+		vel_y = -50;
+		while (vel_y <= 50) {
+			vel_z = -50;
+			while (vel_z <= 50) {
+				particle(org, vel, 241, 10);
+				vel_z += 25;
+			}
+			vel_y += 25;
+		}
+		vel_x += 25;
+	}
 };
 
 // called by Ability Object
@@ -194,66 +194,66 @@ void() QCC_ResonanceProc = {
 
 // Called by Gordon
 void() QCC_ResonanceCascade = {	
-	vector org;
-	entity ent;
-	float dist;
-	float odist;
+	// vector org;
+	// entity ent;
+	// float dist;
+	// float odist;
 	
-	if (self.qccAbilityTimer < 0)
-		return;
-	QCC_AbilityUsed();
-	self.qccAbilityTimer = -1;
+	// if (self.qccAbilityTimer < 0)
+	// 	return;
+	// QCC_AbilityUsed();
+	// self.qccAbilityTimer = -1;
 
-	// Setup Warp Ent
-	self.qccAbilityEnt = spawn();
-	self.qccAbilityEnt.movetype = MOVETYPE_NONE;
-	self.qccAbilityEnt.solid = SOLID_NOT;
-	self.qccAbilityEnt.qccAbilityOwner = self;
-	self.qccAbilityEnt.angles = self.angles;
-	setsize(self.qccAbilityEnt, '0 0 0', '0 0 0');
-	setorigin(self.qccAbilityEnt, self.origin);
+	// // Setup Warp Ent
+	// self.qccAbilityEnt = spawn();
+	// self.qccAbilityEnt.movetype = MOVETYPE_NONE;
+	// self.qccAbilityEnt.solid = SOLID_NOT;
+	// self.qccAbilityEnt.qccAbilityOwner = self;
+	// self.qccAbilityEnt.angles = self.angles;
+	// setsize(self.qccAbilityEnt, '0 0 0', '0 0 0');
+	// setorigin(self.qccAbilityEnt, self.origin);
 
-	// Check if we targeted somebody we can kill
-	makevectors(self.v_angle);
-	org = self.origin;
-	traceline(org, org + v_forward * 4096, 0, self);
-	if ((trace_ent.flags & FL_MONSTER || trace_ent.classname == "player") && trace_ent.health > 0 && trace_ent != self) {
-		setorigin(self.qccAbilityEnt, trace_ent.origin);
-		self.qccAbilityEnt.angles = self.angles;
-	}
-	// Find the farthest spawn point or teleport destination if no target
-	else {
-		dist = 0;
-		ent = nextent(world);
-		while (ent != world) {
-			if (ent.classname == "info_teleport_destination" || 
-				ent.classname == "info_player_deathmatch" || 
-				ent.classname == "info_player_coop" ||
-				ent.classname == "info_player_start" || 
-				ent.classname == "info_player_start2" ) {
-				odist = dist;
-				dist = vlen(ent.origin - self.origin);
-				if (dist > odist) {
-					setorigin(self.qccAbilityEnt, ent.origin);
-					self.qccAbilityEnt.angles = ent.angles;
-				}
-			}
-			ent = nextent(ent);
-		}
-	}
+	// // Check if we targeted somebody we can kill
+	// makevectors(self.v_angle);
+	// org = self.origin;
+	// traceline(org, org + v_forward * 4096, 0, self);
+	// if ((trace_ent.flags & FL_MONSTER || trace_ent.classname == "player") && trace_ent.health > 0 && trace_ent != self) {
+	// 	setorigin(self.qccAbilityEnt, trace_ent.origin);
+	// 	self.qccAbilityEnt.angles = self.angles;
+	// }
+	// // Find the farthest spawn point or teleport destination if no target
+	// else {
+	// 	dist = 0;
+	// 	ent = nextent(world);
+	// 	while (ent != world) {
+	// 		if (ent.classname == "info_teleport_destination" || 
+	// 			ent.classname == "info_player_deathmatch" || 
+	// 			ent.classname == "info_player_coop" ||
+	// 			ent.classname == "info_player_start" || 
+	// 			ent.classname == "info_player_start2" ) {
+	// 			odist = dist;
+	// 			dist = vlen(ent.origin - self.origin);
+	// 			if (dist > odist) {
+	// 				setorigin(self.qccAbilityEnt, ent.origin);
+	// 				self.qccAbilityEnt.angles = ent.angles;
+	// 			}
+	// 		}
+	// 		ent = nextent(ent);
+	// 	}
+	// }
 
-	// Delay the warp, to give opponents a bit of warning
-	self.qccAbilityEnt.qccAbilityTimer = time + 2.5;
-	self.qccAbilityEnt.think = QCC_ResonanceProc;
-	self.qccAbilityEnt.nextthink = time + 0.1;
+	// // Delay the warp, to give opponents a bit of warning
+	// self.qccAbilityEnt.qccAbilityTimer = time + 2.5;
+	// self.qccAbilityEnt.think = QCC_ResonanceProc;
+	// self.qccAbilityEnt.nextthink = time + 0.1;
 
-	// Initial spark
-	QCC_ResonanceParticles(self.origin);
-	sound(self, 6, "gordon/beamstart3.wav", 0.6, ATTN_NORM);
-	QCC_ResonanceParticles(self.qccAbilityEnt.origin);
-	sound(self.qccAbilityEnt, 6, "gordon/beamstart3.wav", 0.6, ATTN_NORM);
+	// // Initial spark
+	// QCC_ResonanceParticles(self.origin);
+	// sound(self, 6, "gordon/beamstart3.wav", 0.6, ATTN_NORM);
+	// QCC_ResonanceParticles(self.qccAbilityEnt.origin);
+	// sound(self.qccAbilityEnt, 6, "gordon/beamstart3.wav", 0.6, ATTN_NORM);
 
-	QCC_ResonanceFlash(self);
+	// QCC_ResonanceFlash(self);
 };
 
 /*
