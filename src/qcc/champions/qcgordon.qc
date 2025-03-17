@@ -114,20 +114,20 @@ void() s_hltele2_proc = [0, s_hltele2_proc] {
 };
 
 void(vector org) QCC_ResonanceParticles = {
-	vector vel;
-	vel_x = -50;
-	while (vel_x <= 50) {
-		vel_y = -50;
-		while (vel_y <= 50) {
-			vel_z = -50;
-			while (vel_z <= 50) {
-				particle(org, vel, 241, 10);
-				vel_z += 25;
-			}
-			vel_y += 25;
-		}
-		vel_x += 25;
-	}
+	// vector vel;
+	// vel_x = -50;
+	// while (vel_x <= 50) {
+	// 	vel_y = -50;
+	// 	while (vel_y <= 50) {
+	// 		vel_z = -50;
+	// 		while (vel_z <= 50) {
+	// 			particle(org, vel, 241, 10);
+	// 			vel_z += 25;
+	// 		}
+	// 		vel_y += 25;
+	// 	}
+	// 	vel_x += 25;
+	// }
 };
 
 // called by Ability Object
@@ -223,23 +223,23 @@ void() QCC_ResonanceCascade = {
 	}
 	// Find the farthest spawn point or teleport destination if no target
 	else {
-		// dist = 0;
-		// ent = nextent(world);
-		// while (ent != world) {
-		// 	if (ent.classname == "info_teleport_destination" || 
-		// 		ent.classname == "info_player_deathmatch" || 
-		// 		ent.classname == "info_player_coop" ||
-		// 		ent.classname == "info_player_start" || 
-		// 		ent.classname == "info_player_start2" ) {
-		// 		odist = dist;
-		// 		dist = vlen(ent.origin - self.origin);
-		// 		if (dist > odist) {
-		// 			setorigin(self.qccAbilityEnt, ent.origin);
-		// 			self.qccAbilityEnt.angles = ent.angles;
-		// 		}
-		// 	}
-		// 	ent = nextent(ent);
-		// }
+		dist = 0;
+		ent = nextent(world);
+		while (ent != world) {
+			if (ent.classname == "info_teleport_destination" || 
+				ent.classname == "info_player_deathmatch" || 
+				ent.classname == "info_player_coop" ||
+				ent.classname == "info_player_start" || 
+				ent.classname == "info_player_start2" ) {
+				odist = dist;
+				dist = vlen(ent.origin - self.origin);
+				if (dist > odist) {
+					setorigin(self.qccAbilityEnt, ent.origin);
+					self.qccAbilityEnt.angles = ent.angles;
+				}
+			}
+			ent = nextent(ent);
+		}
 	}
 
 	// Delay the warp, to give opponents a bit of warning
