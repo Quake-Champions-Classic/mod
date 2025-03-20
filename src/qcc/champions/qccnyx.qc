@@ -88,6 +88,7 @@ void() QCC_GhostwalkProc = {
         stuffcmd(self.owner, "v_cshift 1 1 1 1\n"); // reset view color
         self.owner.qccAbilityTimer = time + QCC_GLOBAL_COOLDOWN;
         self.owner.nextthink = time + 0.01;
+        self.qccAttackFunc = W_Attack;
         self.owner.think = QCC_RestoreWeapon;
         // Restore sounds
         self.owner.qccSndJump = "nyx/nyxjump.wav";
@@ -114,6 +115,7 @@ void() QCC_Ghostwalk = {
     self.weapon = QCC_ABILITY;
     self.weaponmodel = 0;
     self.weaponframe = 0;
+    self.qccAttackFunc = SUB_Null;
     self.attack_finished = time + 3;
     QCC_GhostwalkFX(self.origin);
     stuffcmd(self, "v_cshift 1 75 255 64\n"); // blue view

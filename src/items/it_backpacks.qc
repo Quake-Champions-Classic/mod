@@ -55,6 +55,15 @@ void() BackpackTouch = {
 	other.items = other.items | self.items;
 	
 	bound_other_ammo();
+
+	if (self.ammo_bullets) {
+		if (acount)
+			sprint(other, ", ");
+		acount = 1;
+		sprint(other, ftos(self.ammo_bullets));
+		sprint(other, " bullets");
+	}
+
 	if (self.ammo_shells) {
 		if (acount)
 			sprint(other, ", ");
@@ -81,6 +90,14 @@ void() BackpackTouch = {
 		}
 	}
 
+	if (self.ammo_bolts) {
+		if (acount)
+			sprint(other, ", ");
+		acount = 1;
+		sprint(other, ftos(self.ammo_bolts));
+		sprint(other, " bolts");
+	}
+
 	if (self.ammo_rockets) {
 		if (acount)
 			sprint(other, ", ");
@@ -105,6 +122,14 @@ void() BackpackTouch = {
 			sprint(other, ftos(self.ammo_cells));
 			sprint(other, " cells");
 		}
+	}
+
+	if (self.ammo_slugs) {
+		if (acount)
+			sprint(other, ", ");
+		acount = 1;
+		sprint(other, ftos(self.ammo_slugs));
+		sprint(other, " slugs");
 	}
 	
 	sprint(other, "\n");
