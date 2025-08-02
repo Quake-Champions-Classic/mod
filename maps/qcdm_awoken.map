@@ -3,7 +3,7 @@
 // entity 0
 {
 "mapversion" "220"
-"wad" "qcc\wads\cthalha.wad"
+"wad" "..\wads\cthalha.wad"
 "classname" "worldspawn"
 "_tb_mod" "qcc"
 "_tb_def" "external:qcc/qcc.fgd"
@@ -548,6 +548,6 @@
 // entity 1
 {
 "classname" "info_player_start"
-"origin" "32 544 24"
+"origin" "32 512 24"
 "angle" "0"
 }
